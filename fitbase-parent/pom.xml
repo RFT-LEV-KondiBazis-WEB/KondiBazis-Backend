@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>hu.unideb</groupId>
+    <artifactId>fitbase</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.1.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>fitbase-web</module>
+        <module>fitbase-persistence</module>
+        <module>fitbase-service-api</module>
+        <module>fitbase-service-impl</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fitbase.project.version>0.0.1-SNAPSHOT</fitbase.project.version>
+        <java.version>1.8</java.version>
+        <version.wildfly>10.1.0.Final</version.wildfly>
+
+        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
+        <maven.war.version>2.6</maven.war.version>
+        <maven.dependency.version>2.8</maven.dependency.version>
+        <maven.compiler.version>3.3</maven.compiler.version>
+        <jaxrs.version>2.0.1</jaxrs.version>
+        <servlet.api.version>2.5</servlet.api.version>
+        <wildfly.maven.plugin.version>1.1.0.Alpha11</wildfly.maven.plugin.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-persistence</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-service-api</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-service-impl</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-web</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>0.9.7</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-commons-parent</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-commons-pojo</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.unideb</groupId>
+                <artifactId>fitbase-commons-path</artifactId>
+                <version>${fitbase.project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>with-wildfly</id>
+            <modules>
+                <module>fitbase-wildfly</module>
+            </modules>
+        </profile>
+    </profiles>
+
+</project>
