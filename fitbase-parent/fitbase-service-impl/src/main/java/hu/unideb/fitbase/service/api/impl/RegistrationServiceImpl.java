@@ -2,7 +2,7 @@ package hu.unideb.fitbase.service.api.impl;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
-import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.RegistrationService;
 import hu.unideb.fitbase.service.api.service.UserService;
@@ -30,12 +30,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     private AbstractValidator<RegistrationRequest> registrationRequestValidator;
 
     @Override
-    public Data register(RegistrationRequest registrationRequest) throws ViolationException, ServiceException {
+    public User register(RegistrationRequest registrationRequest) throws ViolationException, ServiceException {
         Objects.requireNonNull(registrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
         log.info("Registering new user with username:{}", registrationRequest.getUsername());
         registrationRequestValidator.validate(registrationRequest);
-        Data convertedUser = conversionService.convert(registrationRequest, Data.class);
-        Data savedUser = userService.save(convertedUser);
+        User convertedUser = conversionService.convert(registrationRequest, User.class);
+        User savedUser = userService.save(convertedUser);
         log.info("Registration successfully finished.");
         return savedUser;
     }

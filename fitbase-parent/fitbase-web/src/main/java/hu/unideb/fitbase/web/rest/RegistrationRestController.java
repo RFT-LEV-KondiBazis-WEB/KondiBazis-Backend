@@ -27,12 +27,12 @@ public class RegistrationRestController {
 
     @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
-        ResponseEntity result;
+        ResponseEntity result = null;
         try {
             registrationService.register(request);
-            RegistrationResponse response = new RegistrationResponse(REGISTRATION_WAS_SUCCESSFUL, Collections.emptyList());
-            result = ResponseEntity.accepted()
-                    .body(response);
+//            RegistrationResponse response = new RegistrationResponse(Collections.emptyList());
+//            result = ResponseEntity.accepted()
+//                    .body(response);
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());

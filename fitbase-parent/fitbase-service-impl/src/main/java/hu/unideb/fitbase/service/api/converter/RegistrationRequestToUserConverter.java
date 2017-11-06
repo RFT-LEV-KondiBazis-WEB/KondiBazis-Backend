@@ -2,23 +2,22 @@ package hu.unideb.fitbase.service.api.converter;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
-import hu.unideb.fitbase.commons.pojo.response.Data;
-import hu.unideb.fitbase.persistence.entity.UserRoleEntity;
+import hu.unideb.fitbase.commons.pojo.response.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegistrationRequestToUserConverter implements Converter<RegistrationRequest, Data> {
+public class RegistrationRequestToUserConverter implements Converter<RegistrationRequest, User> {
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Override
-    public Data convert(RegistrationRequest source) {
+    public User convert(RegistrationRequest source) {
         if (source == null) {
             return null;
         }
-        return Data.builder()
+        return User.builder()
                 .username(source.getUsername())
                 .email(source.getEmail())
                 .password(PASSWORD_ENCODER.encode(source.getPassword()))

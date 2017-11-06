@@ -1,7 +1,7 @@
 package hu.unideb.fitbase.service.api.converter;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
-import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.entity.UserRoleEntity;
 import org.springframework.core.convert.converter.Converter;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class UserToUserEntityConverter implements Converter<Data, UserEntity> {
+public class UserToUserEntityConverter implements Converter<User, UserEntity> {
 
     @Override
-    public UserEntity convert(Data source) {
+    public UserEntity convert(User source) {
         return UserEntity.builder()
                 .id(source.getId())
                 .username(source.getUsername())

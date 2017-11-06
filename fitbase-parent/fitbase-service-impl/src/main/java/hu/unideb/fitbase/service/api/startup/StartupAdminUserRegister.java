@@ -1,7 +1,7 @@
 package hu.unideb.fitbase.service.api.startup;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
-import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.service.api.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ class StartupAdminUserRegister {
 		Date date = new Date();
 		date.getTime();
 		if (!userService.containsAny()) {
-			Data adminUser = Data.builder()
+			User adminUser = User.builder()
 					.username(administratorUserDetailsHolder.getUsername())
 					.password(new BCryptPasswordEncoder().encode(administratorUserDetailsHolder.getPassword()))
 					.lastPasswordResetDate(new Date(date.getTime()))

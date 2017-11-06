@@ -1,6 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
-import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +24,10 @@ public class UserRestController {
     private UserDetailsService userDetailsService;
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
-    public Data getAuthenticatedUser(HttpServletRequest request) {
+    public User getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        Data user = (Data) userDetailsService.loadUserByUsername(username);
+        User user = (User) userDetailsService.loadUserByUsername(username);
         return user;
     }
 }

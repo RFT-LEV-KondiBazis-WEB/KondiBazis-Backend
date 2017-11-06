@@ -1,7 +1,7 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.request.AuthenticationRequest;
-import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.commons.pojo.response.login.LoginSuccesResponse;
 import hu.unideb.fitbase.commons.pojo.response.login.Meta;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
@@ -54,7 +54,7 @@ public class AuthenticationRestController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        Data user = (Data) userDetailsService.loadUserByUsername(username);
+        User user = (User) userDetailsService.loadUserByUsername(username);
 
 
 

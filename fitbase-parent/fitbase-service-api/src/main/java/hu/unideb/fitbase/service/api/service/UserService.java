@@ -1,6 +1,6 @@
 package hu.unideb.fitbase.service.api.service;
 
-import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.User;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface UserService {
      * @param username the user name of the user
      * @return the user with the given user name
      */
-    Data findByUsername(String username);
+    User findByUsername(String username);
 
     /**
      * Save user.
@@ -23,7 +23,7 @@ public interface UserService {
      * @param user user object to be saved.
      * @return saved user object.
      */
-    Data save(Data user);
+    User save(User user);
 
     /**
      * Finds a user by its database id
@@ -31,7 +31,7 @@ public interface UserService {
      * @param id the id of the user
      * @return the user with the given id
      */
-    Data findById(Long id);
+    User findById(Long id);
 
     /**
      * Finds a user by its email.
@@ -39,14 +39,14 @@ public interface UserService {
      * @param email user's email.
      * @return user domain object.
      */
-    Data findByEmail(String email);
+    User findByEmail(String email);
 
     /**
      * List all user.
      *
      * @return all users in the system.
      */
-    List<Data> getAllUsers();
+    List<User> getAllUsers();
 
     /**
      * Checks if any user exist in the system.
