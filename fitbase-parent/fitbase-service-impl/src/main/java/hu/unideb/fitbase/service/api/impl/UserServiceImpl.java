@@ -1,15 +1,12 @@
 package hu.unideb.fitbase.service.api.impl;
 
+import hu.unideb.fitbase.commons.pojo.response.Data;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.UserRepository;
-import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,50 +23,50 @@ public class UserServiceImpl implements UserService {
     private ConversionService conversionService;
 
     @Override
-    public User findByUsername(String username) {
+    public Data findByUsername(String username) {
         log.trace(">> findByUsername: [username:{}]", username);
         UserEntity userEntity = userRepository.findByUsername(username);
-        User convert = conversionService.convert(userEntity, User.class);
+        Data convert = conversionService.convert(userEntity, Data.class);
         log.trace("<< findByUsername: [username:{}]", username);
         return convert;
     }
 
     @Override
-    public User save(User user) {
+    public Data save(Data user) {
         log.trace(">> save: [user:{}]", user);
-        User convert = conversionService.convert(userRepository.save(conversionService.convert(user, UserEntity.class)), User.class);
+        Data convert = conversionService.convert(userRepository.save(conversionService.convert(user, UserEntity.class)), Data.class);
         log.trace("<< save: [user:{}]", user);
         return convert;
     }
 
     @Override
-    public User findById(Long id) {
+    public Data findById(Long id) {
         log.trace(">> findById: [id:{}]", id);
-        User result;
+        Data result;
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
             result = null;
         } else {
-            result = conversionService.convert(userEntity, User.class);
+            result = conversionService.convert(userEntity, Data.class);
         }
         log.trace("<< findById: [id:{}]", id);
         return result;
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Data findByEmail(String email) {
         log.trace(">> findByEmail: [email:{}]", email);
-        User user = conversionService.convert(userRepository.findByEmail(email), User.class);
+        Data user = conversionService.convert(userRepository.findByEmail(email), Data.class);
         log.trace("<< findByEmail: [email:{}]", email);
         return user;
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<Data> getAllUsers() {
         log.trace(">> getAllUsers");
         List<UserEntity> users = userRepository.findAll();
-        List<User> userList = users.stream()
-                .map(entity -> conversionService.convert(entity, User.class))
+        List<Data> userList = users.stream()
+                .map(entity -> conversionService.convert(entity, Data.class))
                 .collect(Collectors.toList());
         log.trace("<< getAllUsers");
         return userList;

@@ -1,7 +1,9 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.request.AuthenticationRequest;
-import hu.unideb.fitbase.commons.pojo.response.AuthenticationResponse;
+import hu.unideb.fitbase.commons.pojo.response.Data;
+import hu.unideb.fitbase.commons.pojo.response.login.LoginSuccesResponse;
+import hu.unideb.fitbase.commons.pojo.response.login.Meta;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,8 +53,12 @@ public class AuthenticationRestController {
         // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Data user = (Data) userDetailsService.loadUserByUsername(username);
 
-        // Return the token
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+
+
+        return ResponseEntity.ok(new LoginSuccesResponse(user, new Meta(token)));
+
     }
 }

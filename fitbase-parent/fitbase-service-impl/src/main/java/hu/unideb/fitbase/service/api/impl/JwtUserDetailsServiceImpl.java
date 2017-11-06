@@ -1,8 +1,8 @@
 package hu.unideb.fitbase.service.api.impl;
 
+import hu.unideb.fitbase.commons.pojo.response.Data;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.UserRepository;
-import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
-        User convert = conversionService.convert(userEntity, User.class);
+        Data convert = conversionService.convert(userEntity, Data.class);
         if (convert == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {

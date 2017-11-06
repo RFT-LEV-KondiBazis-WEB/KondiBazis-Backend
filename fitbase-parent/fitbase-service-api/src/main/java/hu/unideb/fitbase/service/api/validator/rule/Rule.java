@@ -16,5 +16,4 @@ public interface Rule<T> {
      * @return violation list if the request does not fit the rule.
      */
     List<Violation> validate(T request);
-
 }

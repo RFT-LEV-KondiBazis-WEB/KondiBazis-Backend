@@ -1,6 +1,6 @@
 package hu.unideb.fitbase.web.token.util;
 
-import hu.unideb.fitbase.service.api.domain.User;
+import hu.unideb.fitbase.commons.pojo.response.Data;
 import hu.unideb.fitbase.web.provider.TimeProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -136,7 +136,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        User user = (User) userDetails;
+        Data user = (Data) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
         //final Date expiration = getExpirationDateFromToken(token);
