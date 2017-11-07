@@ -1,9 +1,9 @@
 package hu.unideb.fitbase.service.api.converter;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
-import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.entity.UserRoleEntity;
+import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,6 @@ public class UserEntityToUserConverter implements Converter<UserEntity, User> {
                 .createdDate(source.getCreatedDate())
                 .enabled(source.isEnable())
                 .userRole(convertRole(source.getUserRole()))
-                .lastPasswordResetDate(source.getLastPasswordResetDate())
                 .build();
     }
 

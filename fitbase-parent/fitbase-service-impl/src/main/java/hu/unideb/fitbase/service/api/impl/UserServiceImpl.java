@@ -1,8 +1,11 @@
 package hu.unideb.fitbase.service.api.impl;
 
-import hu.unideb.fitbase.commons.pojo.response.User;
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.UserRepository;
+import hu.unideb.fitbase.service.api.domain.User;
+import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
+import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -54,9 +58,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws BaseException {
         log.trace(">> findByEmail: [email:{}]", email);
-        User user = conversionService.convert(userRepository.findByEmail(email), User.class);
+        UserEntity userEntity;
+        try {
+            userEntity = userRepository.findByEmail(email);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding user bye-mail %s.", email);
+            throw new ServiceException(errorMsg);
+        }
+        if (Objects.isNull(userEntity)) {
+            String errorMsg = String.format("User with e-mail %s not found.", email);
+            throw new EntityNotFoundException(errorMsg);
+        }
+        User user = conversionService.convert(userEntity, User.class);
         log.trace("<< findByEmail: [email:{}]", email);
         return user;
     }

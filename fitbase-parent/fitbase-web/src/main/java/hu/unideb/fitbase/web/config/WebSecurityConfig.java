@@ -78,6 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
-//        httpSecurity.headers().cacheControl();
+        httpSecurity.headers().cacheControl();
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class FitBaseControllerAdvice {
+public class FitBaseRestControllerAdvice {
 
     @ExceptionHandler(ViolationException.class)
     public ResponseEntity<ViolationResponse> handleValidationException(ViolationException exception) {

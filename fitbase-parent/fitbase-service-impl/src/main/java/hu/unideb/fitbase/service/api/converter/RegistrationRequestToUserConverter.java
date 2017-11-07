@@ -2,7 +2,7 @@ package hu.unideb.fitbase.service.api.converter;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
-import hu.unideb.fitbase.commons.pojo.response.User;
+import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,17 +21,15 @@ public class RegistrationRequestToUserConverter implements Converter<Registratio
                 .username(source.getUsername())
                 .email(source.getEmail())
                 .password(PASSWORD_ENCODER.encode(source.getPassword()))
+                .passwordConfirm(PASSWORD_ENCODER.encode(source.getPassword()))
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
                 .createdDate(source.getCreatedDate())
                 .enabled(source.isEnabled())
                 .userRole(UserRole.ADMIN)
-                .lastPasswordResetDate(source.getLastPasswordResetDate())
                 .build();
     }
-
-
 }
 
 

@@ -2,7 +2,7 @@ package hu.unideb.fitbase.service.api.service;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
-import hu.unideb.fitbase.commons.pojo.response.User;
+import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 
 public interface RegistrationService {

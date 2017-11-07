@@ -1,8 +1,8 @@
 package hu.unideb.fitbase.service.api.impl;
 
-import hu.unideb.fitbase.commons.pojo.response.User;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.UserRepository;
+import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.userdetails.UserDetails;
