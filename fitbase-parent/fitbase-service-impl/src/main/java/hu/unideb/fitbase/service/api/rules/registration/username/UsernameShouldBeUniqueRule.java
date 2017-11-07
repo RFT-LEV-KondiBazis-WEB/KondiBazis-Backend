@@ -1,4 +1,4 @@
-package hu.unideb.fitbase.service.api.rules.username;
+package hu.unideb.fitbase.service.api.rules.registration.username;
 
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;

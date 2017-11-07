@@ -1,4 +1,4 @@
-package hu.unideb.fitbase.service.api.rules.email;
+package hu.unideb.fitbase.service.api.rules.registration.email;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
