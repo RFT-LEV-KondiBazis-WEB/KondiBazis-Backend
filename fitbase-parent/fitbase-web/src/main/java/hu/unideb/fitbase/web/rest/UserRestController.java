@@ -24,7 +24,7 @@ public class UserRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public User getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
