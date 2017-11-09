@@ -73,10 +73,6 @@ public class UserEntity extends BaseEntity<Long> {
     @Enumerated(value = STRING)
     private UserRoleEntity userRole;
 
-    @Column(name ="enabled")
-    @NotNull
-    private boolean enable;
-
     /**
      * Gyms of the user.
      */
@@ -87,7 +83,7 @@ public class UserEntity extends BaseEntity<Long> {
      * Builder pattern for creating user.
      */
     @Builder
-    public UserEntity(Long id, String username, String email, String password, String firstName, String lastName, String rememberToken, LocalDate createdDate,Boolean enable, UserRoleEntity userRoleEntity ) {
+    public UserEntity(Long id, String username, String email, String password, String firstName, String lastName, String rememberToken, LocalDate createdDate, UserRoleEntity userRoleEntity ) {
         super(id);
         this.username = username;
         this.email = email;
@@ -96,7 +92,6 @@ public class UserEntity extends BaseEntity<Long> {
         this.lastName = lastName;
         this.rememberToken = rememberToken;
         this.createdDate = createdDate;
-        this.enable = enable;
         this.userRole = userRoleEntity;
     }
 }

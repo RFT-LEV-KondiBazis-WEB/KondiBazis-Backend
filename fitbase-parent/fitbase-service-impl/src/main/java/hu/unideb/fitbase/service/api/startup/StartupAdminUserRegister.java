@@ -30,7 +30,6 @@ class StartupAdminUserRegister {
                     .password(new BCryptPasswordEncoder().encode(administratorUserDetailsHolder.getPassword()))
                     .email("admin@fitbase.com")
                     .userRole(UserRole.ADMIN)
-                    .enabled(true)
                     .build();
             userService.save(adminUser);
             LOGGER.info("Admin user registred");

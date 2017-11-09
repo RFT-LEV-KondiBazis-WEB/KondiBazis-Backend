@@ -2,6 +2,7 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.UserModificationRequest;
+import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
@@ -55,7 +56,7 @@ public class UserModificationUserRestController {
     }
 
     private Long getUserId() {
-        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
     }
 
 }
