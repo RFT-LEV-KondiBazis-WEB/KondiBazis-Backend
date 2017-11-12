@@ -26,7 +26,7 @@ public class RegistrationRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
         ResponseEntity result = null;
         try {

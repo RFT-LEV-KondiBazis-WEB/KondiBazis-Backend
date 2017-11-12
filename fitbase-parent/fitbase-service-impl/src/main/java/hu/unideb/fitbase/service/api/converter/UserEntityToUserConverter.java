@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserEntityToUserConverter implements Converter<UserEntity, User> {
+
     @Override
     public User convert(UserEntity source) {
         return User.builder()
