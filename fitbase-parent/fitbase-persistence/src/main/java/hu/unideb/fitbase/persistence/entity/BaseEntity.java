@@ -22,6 +22,8 @@ import java.io.Serializable;
 @MappedSuperclass
 public class BaseEntity<T extends Serializable> implements Serializable {
 
+    private static final long serialVersionUID = -862719550032921202L;
+
     /**
      * Id as primary key.
      */

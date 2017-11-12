@@ -79,7 +79,7 @@ public class GymEntity extends BaseEntity<Long> {
      * Builder pattern for creating gym.
      */
     @Builder
-    public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description, String openingHours) {
+    public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description, String openingHours, List<UserEntity> userEntities) {
         super(id);
         this.name = name;
         this.city = city;
@@ -87,5 +87,6 @@ public class GymEntity extends BaseEntity<Long> {
         this.zipCode = zipCode;
         this.description = description;
         this.openingHours = openingHours;
+        this.users = userEntities;
     }
 }
