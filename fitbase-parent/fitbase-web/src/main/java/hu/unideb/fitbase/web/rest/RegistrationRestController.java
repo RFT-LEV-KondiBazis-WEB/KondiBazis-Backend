@@ -31,7 +31,7 @@ public class RegistrationRestController {
         ResponseEntity result = null;
         try {
             registrationService.register(request);
-            result = ResponseEntity.ok().body(jwtTokenGenerator.generateToken(request.getUsername()));
+            result = ResponseEntity.accepted().body(jwtTokenGenerator.generateToken(request.getUsername()));
 //            RegistrationResponse response = new RegistrationResponse(Collections.emptyList());
 //            result = ResponseEntity.accepted()
 //                    .body(response);

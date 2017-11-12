@@ -41,7 +41,7 @@ public class AuthenticationRestController {
     private UserDetailsService userDetailsService;
 
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+    public ResponseEntity createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
@@ -58,7 +58,7 @@ public class AuthenticationRestController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         FitBaseUser user = (FitBaseUser) userDetailsService.loadUserByUsername(username);
 
-        return ResponseEntity.ok(new LoginSuccesResponse(user.getUser(),new MetaResponse(token)));
+        return ResponseEntity.accepted().body(new LoginSuccesResponse(user.getUser(),new MetaResponse(token)));
 
     }
 }
