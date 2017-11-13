@@ -12,11 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static hu.unideb.fitbase.commons.path.registration.RegistrationPath.REGISTARATION_URL;
+import static hu.unideb.fitbase.commons.path.gym.ManagerPath.GYM_MANAGER_CREATE_URL;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
-public class RegistrationRestController {
+public class ManagerCreateRestController {
 
     @Autowired
     private RegistrationService registrationService;
@@ -25,7 +25,7 @@ public class RegistrationRestController {
     private JwtTokenGenerator jwtTokenGenerator;
 
     @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = GYM_MANAGER_CREATE_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
         ResponseEntity result = null;
         try {

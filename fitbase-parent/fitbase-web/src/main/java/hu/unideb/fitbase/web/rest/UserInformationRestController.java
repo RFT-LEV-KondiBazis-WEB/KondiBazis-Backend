@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static hu.unideb.fitbase.commons.path.user.UserInfoPath.USER_INFO_URL;
+
 @RestController
-public class UserRestController {
+public class UserInformationRestController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -25,8 +27,8 @@ public class UserRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "user", method = RequestMethod.GET)
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = USER_INFO_URL, method = RequestMethod.GET)
     public User getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
