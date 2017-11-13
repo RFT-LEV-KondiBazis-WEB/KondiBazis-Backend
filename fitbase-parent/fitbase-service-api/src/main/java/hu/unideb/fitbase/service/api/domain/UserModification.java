@@ -9,7 +9,9 @@ import java.io.Serializable;
 @Builder
 public class UserModification implements Serializable {
 
-    private Long id;
+	private static final long serialVersionUID = 4013160208198898166L;
+
+	private Long id;
 
     private String email;
 

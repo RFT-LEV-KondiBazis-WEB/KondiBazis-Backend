@@ -21,7 +21,9 @@ import static hu.unideb.fitbase.commons.pojo.table.TableName.*;
 @Table(name = TABLE_NAME_GYM)
 public class GymEntity extends BaseEntity<Long> {
 
-    /**
+	private static final long serialVersionUID = 4928959505728921672L;
+
+	/**
      * The name of the gym.
      */
     @Column(name = COLUMN_NAME_GYM_NAME)

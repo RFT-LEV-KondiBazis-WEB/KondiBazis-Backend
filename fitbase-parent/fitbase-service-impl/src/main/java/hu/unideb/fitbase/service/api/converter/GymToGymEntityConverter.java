@@ -25,7 +25,7 @@ public class GymToGymEntityConverter implements Converter<Gym, GymEntity>{
 				.name(source.getName())
 				.city(source.getCity())
 				.address(source.getAddress())
-				.zipCode(source.getZipCode())
+				.zipCode(Integer.parseInt(source.getZipCode()))
 				.description(source.getDescription())
 				.openingHours(source.getOpeningHours())
 				.userEntities(convert(source.getUserList()))

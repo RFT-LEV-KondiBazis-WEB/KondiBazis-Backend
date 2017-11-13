@@ -19,7 +19,9 @@ import static hu.unideb.fitbase.commons.pojo.table.TableName.TABLE_NAME_PASS;
 @Table(name = TABLE_NAME_PASS)
 public class PassEntity extends BaseEntity<Long> {
 
-    /**
+	private static final long serialVersionUID = 6743106374580977116L;
+
+	/**
      * The name of the pass.
      */
     @Column(name = COLUMN_NAME_NAME)

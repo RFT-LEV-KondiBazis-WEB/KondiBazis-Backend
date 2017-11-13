@@ -21,7 +21,9 @@ import static hu.unideb.fitbase.commons.pojo.table.TableName.TABLE_NAME_CUSTOMER
 @Table(name = TABLE_NAME_CUSTOMER)
 public class CustomerEntity extends BaseEntity<Long> {
 
-    /**
+	private static final long serialVersionUID = 3061510290085889333L;
+
+	/**
      * The email of the customer.
      */
     @Column(name = COLUMN_NAME_EMAIL)

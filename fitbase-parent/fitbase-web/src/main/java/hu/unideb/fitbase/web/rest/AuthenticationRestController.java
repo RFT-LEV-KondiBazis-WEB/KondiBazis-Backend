@@ -4,7 +4,6 @@ import hu.unideb.fitbase.commons.pojo.request.AuthenticationRequest;
 import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
-import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

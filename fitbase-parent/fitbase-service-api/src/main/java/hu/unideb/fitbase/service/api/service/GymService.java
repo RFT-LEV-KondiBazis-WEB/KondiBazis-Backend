@@ -5,5 +5,9 @@ import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 
 public interface GymService {
-    Gym save(Gym gym) throws ViolationException, ServiceException;
+	
+    Gym addGym(Gym gym) throws ViolationException, ServiceException;
+    
+    Gym findByName(String name);
+    
 }

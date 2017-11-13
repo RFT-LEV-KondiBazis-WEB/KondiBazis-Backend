@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,7 +65,7 @@ public class GymRestController {
 		
 		ResponseEntity<?> result = null;
 		try {
-			gymService.save(gym);
+			gymService.addGym(gym);
 			result = ResponseEntity.ok().body("OK");
 		} catch (ServiceException e) {
 			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
