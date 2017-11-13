@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static hu.unideb.fitbase.commons.path.pass.create.PassPath.PASS_CREATE_URL;
-import static hu.unideb.fitbase.commons.path.pass.create.PassPath.PASS_DELETE_URL;
-import static hu.unideb.fitbase.commons.path.pass.create.PassPath.PASS_MODIFICATION_URL;
+import static hu.unideb.fitbase.commons.path.pass.PassPath.PASS_CREATE_URL;
+import static hu.unideb.fitbase.commons.path.pass.PassPath.PASS_MODIFICATION_URL;
 
 @RestController
 public class PassRestController {
@@ -31,9 +30,9 @@ public class PassRestController {
         return null;
     }
 
-    @RequestMapping(value = PASS_DELETE_URL, method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> deletePass(@RequestBody PassCreateRequest passCreateRequest) throws ViolationException {
-        return null;
-    }
+//    @RequestMapping(value = PASS_DELETE_URL, method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public ResponseEntity<?> deletePass(@RequestBody PassCreateRequest passCreateRequest) throws ViolationException {
+//        return null;
+//    }
 
 }
