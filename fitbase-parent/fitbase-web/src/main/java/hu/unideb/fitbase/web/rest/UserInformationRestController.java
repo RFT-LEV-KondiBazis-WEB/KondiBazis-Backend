@@ -1,10 +1,13 @@
 package hu.unideb.fitbase.web.rest;
 
+import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
+import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +32,10 @@ public class UserInformationRestController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = USER_INFO_URL, method = RequestMethod.GET)
-    public User getAuthenticatedUser(HttpServletRequest request) {
+    public ResponseEntity<?> getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         FitBaseUser user = (FitBaseUser) userDetailsService.loadUserByUsername(username);
-        return user.getUser();
+        return ResponseEntity.accepted().body(new LoginSuccesResponse(user.getUser(),new MetaResponse(null)));
     }
 }
