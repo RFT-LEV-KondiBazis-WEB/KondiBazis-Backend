@@ -1,4 +1,4 @@
-package hu.unideb.fitbase.web.token.generate;
+package hu.unideb.fitbase.web.token.generator;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

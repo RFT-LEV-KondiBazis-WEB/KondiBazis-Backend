@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.web.auth;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -21,5 +22,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
         // This is invoked when user tries to access a secured REST resource without supplying any credentials
         // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "EROOR");
+//        ResponseEntity.badRequest().body("sdf")
     }
 }

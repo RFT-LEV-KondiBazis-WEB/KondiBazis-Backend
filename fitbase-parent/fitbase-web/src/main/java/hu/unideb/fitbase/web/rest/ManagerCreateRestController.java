@@ -5,7 +5,7 @@ import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.response.RegistrationResponse;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.RegistrationService;
-import hu.unideb.fitbase.web.token.generate.JwtTokenGenerator;
+import hu.unideb.fitbase.web.token.generator.JwtTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
