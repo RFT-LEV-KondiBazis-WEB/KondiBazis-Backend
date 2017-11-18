@@ -32,7 +32,7 @@ public class UserInformationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = USER_INFO_URL, method = RequestMethod.GET)
     public ResponseEntity<?> getAuthenticatedUser(HttpServletRequest request) {

@@ -27,8 +27,8 @@ public class RegistrationRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
         ResponseEntity result;
         try {

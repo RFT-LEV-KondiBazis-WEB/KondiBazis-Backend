@@ -24,7 +24,7 @@ public class ManagerCreateRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(value = GYM_MANAGER_CREATE_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
         ResponseEntity result = null;
