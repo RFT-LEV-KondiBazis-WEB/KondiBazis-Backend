@@ -42,7 +42,7 @@ public class GymRestController {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = GYM_URL)
-	public ResponseEntity<?> putGym(@RequestBody GymRequest gymRequest, HttpServletRequest request) throws ViolationException {
+	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest, HttpServletRequest request) throws ViolationException {
 		if(Objects.isNull(gymRequest)){
             return ResponseEntity.badRequest().body("null");
         }
@@ -70,7 +70,7 @@ public class GymRestController {
 		} catch (ServiceException e) {
 			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
 		} catch (ViolationException e) {
-			e.printStackTrace();
+			result = ResponseEntity.ok().body(e.toString());
 		}		
         return result;		
 	}

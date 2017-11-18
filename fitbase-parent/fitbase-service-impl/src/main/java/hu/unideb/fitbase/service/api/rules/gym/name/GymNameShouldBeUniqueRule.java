@@ -29,11 +29,14 @@ public class GymNameShouldBeUniqueRule implements Rule<Gym> {
 		List<Violation> result = Collections.<Violation>emptyList();
 		String name = gym.getName();
 		if(name != null) {
-			gymService.findByName(name);
-			result = Arrays.asList(Violation.builder()
-			        .field(FIELD)
-			        .validationMessage(UNIQUE_RULE)
-			        .build());
+			Gym findedGym=gymService.findByName(name);
+			if (findedGym!=null) {
+				result = Arrays.asList(Violation.builder()
+				        .field(FIELD)
+				        .validationMessage(UNIQUE_RULE)
+				        .build());
+			}
+			
 		}
 		return result;
 	}

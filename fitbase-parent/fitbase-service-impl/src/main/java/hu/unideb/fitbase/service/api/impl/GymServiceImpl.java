@@ -3,6 +3,8 @@ package hu.unideb.fitbase.service.api.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
@@ -27,6 +29,7 @@ public class GymServiceImpl implements GymService{
 	private AbstractValidator<Gym> gymAbstractValidator;
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Gym addGym(Gym gym) throws ViolationException, ServiceException {
 		gymAbstractValidator.validate(gym);
         log.trace(">> save: [gym:{}]", gym);
