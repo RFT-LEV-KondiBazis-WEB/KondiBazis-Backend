@@ -1,6 +1,7 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
+import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.response.RegistrationResponse;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
@@ -24,12 +25,12 @@ public class ManagerCreateRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(value = GYM_MANAGER_CREATE_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
+    public ResponseEntity<RegistrationResponse> registration(@RequestBody ManagerRegistrationRequest request) throws ViolationException {
         ResponseEntity result = null;
         try {
-            registrationService.register(request);
+            registrationService.addManager(request);
             result = ResponseEntity.accepted().body(jwtTokenGenerator.generateToken(request.getUsername()));
 //            RegistrationResponse response = new RegistrationResponse(Collections.emptyList());
 //            result = ResponseEntity.accepted()

@@ -1,17 +1,21 @@
 package hu.unideb.fitbase.service.api.converter;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
+import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+import sun.misc.Contended;
 
-public class ManagerRequestToUserConverter implements Converter<RegistrationRequest, User> {
+@Component
+public class ManagerRequestToUserConverter implements Converter<ManagerRegistrationRequest, User> {
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Override
-    public User convert(RegistrationRequest source) {
+    public User convert(ManagerRegistrationRequest source) {
         if (source == null) {
             return null;
         }
@@ -27,4 +31,5 @@ public class ManagerRequestToUserConverter implements Converter<RegistrationRequ
                 .userRole(UserRole.MANAGER)
                 .build();
     }
+
 }

@@ -1,6 +1,5 @@
 package hu.unideb.fitbase.service.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
 import lombok.Builder;
 import lombok.Data;
@@ -19,17 +18,14 @@ public class User {
 
     private String email;
 
-    @JsonIgnore
     private String password;
 
-    @JsonIgnore
     private String passwordConfirm;
 
     private String firstName;
 
     private String lastName;
 
-    @JsonIgnore
     private String rememberToken;
 
     private LocalDate createdDate;

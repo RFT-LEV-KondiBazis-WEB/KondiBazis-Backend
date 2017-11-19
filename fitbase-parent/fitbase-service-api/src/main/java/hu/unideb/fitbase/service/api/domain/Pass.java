@@ -3,6 +3,8 @@ package hu.unideb.fitbase.service.api.domain;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class Pass {
@@ -18,4 +20,6 @@ public class Pass {
     private Integer price;
 
     private Boolean available;
+
+    private List<User> userList;
 }
