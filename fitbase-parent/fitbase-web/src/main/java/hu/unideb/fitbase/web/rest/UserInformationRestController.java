@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import static hu.unideb.fitbase.commons.path.user.UserInfoPath.USER_INFO_URL;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 public class UserInformationRestController {
 
@@ -32,7 +31,6 @@ public class UserInformationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @CrossOrigin(origins = "*")
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = USER_INFO_URL, method = RequestMethod.GET)
     public ResponseEntity<?> getAuthenticatedUser(HttpServletRequest request) {

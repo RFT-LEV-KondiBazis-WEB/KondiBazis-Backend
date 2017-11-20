@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static hu.unideb.fitbase.commons.path.authorization.AuthorizationPath.LOGIN_URL;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 public class AuthenticationRestController {
 
@@ -39,7 +38,6 @@ public class AuthenticationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @CrossOrigin(origins = "*")
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(

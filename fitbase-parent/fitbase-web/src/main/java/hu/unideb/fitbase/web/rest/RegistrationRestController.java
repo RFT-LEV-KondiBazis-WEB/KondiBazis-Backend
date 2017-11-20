@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static hu.unideb.fitbase.commons.path.registration.RegistrationPath.REGISTARATION_URL;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 public class RegistrationRestController {
 
@@ -27,7 +26,6 @@ public class RegistrationRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @CrossOrigin(origins = "*")
     @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
         ResponseEntity result;

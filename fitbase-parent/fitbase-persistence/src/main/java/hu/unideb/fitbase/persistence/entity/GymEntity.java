@@ -76,6 +76,9 @@ public class GymEntity extends BaseEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
     private List<UserEntity> users;
 
+
+    // gym has pass tábla
+
     /**
      * Builder pattern for creating gym.
      */

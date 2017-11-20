@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static hu.unideb.fitbase.commons.path.gym.ManagerPath.GYM_MANAGER_CREATE_URL;
 
-@CrossOrigin(maxAge = 3600)
 @RestController
 public class ManagerCreateRestController {
 
@@ -25,16 +24,12 @@ public class ManagerCreateRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(value = GYM_MANAGER_CREATE_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RegistrationResponse> registration(@RequestBody ManagerRegistrationRequest request) throws ViolationException {
         ResponseEntity result = null;
         try {
             registrationService.addManager(request);
             result = ResponseEntity.accepted().body(jwtTokenGenerator.generateToken(request.getUsername()));
-//            RegistrationResponse response = new RegistrationResponse(Collections.emptyList());
-//            result = ResponseEntity.accepted()
-//                    .body(response);
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
