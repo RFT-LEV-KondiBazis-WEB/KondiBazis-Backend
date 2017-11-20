@@ -1,6 +1,7 @@
 package hu.unideb.fitbase.service.api.impl;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
+import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
@@ -35,6 +36,17 @@ public class RegistrationServiceImpl implements RegistrationService {
         log.info("Registering new user with username:{}", registrationRequest.getUsername());
         registrationRequestValidator.validate(registrationRequest);
         User convertedUser = conversionService.convert(registrationRequest, User.class);
+        User savedUser = userService.save(convertedUser);
+        log.info("Registration successfully finished.");
+        return savedUser;
+    }
+
+    @Override
+    public User addManager(ManagerRegistrationRequest managerRegistrationRequest) throws ViolationException, ServiceException {
+        Objects.requireNonNull(managerRegistrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
+        log.info("Registering new user with username:{}", managerRegistrationRequest.getUsername());
+//        registrationRequestValidator.validate(managerRegistrationRequest);
+        User convertedUser = conversionService.convert(managerRegistrationRequest, User.class);
         User savedUser = userService.save(convertedUser);
         log.info("Registration successfully finished.");
         return savedUser;

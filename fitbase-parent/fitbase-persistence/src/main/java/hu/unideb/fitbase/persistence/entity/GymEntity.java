@@ -7,6 +7,7 @@ import java.util.List;
 
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.CustomerColumName.COLUMN_NAME_CUSTOMER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.GymColumName.*;
+import static hu.unideb.fitbase.commons.pojo.table.ColumnName.ReferencedColumName.REFERENCED_COLUM_NAME_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.UserColumName.COLUMN_NAME_USER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.TableName.*;
 
@@ -21,7 +22,9 @@ import static hu.unideb.fitbase.commons.pojo.table.TableName.*;
 @Table(name = TABLE_NAME_GYM)
 public class GymEntity extends BaseEntity<Long> {
 
-    /**
+	private static final long serialVersionUID = 4928959505728921672L;
+
+	/**
      * The name of the gym.
      */
     @Column(name = COLUMN_NAME_GYM_NAME)
@@ -62,8 +65,8 @@ public class GymEntity extends BaseEntity<Long> {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = TABLE_NAME_CUSTOMER_HISTORY,
-            joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
     private List<CustomerEntity> customers;
 
     /**
@@ -71,15 +74,18 @@ public class GymEntity extends BaseEntity<Long> {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = TABLE_NAME_USER_HAS_GYM,
-            joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
     private List<UserEntity> users;
+
+
+    // gym has pass tábla
 
     /**
      * Builder pattern for creating gym.
      */
     @Builder
-    public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description, String openingHours) {
+    public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description, String openingHours, List<UserEntity> userEntities) {
         super(id);
         this.name = name;
         this.city = city;
@@ -87,5 +93,6 @@ public class GymEntity extends BaseEntity<Long> {
         this.zipCode = zipCode;
         this.description = description;
         this.openingHours = openingHours;
+        this.users = userEntities;
     }
 }

@@ -1,10 +1,13 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.request.AuthenticationRequest;
-import hu.unideb.fitbase.commons.pojo.response.AuthenticationResponse;
+import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
+import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
+import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,10 +39,8 @@ public class AuthenticationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
-
-        // Perform the security
+    @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
@@ -48,11 +49,12 @@ public class AuthenticationRestController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        FitBaseUser user = (FitBaseUser) userDetailsService.loadUserByUsername(username);
 
-        // Return the token
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.accepted().body(new LoginSuccesResponse(user.getUser(),new MetaResponse(token)));
+
     }
 }

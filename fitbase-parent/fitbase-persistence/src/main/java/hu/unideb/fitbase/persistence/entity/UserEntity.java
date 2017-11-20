@@ -3,9 +3,7 @@ package hu.unideb.fitbase.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static hu.unideb.fitbase.commons.pojo.exclusion.FieldExclusion.EXCLUDE_PASSWORD;
@@ -24,7 +22,9 @@ import static javax.persistence.EnumType.STRING;
 @Table(name = TABLE_NAME_USER, uniqueConstraints = @UniqueConstraint(columnNames = COLUMN_NAME_USERNAME))
 public class UserEntity extends BaseEntity<Long> {
 
-    /**
+	private static final long serialVersionUID = 9097446533475236308L;
+
+	/**
      * The username of the user.
      */
     @Column(name = COLUMN_NAME_USERNAME)
@@ -73,15 +73,6 @@ public class UserEntity extends BaseEntity<Long> {
     @Enumerated(value = STRING)
     private UserRoleEntity userRole;
 
-    @Column(name ="enabled")
-    @NotNull
-    private boolean enable;
-
-    @Column(name = "LASTPASSWORDRESETDATE")
-    @Temporal(TemporalType.TIMESTAMP)
-//    @NotNull
-    private Date lastPasswordResetDate;
-
     /**
      * Gyms of the user.
      */
@@ -92,7 +83,7 @@ public class UserEntity extends BaseEntity<Long> {
      * Builder pattern for creating user.
      */
     @Builder
-    public UserEntity(Long id, String username, String email, String password, String firstName, String lastName, String rememberToken, LocalDate createdDate, Date lastPasswordResetDate, Boolean enable, UserRoleEntity userRoleEntity ) {
+    public UserEntity(Long id, String username, String email, String password, String firstName, String lastName, String rememberToken, LocalDate createdDate, UserRoleEntity userRoleEntity ) {
         super(id);
         this.username = username;
         this.email = email;
@@ -101,8 +92,6 @@ public class UserEntity extends BaseEntity<Long> {
         this.lastName = lastName;
         this.rememberToken = rememberToken;
         this.createdDate = createdDate;
-        this.lastPasswordResetDate = lastPasswordResetDate;
-        this.enable = enable;
         this.userRole = userRoleEntity;
     }
 }

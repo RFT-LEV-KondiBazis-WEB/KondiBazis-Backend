@@ -1,5 +1,7 @@
 package hu.unideb.fitbase.service.api.service;
 
+
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.service.api.domain.User;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public interface UserService {
      * @param email user's email.
      * @return user domain object.
      */
-    User findByEmail(String email);
+    User findByEmail(String email) throws BaseException;
 
     /**
      * List all user.

@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.converter;
 
+import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.core.convert.converter.Converter;
@@ -20,10 +21,14 @@ public class RegistrationRequestToUserConverter implements Converter<Registratio
                 .username(source.getUsername())
                 .email(source.getEmail())
                 .password(PASSWORD_ENCODER.encode(source.getPassword()))
+                .passwordConfirm(PASSWORD_ENCODER.encode(source.getPassword()))
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
                 .createdDate(source.getCreatedDate())
+                .userRole(UserRole.ADMIN)
                 .build();
     }
 }
+
+

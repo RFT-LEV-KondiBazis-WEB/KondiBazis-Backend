@@ -1,6 +1,6 @@
 package hu.unideb.fitbase.web.token.util;
 
-import hu.unideb.fitbase.service.api.domain.User;
+import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.web.provider.TimeProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,14 +22,8 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -3301605591108950415L;
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_AUDIENCE = "aud";
-    static final String CLAIM_KEY_CREATED = "iat";
-
     static final String AUDIENCE_UNKNOWN = "unknown";
     static final String AUDIENCE_WEB = "web";
-    static final String AUDIENCE_MOBILE = "mobile";
-    static final String AUDIENCE_TABLET = "tablet";
 
     @Autowired
     private TimeProvider timeProvider;
@@ -52,10 +46,6 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public String getAudienceFromToken(String token) {
-        return getClaimFromToken(token, Claims::getAudience);
-    }
-
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
@@ -73,25 +63,12 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(timeProvider.now());
     }
 
-    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-        return (lastPasswordReset != null && created.before(lastPasswordReset));
-    }
-
     private String generateAudience(Device device) {
         String audience = AUDIENCE_UNKNOWN;
         if (device.isNormal()) {
             audience = AUDIENCE_WEB;
-        } else if (device.isTablet()) {
-            audience = AUDIENCE_TABLET;
-        } else if (device.isMobile()) {
-            audience = AUDIENCE_MOBILE;
         }
         return audience;
-    }
-
-    private Boolean ignoreTokenExpiration(String token) {
-        String audience = getAudienceFromToken(token);
-        return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
     }
 
     public String generateToken(UserDetails userDetails, Device device) {
@@ -115,12 +92,6 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
-    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-        final Date created = getIssuedAtDateFromToken(token);
-        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
-    }
-
     public String refreshToken(String token) {
         final Date createdDate = timeProvider.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
@@ -136,14 +107,13 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        User user = (User) userDetails;
+        FitBaseUser user = (FitBaseUser) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
-        //final Date expiration = getExpirationDateFromToken(token);
+        final Date expiration = getExpirationDateFromToken(token);
         return (
-                username.equals(user.getUsername())
+                username.equals(user.getUser().getUsername())
                         && !isTokenExpired(token)
-                        && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
         );
     }
 

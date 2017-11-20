@@ -22,7 +22,9 @@ import static hu.unideb.fitbase.commons.pojo.table.TableName.TABLE_NAME_CUSTOMER
 @Table(name = TABLE_NAME_CUSTOMER_HISTORY)
 public class CustomerHistoryEntity extends BaseEntity<Long> {
 
-    /**
+	private static final long serialVersionUID = 4663328684610888566L;
+
+	/**
      * Customers pass start date.
      */
     @Column(name = COLUMN_NAME_STARTDATE)

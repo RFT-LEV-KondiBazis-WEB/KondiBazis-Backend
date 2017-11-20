@@ -10,36 +10,32 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
 
 @Component
 class StartupAdminUserRegister {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private AdministratorUserDetailsHolder administratorUserDetailsHolder;
+    @Autowired
+    private AdministratorUserDetailsHolder administratorUserDetailsHolder;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StartupAdminUserRegister.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartupAdminUserRegister.class);
 
-	@PostConstruct
-	public void registerAdmin() {
-		Date date = new Date();
-		date.getTime();
-		if (!userService.containsAny()) {
-			User adminUser = User.builder()
-					.username(administratorUserDetailsHolder.getUsername())
-					.password(new BCryptPasswordEncoder().encode(administratorUserDetailsHolder.getPassword()))
-					.lastPasswordResetDate(new Date(date.getTime()))
-					.userRole(UserRole.ADMIN)
-					.enabled(true)
-					.build();
-			userService.save(adminUser);
-			LOGGER.info("Admin user registred");
-		} else {
-			LOGGER.info("There is at least one existing user, no admin registered");
-		}
-	}
+    @PostConstruct
+    public void registerAdmin() {
+        if (!userService.containsAny()) {
+            User adminUser = User.builder()
+                    .username(administratorUserDetailsHolder.getUsername())
+                    .password(new BCryptPasswordEncoder().encode(administratorUserDetailsHolder.getPassword()))
+                    .email("admin@fitbase.com")
+                    .userRole(UserRole.ADMIN)
+                    .build();
+            userService.save(adminUser);
+            LOGGER.info("Admin user registred");
+        } else {
+            LOGGER.info("There is at least one existing user, no admin registered");
+        }
+    }
 
 }

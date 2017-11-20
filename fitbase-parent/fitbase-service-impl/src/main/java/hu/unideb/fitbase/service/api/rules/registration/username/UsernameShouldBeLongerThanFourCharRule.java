@@ -1,6 +1,5 @@
-package hu.unideb.fitbase.service.api.rules.email;
+package hu.unideb.fitbase.service.api.rules.registration.username;
 
-import com.google.common.base.Strings;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -10,22 +9,21 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static hu.unideb.fitbase.commons.constants.rules.registration.email.EmailRuleConstants.BLANK_RULE;
-import static hu.unideb.fitbase.commons.constants.rules.registration.email.EmailRuleConstants.FIELD;
-
+import static hu.unideb.fitbase.commons.constants.rules.registration.username.UsernameRuleConstants.FIELD;
+import static hu.unideb.fitbase.commons.constants.rules.registration.username.UsernameRuleConstants.LENGTH_RULE;
 
 /**
- * Validates email should not be blank.
+ * Validates username length.
  */
 @Component
-public class EmailShouldNotBeBlankRule implements Rule<RegistrationRequest> {
+public class UsernameShouldBeLongerThanFourCharRule implements Rule<RegistrationRequest> {
 
     @Override
     public List<Violation> validate(RegistrationRequest request) {
-        return Strings.isNullOrEmpty(request.getEmail()) ?
+        return request.getUsername() != null && request.getUsername().length() < 4 ?
                 Arrays.asList(Violation.builder()
                         .field(FIELD)
-                        .validationMessage(BLANK_RULE)
+                        .validationMessage(LENGTH_RULE)
                         .build()) :
                 Collections.<Violation>emptyList();
     }

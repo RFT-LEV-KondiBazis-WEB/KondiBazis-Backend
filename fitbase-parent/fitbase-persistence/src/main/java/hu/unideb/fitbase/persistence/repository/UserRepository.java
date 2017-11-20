@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT u FROM UserEntity u where u.username = :username")
+    @Query("SELECT u FROM UserEntity u where u.username =:username")
     UserEntity findByUsername(@Param("username") String username);
 
     /**
      * Find user by email.
      */
+    @Query("SELECT u FROM UserEntity u where u.email = :email")
     UserEntity findByEmail(@Param("email") String email);
 
     @Query("select count(u) > 0 from UserEntity u")

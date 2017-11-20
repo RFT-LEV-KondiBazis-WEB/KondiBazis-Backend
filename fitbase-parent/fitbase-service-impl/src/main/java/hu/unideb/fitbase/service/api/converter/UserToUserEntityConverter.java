@@ -7,7 +7,6 @@ import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class UserToUserEntityConverter implements Converter<User, UserEntity> {
 
@@ -22,9 +21,7 @@ public class UserToUserEntityConverter implements Converter<User, UserEntity> {
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
                 .createdDate(source.getCreatedDate())
-                .enable(source.isEnabled())
                 .userRoleEntity(convertRole(source.getUserRole()))
-                .lastPasswordResetDate(source.getLastPasswordResetDate())
                 .build();
     }
 

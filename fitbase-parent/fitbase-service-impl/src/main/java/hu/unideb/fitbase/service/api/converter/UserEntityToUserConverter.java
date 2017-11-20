@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserEntityToUserConverter implements Converter<UserEntity, User> {
+
     @Override
     public User convert(UserEntity source) {
         return User.builder()
@@ -20,9 +21,7 @@ public class UserEntityToUserConverter implements Converter<UserEntity, User> {
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
                 .createdDate(source.getCreatedDate())
-                .enabled(source.isEnable())
                 .userRole(convertRole(source.getUserRole()))
-                .lastPasswordResetDate(source.getLastPasswordResetDate())
                 .build();
     }
 
