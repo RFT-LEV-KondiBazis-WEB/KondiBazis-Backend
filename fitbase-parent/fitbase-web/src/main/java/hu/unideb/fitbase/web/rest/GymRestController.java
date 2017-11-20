@@ -67,8 +67,6 @@ public class GymRestController {
             result = ResponseEntity.ok().body("OK");
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
-        } catch (ViolationException e) {
-            result = ResponseEntity.ok().body(e.toString());
         }
         return result;
     }
