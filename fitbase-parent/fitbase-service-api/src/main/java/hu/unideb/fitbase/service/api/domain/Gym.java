@@ -1,9 +1,9 @@
 package hu.unideb.fitbase.service.api.domain;
 
-import hu.unideb.fitbase.persistence.entity.UserEntity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +12,9 @@ import java.util.List;
 
 @Data
 @Builder
-public class Gym {
+public class Gym implements Serializable{
+
+	private static final long serialVersionUID = -230888379049145508L;
 
 	private Long id;
 	
@@ -22,7 +24,7 @@ public class Gym {
 	
 	private String address;
 	
-	private Integer zipCode;
+	private String zipCode;
 	
 	private String description;
 	

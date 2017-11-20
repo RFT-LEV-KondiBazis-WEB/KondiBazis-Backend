@@ -1,7 +1,6 @@
 package hu.unideb.fitbase.web.token.util;
 
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
-import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.web.provider.TimeProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

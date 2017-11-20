@@ -2,7 +2,9 @@ package hu.unideb.fitbase.service.api.exception;
 
 public class EntityNotFoundException extends ServiceException {
 
-    public EntityNotFoundException() {
+	private static final long serialVersionUID = 8224046890259947925L;
+
+	public EntityNotFoundException() {
         super();
     }
 

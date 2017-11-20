@@ -3,7 +3,6 @@ package hu.unideb.fitbase.web.rest;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.UserModificationRequest;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
-import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.UserModificationService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.bind.ValidationException;
-import java.util.Collections;
 import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.usermodification.UserModificationPath.USER_MODIFICATION_URL;

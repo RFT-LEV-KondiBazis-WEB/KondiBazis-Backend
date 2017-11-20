@@ -4,7 +4,6 @@ import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
-import org.springframework.stereotype.Service;
 
 public interface UserModificationService {
     /**

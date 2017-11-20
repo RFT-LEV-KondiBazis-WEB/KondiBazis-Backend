@@ -2,10 +2,8 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.request.AuthenticationRequest;
 import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
-import hu.unideb.fitbase.commons.pojo.response.LoginUnsuccesResponse;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
-import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +17,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import static hu.unideb.fitbase.commons.path.authorization.AuthorizationPath.LOGIN_URL;
 

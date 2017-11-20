@@ -5,7 +5,9 @@ import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 
 public class ServiceException extends BaseException {
 
-    public ServiceException() {
+	private static final long serialVersionUID = -4092192752587731891L;
+
+	public ServiceException() {
         super();
     }
 
