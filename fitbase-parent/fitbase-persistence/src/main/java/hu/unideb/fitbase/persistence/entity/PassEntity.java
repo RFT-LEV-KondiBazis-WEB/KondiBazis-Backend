@@ -69,16 +69,16 @@ public class PassEntity extends BaseEntity<Long> {
     private List<CustomerEntity> customerEntityList;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = TABLE_NAME_USER_HAS_PASS,
-            joinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
-            inverseJoinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
-    private List<UserEntity> users;
+    @JoinTable(name = "gyms_has_pass",
+            joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
+    private List<GymEntity> gymEntities;
 
     /**
      * Builder pattern for creating pass.
      */
     @Builder
-    public PassEntity(Long id, String name, Boolean isLimited, Integer limitNumber, Integer duration, Integer price, Boolean available, List<UserEntity> userEntities) {
+    public PassEntity(Long id, String name, Boolean isLimited, Integer limitNumber, Integer duration, Integer price, Boolean available) {
         super(id);
         this.name = name;
         this.isLimited = isLimited;
@@ -86,6 +86,5 @@ public class PassEntity extends BaseEntity<Long> {
         this.duration = duration;
         this.price = price;
         this.available = available;
-        this.users = userEntities;
     }
 }

@@ -14,9 +14,6 @@ import java.util.stream.Collectors;
 @Component
 public class PassEntityToPassConverter implements Converter<PassEntity, Pass> {
 
-    @Autowired
-    private UserEntityToUserConverter userEntityToUserConverter;
-
     @Override
     public Pass convert(PassEntity source) {
         return Pass.builder()
@@ -26,11 +23,6 @@ public class PassEntityToPassConverter implements Converter<PassEntity, Pass> {
                 .duration(source.getDuration())
                 .price(source.getPrice())
                 .available(source.getAvailable())
-                .userList(convert(source.getUsers()))
                 .build();
-    }
-
-    private List<User> convert(List<UserEntity> source){
-        return source.stream().map(user -> userEntityToUserConverter.convert(user)).collect(Collectors.toList());
     }
 }
