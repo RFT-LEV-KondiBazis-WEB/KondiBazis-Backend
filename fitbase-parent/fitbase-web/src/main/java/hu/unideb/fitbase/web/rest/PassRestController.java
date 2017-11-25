@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,10 +61,7 @@ public class PassRestController {
         return null;
     }
 
-    private User getUser() {
-        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = PASS_DELETE_URL, method = RequestMethod.GET)
     public ResponseEntity<?> deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
         passService.deletePass(passId);
