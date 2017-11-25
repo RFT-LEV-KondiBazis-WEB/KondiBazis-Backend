@@ -7,4 +7,8 @@ import hu.unideb.fitbase.service.api.exception.ServiceException;
 public interface PassService {
 
     Pass addPass(Pass pass)throws ViolationException, ServiceException;
+
+    Pass findByPass(Long id);
+
+    void deletePass(Long id);
 }

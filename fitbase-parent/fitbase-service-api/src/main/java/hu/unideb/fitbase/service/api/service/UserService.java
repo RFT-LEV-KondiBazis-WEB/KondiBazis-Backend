@@ -2,6 +2,7 @@ package hu.unideb.fitbase.service.api.service;
 
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
+import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
 
 import java.util.List;
@@ -55,6 +56,5 @@ public interface UserService {
      *
      * @return if any user exists
      */
-
     boolean containsAny();
 }

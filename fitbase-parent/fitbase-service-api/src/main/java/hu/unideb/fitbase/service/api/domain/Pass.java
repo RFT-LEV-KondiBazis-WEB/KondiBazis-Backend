@@ -9,6 +9,8 @@ import java.util.List;
 @Builder
 public class Pass {
 
+    private Long id;
+
     private String name;
 
     private Boolean isLimited;
@@ -20,4 +22,7 @@ public class Pass {
     private Integer price;
 
     private Boolean available;
+
+    private List<Gym> gymList;
+
 }

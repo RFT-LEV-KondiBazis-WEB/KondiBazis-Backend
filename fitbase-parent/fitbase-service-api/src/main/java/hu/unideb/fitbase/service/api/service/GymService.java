@@ -4,6 +4,8 @@ import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 
+import java.util.List;
+
 public interface GymService {
 	
     Gym addGym(Gym gym) throws ViolationException, ServiceException;
@@ -13,5 +15,5 @@ public interface GymService {
     Gym findById(Long id);
 
     Gym updateGym(Gym gym);
-    
+
 }

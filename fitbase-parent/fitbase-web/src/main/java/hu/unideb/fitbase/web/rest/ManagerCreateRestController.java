@@ -2,7 +2,8 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
-import hu.unideb.fitbase.commons.pojo.response.RegistrationResponse;
+import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
+import hu.unideb.fitbase.commons.pojo.response.RegistrationSuccesResponse;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
@@ -30,12 +31,9 @@ public class ManagerCreateRestController {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
-    @Autowired
-    ConversionService conversionService;
-
-    @RequestMapping(value = GYM_MANAGER_CREATE_URL + GYM_ID , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RegistrationResponse> registration(@RequestBody ManagerRegistrationRequest request,  @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
-        ResponseEntity result = null;
+    @RequestMapping(value = GYM_MANAGER_CREATE_URL , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+        ResponseEntity result;
         try {
             User user = registrationService.addManager(request);
 
@@ -45,7 +43,7 @@ public class ManagerCreateRestController {
 
             gymService.updateGym(gym);
 
-            result = ResponseEntity.accepted().body(jwtTokenGenerator.generateToken(request.getUsername()));
+            result = ResponseEntity.accepted().body(new RegistrationSuccesResponse(user, new MetaResponse(jwtTokenGenerator.generateToken(request.getUsername()))));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());

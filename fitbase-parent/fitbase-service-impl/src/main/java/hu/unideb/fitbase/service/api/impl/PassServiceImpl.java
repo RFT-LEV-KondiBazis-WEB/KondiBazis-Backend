@@ -26,4 +26,19 @@ public class PassServiceImpl implements PassService {
         log.trace("<< save: [pass:{}]", pass);
         return convert;
     }
+
+    @Override
+    public Pass findByPass(Long id) {
+
+        PassEntity byId = passRepository.findById(id);
+
+        return conversionService.convert(byId, Pass.class);
+    }
+
+    @Override
+    public void deletePass(Long id) {
+
+//        Pass byPass = findByPass(id);
+        passRepository.delete(id);
+    }
 }

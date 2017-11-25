@@ -78,7 +78,7 @@ public class PassEntity extends BaseEntity<Long> {
      * Builder pattern for creating pass.
      */
     @Builder
-    public PassEntity(Long id, String name, Boolean isLimited, Integer limitNumber, Integer duration, Integer price, Boolean available) {
+    public PassEntity(Long id, String name, Boolean isLimited, Integer limitNumber, Integer duration, Integer price, Boolean available, List<GymEntity> gymEntity) {
         super(id);
         this.name = name;
         this.isLimited = isLimited;
@@ -86,5 +86,6 @@ public class PassEntity extends BaseEntity<Long> {
         this.duration = duration;
         this.price = price;
         this.available = available;
+        this.gymEntities = gymEntity;
     }
 }

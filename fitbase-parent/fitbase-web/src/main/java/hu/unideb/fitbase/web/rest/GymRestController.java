@@ -2,6 +2,7 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.GymRequest;
+import hu.unideb.fitbase.commons.pojo.response.GymSuccesCreateResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
@@ -54,7 +55,7 @@ public class GymRestController {
         ResponseEntity<?> result = null;
         try {
             gymService.addGym(gym);
-            result = ResponseEntity.ok().body("OK");
+            result = ResponseEntity.accepted().body(new GymSuccesCreateResponse(gym));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
         }

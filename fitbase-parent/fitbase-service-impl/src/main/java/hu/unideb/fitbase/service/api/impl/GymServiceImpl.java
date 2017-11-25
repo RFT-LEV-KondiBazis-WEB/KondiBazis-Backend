@@ -2,8 +2,10 @@ package hu.unideb.fitbase.service.api.impl;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
+import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.GymRepository;
 import hu.unideb.fitbase.service.api.domain.Gym;
+import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.GymService;
 import hu.unideb.fitbase.service.api.validator.AbstractValidator;
@@ -13,6 +15,8 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -62,5 +66,9 @@ public class GymServiceImpl implements GymService {
         log.trace("<< save: [gym:{}]", gym);
         return convert;
     }
+
+//    public List<Gym> findUsersGym(User user){
+//        List<GymEntity> byUsers = gymRepository.findByUsers(conversionService.convert(user, UserEntity.class));
+//    }
 
 }

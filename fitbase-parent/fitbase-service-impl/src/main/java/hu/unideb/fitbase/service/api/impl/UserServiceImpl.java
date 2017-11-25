@@ -3,6 +3,7 @@ package hu.unideb.fitbase.service.api.impl;
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.UserRepository;
+import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
