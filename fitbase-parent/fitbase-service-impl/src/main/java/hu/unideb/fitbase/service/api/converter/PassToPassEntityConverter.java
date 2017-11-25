@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PassToPassEntityConverter implements Converter<Pass, PassEntity> {
-    
+
     @Override
     public PassEntity convert(Pass source) {
         return PassEntity.builder()

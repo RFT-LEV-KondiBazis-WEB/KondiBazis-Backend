@@ -69,7 +69,7 @@ public class PassEntity extends BaseEntity<Long> {
     private List<CustomerEntity> customerEntityList;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "gyms_has_pass",
+    @JoinTable(name = TABLE_NAME_GYMS_HAS_PASS,
             joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
             inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
     private List<GymEntity> gymEntities;

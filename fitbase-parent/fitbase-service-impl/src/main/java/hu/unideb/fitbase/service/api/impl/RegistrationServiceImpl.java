@@ -44,7 +44,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public User addManager(ManagerRegistrationRequest managerRegistrationRequest) throws ViolationException, ServiceException {
         Objects.requireNonNull(managerRegistrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
-        log.info("Registering new user with username:{}", managerRegistrationRequest.getUsername());
+        log.info("Registering new manager with username:{}", managerRegistrationRequest.getUsername());
 //        registrationRequestValidator.validate(managerRegistrationRequest);
         User convertedUser = conversionService.convert(managerRegistrationRequest, User.class);
         User savedUser = userService.save(convertedUser);

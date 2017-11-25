@@ -21,6 +21,7 @@ public class GymEntityToGymConverter implements Converter<GymEntity, Gym>{
 	@Override
 	public Gym convert(GymEntity source) {
 		return Gym.builder()
+				.id(source.getId())
 				.name(source.getName())
 				.city(source.getCity())
 				.address(source.getAddress())

@@ -9,5 +9,9 @@ public interface GymService {
     Gym addGym(Gym gym) throws ViolationException, ServiceException;
     
     Gym findByName(String name);
+
+    Gym findById(Long id);
+
+    Gym updateGym(Gym gym);
     
 }

@@ -20,6 +20,4 @@ public class Pass {
     private Integer price;
 
     private Boolean available;
-
-    private List<User> userList;
 }

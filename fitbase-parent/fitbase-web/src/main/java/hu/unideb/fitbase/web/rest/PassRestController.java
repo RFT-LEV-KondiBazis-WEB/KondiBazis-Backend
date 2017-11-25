@@ -37,7 +37,6 @@ public class PassRestController {
                     .duration(source.getDuration())
                     .price(source.getPrice())
                     .available(source.getAvailable())
-                    .userList(Arrays.asList(getUser()))
                     .build();
             passService.addPass(pass);
             result = ResponseEntity.accepted().body(new PassCreateSuccesResponse(pass));
