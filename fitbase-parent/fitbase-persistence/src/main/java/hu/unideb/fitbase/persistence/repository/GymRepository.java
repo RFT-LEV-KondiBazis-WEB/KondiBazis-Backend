@@ -24,4 +24,6 @@ public interface GymRepository extends JpaRepository<GymEntity, Long>{
 	@Query("SELECT g FROM GymEntity g WHERE g.id = :id")
 	GymEntity findById(@Param("id") long id);
 
+	List<GymEntity> findByUsersId(@Param("id") long id);
+
 }

@@ -3,6 +3,7 @@ package hu.unideb.fitbase.web.rest;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.response.PassCreateSuccesResponse;
+import hu.unideb.fitbase.persistence.entity.GymEntity;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.Pass;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static hu.unideb.fitbase.commons.path.pass.PassPath.*;
 
@@ -31,8 +33,9 @@ public class PassRestController {
     @Autowired
     private GymService gymService;
 
-    @RequestMapping(value = PASS_CREATE_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createPass(@RequestBody PassCreateRequest source, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = PASS_ADMIN_CREATE_URL + GYM_ID, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPassByAdmin(@RequestBody PassCreateRequest source, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         ResponseEntity result;
 
         Gym gyms =gymService.findById(gymId);
@@ -54,6 +57,39 @@ public class PassRestController {
         }
 
         return null;
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @RequestMapping(value = PASS_MANAGER_CREATE_URL + GYM_ID, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPassByManager(@RequestBody PassCreateRequest source, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+        ResponseEntity result;
+
+        Gym gyms =gymService.findById(gymId);
+        try {
+           Pass pass = createPass(source, gyms);
+            passService.addPass(pass);
+            result = ResponseEntity.accepted().body(new PassCreateSuccesResponse(pass));
+        } catch (ServiceException e) {
+            result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
+        return null;
+    }
+
+    private User getUser() {
+        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+    }
+
+    private Pass createPass(PassCreateRequest passCreateRequest, Gym gym) {
+        return Pass.builder()
+                .name(passCreateRequest.getName())
+                .isLimited(passCreateRequest.getIsLimited())
+                .limitNumber(passCreateRequest.getLimitNumber())
+                .duration(passCreateRequest.getDuration())
+                .price(passCreateRequest.getPrice())
+                .available(passCreateRequest.getAvailable())
+                .gymList(Arrays.asList(gym))
+                .build();
     }
 
     @RequestMapping(value = PASS_MODIFICATION_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)

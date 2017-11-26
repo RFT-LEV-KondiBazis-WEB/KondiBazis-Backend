@@ -2,8 +2,8 @@ package hu.unideb.fitbase.service.api.impl;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
-import hu.unideb.fitbase.persistence.entity.UserEntity;
 import hu.unideb.fitbase.persistence.repository.GymRepository;
+import hu.unideb.fitbase.service.api.converter.GymEntityListToGymListConverter;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
@@ -30,6 +30,9 @@ public class GymServiceImpl implements GymService {
 
     @Autowired
     private AbstractValidator<Gym> gymAbstractValidator;
+
+    @Autowired
+    private GymEntityListToGymListConverter gymEntityListToGymListConverter;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -67,8 +70,9 @@ public class GymServiceImpl implements GymService {
         return convert;
     }
 
-//    public List<Gym> findUsersGym(User user){
-//        List<GymEntity> byUsers = gymRepository.findByUsers(conversionService.convert(user, UserEntity.class));
-//    }
+    public List<Gym> findUsersGym(User user) {
+        List<GymEntity> byUsers = gymRepository.findByUsersId(user.getId());
+        return gymEntityListToGymListConverter.convert(byUsers);
+    }
 
 }

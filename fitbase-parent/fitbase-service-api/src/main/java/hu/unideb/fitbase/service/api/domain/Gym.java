@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -30,5 +31,6 @@ public class Gym implements Serializable{
 	
 	private String openingHours;
 
+	@JsonIgnore
 	private List<User> userList;
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class GymEntityToGymConverter implements Converter<GymEntity, Gym>{
 
 	@Autowired
-	UserEntityToUserConverter userEntityToUserConverter;
+	private UserEntityToUserConverter userEntityToUserConverter;
 
 	@Override
 	public Gym convert(GymEntity source) {

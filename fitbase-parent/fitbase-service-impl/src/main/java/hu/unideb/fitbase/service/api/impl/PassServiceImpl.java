@@ -29,7 +29,6 @@ public class PassServiceImpl implements PassService {
 
     @Override
     public Pass findByPass(Long id) {
-
         PassEntity byId = passRepository.findById(id);
 
         return conversionService.convert(byId, Pass.class);
@@ -37,8 +36,6 @@ public class PassServiceImpl implements PassService {
 
     @Override
     public void deletePass(Long id) {
-
-//        Pass byPass = findByPass(id);
         passRepository.delete(id);
     }
 }
