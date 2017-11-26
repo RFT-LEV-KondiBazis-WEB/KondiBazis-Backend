@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Pass {
 
     private Boolean available;
 
+    @JsonIgnore
     private List<Gym> gymList;
 
 }

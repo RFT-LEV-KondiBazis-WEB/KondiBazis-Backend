@@ -76,8 +76,23 @@ public class PassRestController {
         return null;
     }
 
-    private User getUser() {
-        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+    @RequestMapping(value = PASS_MODIFICATION_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest) throws ViolationException {
+        return null;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = PASS_DELETE_URL + PASS_ID)
+    public ResponseEntity deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
+        passService.deletePass(passId);
+        return ResponseEntity.accepted().body("Megy");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(value = PASSES_LIST_BY_GYM_URL + GYM_ID)
+    public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+        List<Pass> byGymIdAllPasses = passService.findByGymIdAllPasses(gymId);
+        return ResponseEntity.accepted().body(byGymIdAllPasses);
     }
 
     private Pass createPass(PassCreateRequest passCreateRequest, Gym gym) {
@@ -92,16 +107,5 @@ public class PassRestController {
                 .build();
     }
 
-    @RequestMapping(value = PASS_MODIFICATION_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest) throws ViolationException {
-        return null;
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = PASS_DELETE_URL, method = RequestMethod.GET)
-    public ResponseEntity<?> deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
-        passService.deletePass(passId);
-        return ResponseEntity.accepted().body("Megy");
-    }
 
 }
