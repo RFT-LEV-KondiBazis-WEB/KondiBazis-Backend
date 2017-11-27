@@ -1,11 +1,11 @@
 package hu.unideb.fitbase.service.api.converter;
 
+import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
 import hu.unideb.fitbase.persistence.entity.PassEntity;
-import hu.unideb.fitbase.persistence.entity.UserEntity;
+import hu.unideb.fitbase.persistence.entity.PassTypeEntity;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.Pass;
-import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -24,16 +24,20 @@ public class PassToPassEntityConverter implements Converter<Pass, PassEntity> {
         return PassEntity.builder()
                 .id(source.getId())
                 .name(source.getName())
-                .isLimited(source.getIsLimited())
-                .limitNumber(source.getLimitNumber())
-                .duration(source.getDuration())
                 .price(source.getPrice())
+                .passTypeEntity(convertType(source.getPassType()))
+                .duration(source.getDuration())
+                .timeDuration(source.getTimeDuration())
                 .available(source.getAvailable())
-                .gymEntity(convert(source.getGymList()))
+                .gymEntities(convert(source.getGymList()))
                 .build();
     }
 
-    private List<GymEntity> convert(List<Gym> source){
+    private List<GymEntity> convert(List<Gym> source) {
         return source.stream().map(gymEntity -> gymToGymEntityConverter.convert(gymEntity)).collect(Collectors.toList());
+    }
+
+    private PassTypeEntity convertType(PassType type) {
+        return PassTypeEntity.valueOf(type.toString());
     }
 }

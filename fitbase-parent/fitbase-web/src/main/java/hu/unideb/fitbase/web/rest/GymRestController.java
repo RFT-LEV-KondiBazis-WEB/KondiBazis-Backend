@@ -77,5 +77,4 @@ public class GymRestController {
     private User getUser() {
         return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
-
 }

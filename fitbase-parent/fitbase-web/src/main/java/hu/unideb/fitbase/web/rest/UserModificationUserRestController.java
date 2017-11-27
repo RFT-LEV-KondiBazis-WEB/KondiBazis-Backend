@@ -44,6 +44,7 @@ public class UserModificationUserRestController {
         ResponseEntity<?> result = null;
         try {
             userModificationService.modifyUser(userModification);
+            // user
             result = ResponseEntity.ok().body("siekr");
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("asdas");
