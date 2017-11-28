@@ -45,6 +45,24 @@ public class GymServiceImpl implements GymService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Gym updateGym(Gym gym) throws ViolationException {
+    	gymAbstractValidator.validate(gym);
+        log.trace(">> update: [gym:{}]", gym);
+        Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
+        log.trace("<< update: [gym:{}]", gym);
+        return convert;
+    }
+    
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void deleteGym(Gym gym) throws ViolationException {
+		log.trace(">> delete: [gym:{}]", gym);
+		gymRepository.delete(conversionService.convert(gym, GymEntity.class));
+		log.trace("<< delete: [gym:{}]", gym);
+	}
+    
+    @Override
     public Gym findByName(String name) {
         log.trace(">> findByName: [name:{}]", name);
         GymEntity gymEntity = gymRepository.findByName(name);
@@ -59,14 +77,6 @@ public class GymServiceImpl implements GymService {
         GymEntity gymEntity = gymRepository.findById(id);
         Gym convert = conversionService.convert(gymEntity, Gym.class);
         log.trace(">> findById: [gym:{}]", convert);
-        return convert;
-    }
-
-    @Override
-    public Gym updateGym(Gym gym) {
-        log.trace("<< save: [gym:{}]", gym);
-        Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
-        log.trace("<< save: [gym:{}]", gym);
         return convert;
     }
 
