@@ -3,6 +3,7 @@ package hu.unideb.fitbase.web.rest;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.GymRequest;
 import hu.unideb.fitbase.commons.pojo.response.GymSuccesCreateResponse;
+import hu.unideb.fitbase.commons.pojo.response.GymSuccessUpdateResponse;
 import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
@@ -34,6 +35,7 @@ import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_CREATE_URL;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_UPDATE_URL;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_DELETE_URL;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.PARAM_GYM_ID;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_ID;
 
 @RestController
 public class GymRestController {
@@ -67,7 +69,7 @@ public class GymRestController {
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping(path = GYM_UPDATE_URL)
+	@PutMapping(path = GYM_UPDATE_URL + GYM_ID)
 	public ResponseEntity<?> putGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
 			throws ViolationException {
 		if (Objects.isNull(gymRequest)) {
@@ -80,18 +82,19 @@ public class GymRestController {
 
 		ResponseEntity<?> result = null;
 		gymService.updateGym(gym);
-		result = ResponseEntity.accepted().body(new GymSuccesCreateResponse(gym));
+		result = ResponseEntity.accepted().body(new GymSuccessUpdateResponse(gym));
 		return result;
 	}
-	
+
 	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping(path = GYM_DELETE_URL)
-	public ResponseEntity<?> deleteGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException{
+	@DeleteMapping(path = GYM_DELETE_URL + GYM_ID)
+	public ResponseEntity<?> deleteGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
+			throws ViolationException {
 		Gym gym = gymService.findById(gymId);
 		gymService.deleteGym(gym);
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = GYMS_LIST_BY_URL)
 	public ResponseEntity<?> getUsersGyms() throws ViolationException {
