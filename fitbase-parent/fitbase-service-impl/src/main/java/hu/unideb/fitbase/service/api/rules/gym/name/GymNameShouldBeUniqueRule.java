@@ -28,7 +28,8 @@ public class GymNameShouldBeUniqueRule implements Rule<Gym> {
 	public List<Violation> validate(Gym gym) {
 		List<Violation> result = Collections.<Violation>emptyList();
 		String name = gym.getName();
-		if(name != null) {
+		Long id = gym.getId();
+		if(name != null && id == null) {
 			Gym findedGym=gymService.findByName(name);
 			if (findedGym!=null) {
 				result = Arrays.asList(Violation.builder()

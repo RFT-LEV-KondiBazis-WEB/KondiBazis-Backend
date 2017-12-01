@@ -29,7 +29,7 @@ public class GymServiceImpl implements GymService {
     private ConversionService conversionService;
 
     @Autowired
-    private AbstractValidator<Gym> gymAbstractValidator;
+    private AbstractValidator<Gym> gymValidator;
 
     @Autowired
     private GymEntityListToGymListConverter gymEntityListToGymListConverter;
@@ -37,7 +37,7 @@ public class GymServiceImpl implements GymService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Gym addGym(Gym gym) throws ViolationException, ServiceException {
-        gymAbstractValidator.validate(gym);
+        gymValidator.validate(gym);
         log.trace(">> save: [gym:{}]", gym);
         Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
         log.trace("<< save: [gym:{}]", gym);
@@ -47,7 +47,7 @@ public class GymServiceImpl implements GymService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Gym updateGym(Gym gym) throws ViolationException {
-    	gymAbstractValidator.validate(gym);
+    	gymValidator.validate(gym);
         log.trace(">> update: [gym:{}]", gym);
         Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
         log.trace("<< update: [gym:{}]", gym);
@@ -76,7 +76,7 @@ public class GymServiceImpl implements GymService {
         log.trace(">> findById: [id:{}]", id);
         GymEntity gymEntity = gymRepository.findById(id);
         Gym convert = conversionService.convert(gymEntity, Gym.class);
-        log.trace(">> findById: [gym:{}]", convert);
+        log.trace("<< findById: [gym:{}]", convert);
         return convert;
     }
 
