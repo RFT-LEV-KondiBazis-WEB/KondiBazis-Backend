@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.CustomerEntity;
 import hu.unideb.fitbase.persistence.repository.CustomerRepository;
+import hu.unideb.fitbase.service.api.converter.CustomerEntityToCustomerListConverter;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.CustomerService;
@@ -19,24 +20,27 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
-	
-	@Autowired 
+
+	@Autowired
 	private ConversionService conversionService;
-	
+
 	@Autowired
 	private AbstractValidator<Customer> customerValidator;
-	
-	
+
+	@Autowired
+	private CustomerEntityToCustomerListConverter customterEntityToCustomerListConverter;
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Customer addCustomer(Customer customer) throws ViolationException, ServiceException {
 		customerValidator.validate(customer);
 		log.trace(">> save: [customer:{}]", customer);
-		Customer convert = conversionService.convert(customerRepository.save(conversionService.convert(customer, CustomerEntity.class)), Customer.class);
+		Customer convert = conversionService.convert(
+				customerRepository.save(conversionService.convert(customer, CustomerEntity.class)), Customer.class);
 		log.trace("<< save: [customer:{}]", customer);
 		return convert;
 	}
@@ -46,7 +50,8 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer updateCustomer(Customer customer) throws ViolationException {
 		customerValidator.validate(customer);
 		log.trace(">> update: [customer:{}]", customer);
-		Customer convert = conversionService.convert(customerRepository.save(conversionService.convert(customer, CustomerEntity.class)), Customer.class);
+		Customer convert = conversionService.convert(
+				customerRepository.save(conversionService.convert(customer, CustomerEntity.class)), Customer.class);
 		log.trace("<< update: [customer:{}]", customer);
 		return convert;
 	}
@@ -77,11 +82,10 @@ public class CustomerServiceImpl implements CustomerService{
 		return convert;
 	}
 
-	//TODO
 	@Override
 	public List<Customer> findAll(Customer customer) {
 		List<CustomerEntity> findAllCustomers = customerRepository.findAll();
-		return null;
+		return customterEntityToCustomerListConverter.convert(findAllCustomers);
 	}
 
 }
