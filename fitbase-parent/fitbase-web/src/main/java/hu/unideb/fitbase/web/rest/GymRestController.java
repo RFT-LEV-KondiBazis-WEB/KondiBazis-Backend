@@ -76,9 +76,9 @@ public class GymRestController {
 			return ResponseEntity.badRequest().body("null");
 		}
 
-		Gym gym = Gym.builder().name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
+		Gym gym = Gym.builder().id(gymId).name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
 				.zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
-				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).id(gymId).build();
+				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).build();
 
 		ResponseEntity<?> result = null;
 		gymService.updateGym(gym);
