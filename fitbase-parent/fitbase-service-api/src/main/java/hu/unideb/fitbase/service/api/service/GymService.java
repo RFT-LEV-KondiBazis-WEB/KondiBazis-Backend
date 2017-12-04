@@ -13,7 +13,7 @@ public interface GymService {
 
     Gym updateGym(Gym gym) throws ViolationException;
     
-    void deleteGym(Gym gym) throws ViolationException;;
+    void deleteGym(Long id) throws ViolationException;;
     
     Gym findByName(String name);
 
