@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Gym repository.
  */
@@ -17,4 +19,10 @@ public interface GymRepository extends JpaRepository<GymEntity, Long>{
      */
 	@Query("SELECT g FROM GymEntity g WHERE g.name = :name")
 	GymEntity findByName(@Param("name") String name);
+
+	@Query("SELECT g FROM GymEntity g WHERE g.id = :id")
+	GymEntity findById(@Param("id") long id);
+
+	List<GymEntity> findByUsersId(@Param("id") long id);
+
 }

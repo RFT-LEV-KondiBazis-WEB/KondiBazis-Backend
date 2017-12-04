@@ -3,9 +3,7 @@ package hu.unideb.fitbase.web.rest;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
-import hu.unideb.fitbase.commons.pojo.response.RegistrationResponse;
 import hu.unideb.fitbase.commons.pojo.response.RegistrationSuccesResponse;
-import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.RegistrationService;
 import hu.unideb.fitbase.web.token.generator.JwtTokenGenerator;
@@ -27,7 +25,7 @@ public class RegistrationRestController {
     private JwtTokenGenerator jwtTokenGenerator;
 
     @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegistrationResponse> registration(@RequestBody RegistrationRequest request) throws ViolationException {
+    public ResponseEntity registration(@RequestBody RegistrationRequest request) throws ViolationException {
         ResponseEntity result;
         try {
             registrationService.register(request);
