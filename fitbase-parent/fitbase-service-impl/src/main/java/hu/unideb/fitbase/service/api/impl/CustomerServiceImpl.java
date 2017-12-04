@@ -16,6 +16,7 @@ import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.CustomerService;
 import hu.unideb.fitbase.service.api.validator.AbstractValidator;
+import hu.unideb.fitbase.service.api.validator.CustomerValidator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private ConversionService conversionService;
 
 	@Autowired
-	private AbstractValidator<Customer> customerValidator;
+	private CustomerValidator customerValidator;
 
 	@Autowired
 	private CustomerEntityToCustomerListConverter customterEntityToCustomerListConverter;
@@ -83,7 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> findAll(Customer customer) {
+	public List<Customer> findAll() {
 		List<CustomerEntity> findAllCustomers = customerRepository.findAll();
 		return customterEntityToCustomerListConverter.convert(findAllCustomers);
 	}

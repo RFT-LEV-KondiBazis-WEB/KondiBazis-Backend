@@ -9,6 +9,7 @@ import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.GymService;
 import hu.unideb.fitbase.service.api.validator.AbstractValidator;
+import hu.unideb.fitbase.service.api.validator.GymValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -29,7 +30,7 @@ public class GymServiceImpl implements GymService {
     private ConversionService conversionService;
 
     @Autowired
-    private AbstractValidator<Gym> gymValidator;
+    private GymValidator gymValidator;
 
     @Autowired
     private GymEntityListToGymListConverter gymEntityListToGymListConverter;
