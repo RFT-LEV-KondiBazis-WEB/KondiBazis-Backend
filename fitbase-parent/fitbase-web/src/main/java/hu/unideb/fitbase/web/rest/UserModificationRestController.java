@@ -21,7 +21,7 @@ import java.util.Objects;
 import static hu.unideb.fitbase.commons.path.usermodification.UserModificationPath.USER_MODIFICATION_URL;
 
 @RestController
-public class UserModificationUserRestController {
+public class UserModificationRestController {
 
     @Autowired
     private UserModificationService userModificationService;

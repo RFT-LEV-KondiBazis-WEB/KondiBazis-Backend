@@ -1,6 +1,5 @@
 package hu.unideb.fitbase.service.api.converter;
 
-import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
 import hu.unideb.fitbase.commons.pojo.request.TimeLimitedPassCreateRequest;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import org.springframework.core.convert.converter.Converter;
@@ -16,7 +15,6 @@ public class TimeLimitedPassCreateRequestToPassConverter implements Converter<Ti
         return Pass.builder()
                 .name(timeLimitedPassCreateRequest.getName())
                 .price(timeLimitedPassCreateRequest.getPrice())
-                .passType(PassType.TIME_LIMITED)
                 .timeDuration(timeLimitedPassCreateRequest.getTimeDuration())
                 .available(timeLimitedPassCreateRequest.getAvailable())
                 .build();

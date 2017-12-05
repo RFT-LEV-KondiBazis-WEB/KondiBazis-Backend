@@ -1,6 +1,7 @@
 package hu.unideb.fitbase.service.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
 import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
 import hu.unideb.fitbase.persistence.entity.PassTypeEntity;
 import lombok.Builder;
@@ -25,8 +26,11 @@ public class Pass implements Serializable {
 
     private Integer timeDuration;
 
+    private String passTimeDurationType;
+
     private Boolean available;
 
+    @JsonIgnore
     private List<Gym> gymList;
 
 }

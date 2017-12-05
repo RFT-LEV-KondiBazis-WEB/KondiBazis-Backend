@@ -2,7 +2,6 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
-import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.request.SuitablePassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.request.TimeLimitedPassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.response.PassCreateSuccesResponse;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.pass.PassPath.*;
 
@@ -33,61 +31,65 @@ public class PassRestController {
     @Autowired
     private GymService gymService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value =  PASS_CREATE + PASS_TYPE + GYM_ID, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_TYPE) String passType, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = PASS_CREATE_SUITBALE + GYM_ID, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createSuitablePass(@RequestBody SuitablePassCreateRequest suitablePassCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
 
+        Gym gym = gymService.findById(gymId);
 
-        //                case "TIME_LIMITED":
-//                    pass = Pass.builder()
-//                        .name(timeLimitedPassCreateRequest.getName())
-//                        .price(timeLimitedPassCreateRequest.getPrice())
-//                        .passType(PassType.TIME_LIMITED)
-//                        .timeDuration(timeLimitedPassCreateRequest.getTimeDuration())
-//                        .available(timeLimitedPassCreateRequest.getAvailable())
-//                        .gymList(Arrays.asList(gyms))
-//                        .build();
-//
-//                passService.addPass(pass);
-//                return ResponseEntity.accepted().body(new PassCreateSuccesResponse(pass));
-//            }
-
+        Pass createdPass = createSuitablePass(suitablePassCreateRequest, gym);
         ResponseEntity result;
-        Gym gyms = gymService.findById(gymId);
-        Pass pass;
-        TimeLimitedPassCreateRequest timeLimitedPassCreateRequest = null;
+        try {
+            Pass c = passService.addPass(createdPass);
+            result = ResponseEntity.accepted().body(new PassCreateSuccesResponse(c));
+        } catch (ServiceException e) {
+            result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
+        }
 
-      //  try {
-//            switch (passType){
-//                case "suitable":
-//                    pass = Pass.builder()
-//                        .name(suitablePassCreateRequest.getName())
-//                        .price(suitablePassCreateRequest.getPrice())
-//                        .passType(PassType.SUITABLE)
-//                        .duration(suitablePassCreateRequest.getDuration())
-//                        .timeDuration(null)
-//                        .available(suitablePassCreateRequest.getAvailable())
-//                        .gymList(Arrays.asList(gyms))
-//                        .build();
-
-             //   passService.addPass(pass);
-           //    result =  ResponseEntity.accepted().body(new PassCreateSuccesResponse(pass));
-
-       // } catch (ServiceException e) {
-          //  result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-       // }
-
-        return null;
+        return result;
     }
 
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = PASS_MODIFICATION_URL + PASS_ID, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
-//        Pass passById = passService.findPassById(passId);
-//      //TODO
-//        passService.update(passById);
-//        return ResponseEntity.ok().body("Módosítva");
-//    }
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = PASS_CREATE_TIME_LIMITED + GYM_ID, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createTimeLimitedPass(@RequestBody TimeLimitedPassCreateRequest timeLimitedPassCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+
+        Gym gym = gymService.findById(gymId);
+
+        Pass createdPass = createTimeLimitedPass(timeLimitedPassCreateRequest, gym);
+        ResponseEntity result;
+        try {
+            passService.addPass(createdPass);
+            result = ResponseEntity.accepted().body(new PassCreateSuccesResponse(createdPass));
+        } catch (ServiceException e) {
+            result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
+        }
+
+        return result;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = PASS_UPDATE_SUITBALE + PASS_ID, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> modificationPass(@RequestBody SuitablePassCreateRequest suitablePassCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
+        Pass passById = passService.findPassById(passId);
+
+        passById.setName(suitablePassCreateRequest.getName());
+
+
+//        Pass o = Pass.builder()
+//                .id(passId)
+//                .name(suitablePassCreateRequest.getName())
+//                .price(suitablePassCreateRequest.getPrice())
+//                .passType(PassType.SUITABLE)
+//                .duration(suitablePassCreateRequest.getDuration())
+//                .timeDuration(suitablePassCreateRequest.getTimeDuration())
+//                .passTimeDurationType(suitablePassCreateRequest.getPassTimeDurationType())
+//                .available(suitablePassCreateRequest.getAvailable())
+//                .build();
+
+      //TODO
+        passService.update(passById);
+        return ResponseEntity.ok().body("Módosítva");
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = PASS_DELETE_URL + PASS_ID)
@@ -103,17 +105,30 @@ public class PassRestController {
         return ResponseEntity.accepted().body(byGymIdAllPasses);
     }
 
-//    private Pass createPass(PassCreateRequest passCreateRequest, Gym gym) {
-//        return Pass.builder()
-//                .name(passCreateRequest.getName())
-//                .isLimited(passCreateRequest.getIsLimited())
-//                .limitNumber(passCreateRequest.getLimitNumber())
-//                .duration(passCreateRequest.getDuration())
-//                .price(passCreateRequest.getPrice())
-//                .available(passCreateRequest.getAvailable())
-//                .gymList(Arrays.asList(gym))
-//                .build();
-//    }
+    private Pass createSuitablePass(SuitablePassCreateRequest suitablePassCreateRequest, Gym gym) {
+        return Pass.builder()
+                .name(suitablePassCreateRequest.getName())
+                .price(suitablePassCreateRequest.getPrice())
+                .passType(PassType.SUITABLE)
+                .duration(suitablePassCreateRequest.getDuration())
+                .timeDuration(suitablePassCreateRequest.getTimeDuration())
+                .passTimeDurationType(suitablePassCreateRequest.getPassTimeDurationType())
+                .available(suitablePassCreateRequest.getAvailable())
+                .gymList(Arrays.asList(gym))
+                .build();
+    }
+
+    private Pass createTimeLimitedPass(TimeLimitedPassCreateRequest timeLimitedPassCreateRequest, Gym gym) {
+        return Pass.builder()
+                .name(timeLimitedPassCreateRequest.getName())
+                .price(timeLimitedPassCreateRequest.getPrice())
+                .passType(PassType.TIME_LIMITED)
+                .timeDuration(timeLimitedPassCreateRequest.getTimeDuration())
+                .passTimeDurationType(timeLimitedPassCreateRequest.getPassTimeDurationType())
+                .available(timeLimitedPassCreateRequest.getAvailable())
+                .gymList(Arrays.asList(gym))
+                .build();
+    }
 
 
 }

@@ -28,6 +28,7 @@ public class PassEntityToPassConverter implements Converter<PassEntity, Pass> {
                 .passType(convertType(source.getPassTypeEntity()))
                 .duration(source.getDuration())
                 .timeDuration(source.getTimeDuration())
+                .passTimeDurationType(source.getPassTimeDurationTypeEntity())
                 .available(source.getAvailable())
                 .gymList(convert(source.getGymEntities()))
                 .build();
@@ -40,4 +41,5 @@ public class PassEntityToPassConverter implements Converter<PassEntity, Pass> {
     private PassType convertType(PassTypeEntity type) {
         return PassType.valueOf(type.toString());
     }
+
 }

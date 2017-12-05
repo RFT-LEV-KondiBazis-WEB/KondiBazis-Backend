@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.persistence.entity;
 
+import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -57,6 +58,9 @@ public class PassEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_TIME_DURATION)
     private Integer timeDuration;
 
+    @Column(name = "pass_duration_type")
+    private String passTimeDurationTypeEntity;
+
     /**
      * Available of the pass.
      */
@@ -79,13 +83,14 @@ public class PassEntity extends BaseEntity<Long> {
      * Builder pattern for creating pass.
      */
     @Builder
-    public PassEntity(Long id,String name, Integer price, PassTypeEntity passTypeEntity, Integer duration, Integer timeDuration, boolean available, List<GymEntity> gymEntities){
+    public PassEntity(Long id,String name, Integer price, PassTypeEntity passTypeEntity, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available, List<GymEntity> gymEntities){
          super(id);
          this.name = name;
          this.price = price;
          this.passTypeEntity = passTypeEntity;
          this.duration = duration;
          this.timeDuration = timeDuration;
+         this.passTimeDurationTypeEntity = passTimeDurationType;
          this.available = available;
          this.gymEntities = gymEntities;
     }
