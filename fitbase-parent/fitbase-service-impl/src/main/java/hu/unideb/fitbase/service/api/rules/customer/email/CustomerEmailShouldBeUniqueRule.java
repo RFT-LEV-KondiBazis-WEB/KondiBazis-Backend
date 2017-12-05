@@ -29,9 +29,11 @@ public class CustomerEmailShouldBeUniqueRule implements Rule<Customer> {
 	public List<Violation> validate(Customer customer) {
 		List<Violation> result = Collections.<Violation>emptyList();
 		String email = customer.getEmail();
+		Long id = customer.getId();
 		if (email != null) {
 			Customer findedCustomer = customerService.findByEmail(email);
 			if( findedCustomer != null ) {
+				if(!findedCustomer.getId().equals(id) )
 				result = Arrays.asList(Violation.builder().field(FIELD).validationMessage(UNIQUE_RULE).build());
 			}
 		}

@@ -17,6 +17,7 @@ import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessCreateResponse;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessUpdateResponse;
+import hu.unideb.fitbase.persistence.entity.CustomerEntity;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.CustomerService;
@@ -54,7 +55,7 @@ public class CustomerRestController {
 				.gender(customerRequest.getGender()).build();
 		ResponseEntity<?> result = null;
 		try {
-			customerService.addCustomer(customer);
+			customer = customerService.addCustomer(customer);
 			result = ResponseEntity.accepted().body(new CustomerSuccessCreateResponse(customer));
 		} catch (ServiceException e) {
 			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");

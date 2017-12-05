@@ -60,7 +60,7 @@ public class GymRestController {
 
 		ResponseEntity<?> result = null;
 		try {
-			gymService.addGym(gym);
+			gym = gymService.addGym(gym);
 			result = ResponseEntity.accepted().body(new GymSuccesCreateResponse(gym));
 		} catch (ServiceException e) {
 			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
