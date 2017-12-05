@@ -15,7 +15,6 @@ import hu.unideb.fitbase.service.api.validator.rule.Rule;
 import static hu.unideb.fitbase.commons.constants.rules.customer.email.EmailRuleConstants.FIELD;
 import static hu.unideb.fitbase.commons.constants.rules.customer.email.EmailRuleConstants.UNIQUE_RULE;
 
-
 /**
  * Validates email should be unique.
  */
@@ -30,9 +29,13 @@ public class CustomerEmailShouldBeUniqueRule implements Rule<Customer> {
 	public List<Violation> validate(Customer customer) {
 		List<Violation> result = Collections.<Violation>emptyList();
 		String email = customer.getEmail();
+		Long id = customer.getId();
 		if (email != null) {
-			customerService.findByEmail(email);
-			result = Arrays.asList(Violation.builder().field(FIELD).validationMessage(UNIQUE_RULE).build());
+			Customer findedCustomer = customerService.findByEmail(email);
+			if( findedCustomer != null ) {
+				if(!findedCustomer.getId().equals(id) )
+				result = Arrays.asList(Violation.builder().field(FIELD).validationMessage(UNIQUE_RULE).build());
+			}
 		}
 		return result;
 	}

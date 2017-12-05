@@ -5,18 +5,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.http.HeadersBeanDefinitionParser;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessCreateResponse;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessUpdateResponse;
+import hu.unideb.fitbase.persistence.entity.CustomerEntity;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.CustomerService;
@@ -32,6 +33,7 @@ import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
+@RestController
 public class CustomerRestController {
 
 	@Autowired
@@ -53,7 +55,7 @@ public class CustomerRestController {
 				.gender(customerRequest.getGender()).build();
 		ResponseEntity<?> result = null;
 		try {
-			customerService.addCustomer(customer);
+			customer = customerService.addCustomer(customer);
 			result = ResponseEntity.accepted().body(new CustomerSuccessCreateResponse(customer));
 		} catch (ServiceException e) {
 			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
@@ -87,7 +89,8 @@ public class CustomerRestController {
 		customerService.deleteCustomer(customer);
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
-//TODO
+
+	// TODO
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = CUST_LIST_BY_URL)
 	public ResponseEntity<?> getCustomers() {
