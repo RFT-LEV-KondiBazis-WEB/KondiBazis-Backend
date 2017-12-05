@@ -19,6 +19,7 @@ import static hu.unideb.fitbase.commons.constants.rules.registration.email.Email
  **/
 @Component
 public class EmailFormatRule implements Rule<RegistrationRequest> {
+
     @Override
     public List<Violation> validate(RegistrationRequest request) {
         return Strings.isNullOrEmpty(request.getEmail()) || isEmailFormat(request) ?

@@ -2,6 +2,7 @@ package hu.unideb.fitbase.service.api.rules.usermodification.email;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
+import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
 import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
 import hu.unideb.fitbase.service.api.service.UserService;
@@ -26,14 +27,24 @@ public class UserModificationEmailShouldBeUniqueRule implements Rule<UserModific
     public List<Violation> validate(UserModification userModification) {
         List<Violation> result = Collections.<Violation>emptyList();
         String email = userModification.getEmail();
+        Long id = userModification.getId();
+
         if (email != null) {
             try {
                 try {
-                    userService.findByEmail(email);
-                    result = Arrays.asList(Violation.builder()
-                            .field(FIELD)
-                            .validationMessage(UNIQUE_RULE)
-                            .build());
+
+                    User findedCustomer = userService.findByEmail(email);
+                    if( findedCustomer != null ) {
+                        if(!findedCustomer.getId().equals(id) ) {
+                            result = Arrays.asList(Violation.builder().field(FIELD).validationMessage(UNIQUE_RULE).build());
+
+                        }
+                    }
+//                    userService.findByEmail(email);
+//                    result = Arrays.asList(Violation.builder()
+//                            .field(FIELD)
+//                            .validationMessage(UNIQUE_RULE)
+//                            .build());
                 } catch (EntityNotFoundException e) {
                     result = Collections.<Violation>emptyList();
                 }

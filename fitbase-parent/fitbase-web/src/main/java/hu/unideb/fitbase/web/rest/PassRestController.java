@@ -4,7 +4,7 @@ import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.SuitablePassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.request.TimeLimitedPassCreateRequest;
-import hu.unideb.fitbase.commons.pojo.response.PassCreateSuccesResponse;
+import hu.unideb.fitbase.commons.pojo.response.PassSuccesResponse;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
@@ -41,7 +41,7 @@ public class PassRestController {
         ResponseEntity result;
         try {
             Pass c = passService.addPass(createdPass);
-            result = ResponseEntity.accepted().body(new PassCreateSuccesResponse(c));
+            result = ResponseEntity.accepted().body(new PassSuccesResponse(c));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
         }
@@ -59,12 +59,21 @@ public class PassRestController {
         ResponseEntity result;
         try {
             passService.addPass(createdPass);
-            result = ResponseEntity.accepted().body(new PassCreateSuccesResponse(createdPass));
+            result = ResponseEntity.accepted().body(new PassSuccesResponse(createdPass));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
         }
 
         return result;
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(value = PASS_GET_INFO + PASS_ID)
+    public ResponseEntity getPass(@PathVariable(PARAM_PASS_ID) Long passId) {
+
+        Pass getPass = passService.findPassById(passId);
+
+        return ResponseEntity.accepted().body(new PassSuccesResponse(getPass));
+
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -90,6 +99,8 @@ public class PassRestController {
         passService.update(passById);
         return ResponseEntity.ok().body("Módosítva");
     }
+
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = PASS_DELETE_URL + PASS_ID)

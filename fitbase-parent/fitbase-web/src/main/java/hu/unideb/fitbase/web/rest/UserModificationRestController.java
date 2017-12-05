@@ -2,10 +2,13 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.UserModificationRequest;
+import hu.unideb.fitbase.commons.pojo.response.SuccesResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
+import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.UserModificationService;
+import hu.unideb.fitbase.service.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +29,12 @@ public class UserModificationRestController {
     @Autowired
     private UserModificationService userModificationService;
 
+    @Autowired
+    private UserService userService;
+
     @PreAuthorize("isAuthenticated()")
     @PutMapping(path = USER_MODIFICATION_URL)
-    public ResponseEntity<?> putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ValidationException{
+    public ResponseEntity<?> putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException{
         if(Objects.isNull(userModificationRequest)){
             return ResponseEntity.badRequest().body("null");
         }
@@ -41,15 +47,13 @@ public class UserModificationRestController {
                 .lastName(userModificationRequest.getLastName())
                 .build();
 
-        ResponseEntity<?> result = null;
+        ResponseEntity<?> result;
         try {
             userModificationService.modifyUser(userModification);
-            // user
-            result = ResponseEntity.ok().body("siekr");
+            result = ResponseEntity.ok().body(new SuccesResponse(userService.findById(getUserId()), null));
         } catch (ServiceException e) {
-            result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("asdas");
-        } catch (ViolationException e) {
-            e.printStackTrace();
+            result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
         }
         return result;
     }

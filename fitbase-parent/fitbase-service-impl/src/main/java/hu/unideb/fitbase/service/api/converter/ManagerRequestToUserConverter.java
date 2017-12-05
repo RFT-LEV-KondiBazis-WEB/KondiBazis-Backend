@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import sun.misc.Contended;
 
+import java.time.LocalDate;
+
 @Component
 public class ManagerRequestToUserConverter implements Converter<ManagerRegistrationRequest, User> {
 
@@ -27,7 +29,7 @@ public class ManagerRequestToUserConverter implements Converter<ManagerRegistrat
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
-                .createdDate(source.getCreatedDate())
+                .createdDate(LocalDate.now())
                 .userRole(UserRole.MANAGER)
                 .build();
     }
