@@ -2,6 +2,7 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.UserModificationRequest;
+import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.commons.pojo.response.SuccesResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.service.api.domain.User;
@@ -14,17 +15,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.ValidationException;
 import java.util.Objects;
 
+import static hu.unideb.fitbase.commons.path.user.UserInfoPath.USER_INFO_URL;
 import static hu.unideb.fitbase.commons.path.usermodification.UserModificationPath.USER_MODIFICATION_URL;
 
 @RestController
-public class UserModificationRestController {
+public class UserRestController {
 
     @Autowired
     private UserModificationService userModificationService;
@@ -34,12 +33,12 @@ public class UserModificationRestController {
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping(path = USER_MODIFICATION_URL)
-    public ResponseEntity<?> putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException{
+    public ResponseEntity<?> putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException {
         if(Objects.isNull(userModificationRequest)){
             return ResponseEntity.badRequest().body("null");
         }
         UserModification userModification = UserModification.builder()
-                .id(getUserId())
+                .id(getUser().getId())
                 .email(userModificationRequest.getEmail())
                 .password(userModificationRequest.getPassword())
                 .passwordConfirm(userModificationRequest.getPasswordConfirm())
@@ -50,7 +49,7 @@ public class UserModificationRestController {
         ResponseEntity<?> result;
         try {
             userModificationService.modifyUser(userModification);
-            result = ResponseEntity.ok().body(new SuccesResponse(userService.findById(getUserId()), null));
+            result = ResponseEntity.ok().body(new SuccesResponse(userService.findById(getUser().getId()), null));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
@@ -58,8 +57,14 @@ public class UserModificationRestController {
         return result;
     }
 
-    private Long getUserId() {
-        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = USER_INFO_URL, method = RequestMethod.GET)
+    public ResponseEntity<?> getAuthenticatedUser() {
+        return ResponseEntity.accepted().body(new SuccesResponse(getUser(), new MetaResponse(null)));
+    }
+
+    private User getUser() {
+        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
 }

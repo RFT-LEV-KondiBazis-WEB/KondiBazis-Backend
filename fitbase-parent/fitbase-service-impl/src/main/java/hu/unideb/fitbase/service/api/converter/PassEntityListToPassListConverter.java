@@ -16,7 +16,7 @@ public class PassEntityListToPassListConverter implements Converter<List<PassEnt
     private PassEntityToPassConverter passEntityToPassConverter;
 
     @Override
-    public List<Pass> convert(List<PassEntity> source){
+    public List<Pass> convert(List<PassEntity> source) {
         return source.stream().map(pass -> passEntityToPassConverter.convert(pass)).collect(Collectors.toList());
     }
 

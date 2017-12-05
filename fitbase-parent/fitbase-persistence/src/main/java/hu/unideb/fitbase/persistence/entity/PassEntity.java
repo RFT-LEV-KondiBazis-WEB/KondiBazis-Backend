@@ -43,8 +43,7 @@ public class PassEntity extends BaseEntity<Long> {
      * The type of the pass.
      */
     @Column(name = COLUMN_NAME_PASS_TYPE)
-    @Enumerated(value = STRING)
-    private PassTypeEntity passTypeEntity;
+    private String passType;
 
     /**
      * The duration of the pass.
@@ -83,11 +82,11 @@ public class PassEntity extends BaseEntity<Long> {
      * Builder pattern for creating pass.
      */
     @Builder
-    public PassEntity(Long id,String name, Integer price, PassTypeEntity passTypeEntity, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available, List<GymEntity> gymEntities){
+    public PassEntity(Long id,String name, Integer price, String passType, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available, List<GymEntity> gymEntities){
          super(id);
          this.name = name;
          this.price = price;
-         this.passTypeEntity = passTypeEntity;
+         this.passType = passType;
          this.duration = duration;
          this.timeDuration = timeDuration;
          this.passTimeDurationTypeEntity = passTimeDurationType;

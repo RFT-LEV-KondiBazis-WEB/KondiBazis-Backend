@@ -1,8 +1,8 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.request.AuthenticationRequest;
-import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
+import hu.unideb.fitbase.commons.pojo.response.SuccesResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.web.token.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class AuthenticationRestController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         FitBaseUser user = (FitBaseUser) userDetailsService.loadUserByUsername(username);
 
-        return ResponseEntity.accepted().body(new LoginSuccesResponse(user.getUser(),new MetaResponse(token)));
+        return ResponseEntity.accepted().body(new SuccesResponse(user.getUser(),new MetaResponse(token)));
 
     }
 }
