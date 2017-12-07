@@ -57,10 +57,10 @@ public class GymServiceImpl implements GymService {
     
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void deleteGym(Gym gym) throws ViolationException {
-		log.trace(">> delete: [gym:{}]", gym);
-		gymRepository.delete(conversionService.convert(gym, GymEntity.class));
-		log.trace("<< delete: [gym:{}]", gym);
+	public void deleteGym(Long id) throws ViolationException {
+		log.trace(">> delete: [gym:{}]", id);
+		gymRepository.delete(id);
+		log.trace("<< delete: [gym:{}]", id);
 	}
     
     @Override
