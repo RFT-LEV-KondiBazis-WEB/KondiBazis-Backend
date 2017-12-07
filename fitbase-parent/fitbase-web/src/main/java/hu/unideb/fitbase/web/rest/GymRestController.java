@@ -2,6 +2,7 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.GymRequest;
+import hu.unideb.fitbase.commons.pojo.response.GymListResponse;
 import hu.unideb.fitbase.commons.pojo.response.GymSuccesCreateResponse;
 import hu.unideb.fitbase.commons.pojo.response.GymSuccessUpdateResponse;
 import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
@@ -30,10 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS_LIST_BY_URL;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_CREATE_URL;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_UPDATE_URL;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_DELETE_URL;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.PARAM_GYM_ID;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_ID;
 
@@ -47,7 +45,7 @@ public class GymRestController {
 	private String tokenHeader;
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping(path = GYM_CREATE_URL)
+	@PostMapping(path = GYMS)
 	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest, HttpServletRequest request)
 			throws ViolationException {
 		if (Objects.isNull(gymRequest)) {
@@ -69,25 +67,24 @@ public class GymRestController {
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping(path = GYM_UPDATE_URL + GYM_ID)
+	@PutMapping(path = GYMS + GYM_ID)
 	public ResponseEntity<?> putGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
 			throws ViolationException {
 		if (Objects.isNull(gymRequest)) {
 			return ResponseEntity.badRequest().body("null");
 		}
 
-		Gym gym = Gym.builder().id(gymId).name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
-				.zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
-				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).build();
+		Gym gym = Gym.builder().id(gymId).name(gymRequest.getName()).city(gymRequest.getCity())
+				.address(gymRequest.getAddress()).zipCode(gymRequest.getZipCode())
+				.description(gymRequest.getDescription()).openingHours(gymRequest.getOpeningHours())
+				.userList(Arrays.asList(getUser())).build();
 
-		ResponseEntity<?> result = null;
 		gymService.updateGym(gym);
-		result = ResponseEntity.accepted().body(new GymSuccessUpdateResponse(gym));
-		return result;
+		return ResponseEntity.accepted().body(new GymSuccessUpdateResponse(gym));
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping(path = GYM_DELETE_URL + GYM_ID)
+	@DeleteMapping(path = GYMS + GYM_ID)
 	public ResponseEntity<?> deleteGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
 			throws ViolationException {
 		Gym gym = gymService.findById(gymId);
@@ -95,11 +92,27 @@ public class GymRestController {
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
 
+	/*
+	 * @PreAuthorize("isAuthenticated()")
+	 * 
+	 * @GetMapping(path = GYMS) public ResponseEntity<?> getUsersGyms() throws
+	 * ViolationException { List<Gym> gymByUser =
+	 * gymService.findUsersGym(getUser()); return ResponseEntity.accepted().body(new
+	 * LoginSuccesResponse(gymByUser, new MetaResponse(null))); }
+	 */
+	
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping(path = GYMS_LIST_BY_URL)
-	public ResponseEntity<?> getUsersGyms() throws ViolationException {
-		List<Gym> gymByUser = gymService.findUsersGym(getUser());
-		return ResponseEntity.accepted().body(new LoginSuccesResponse(gymByUser, new MetaResponse(null)));
+	@GetMapping(path = GYMS)
+	public ResponseEntity<?> getAllGyms() throws ViolationException {
+		List<Gym> getGyms = gymService.findAll();
+		return ResponseEntity.accepted().body(new GymListResponse(getGyms));
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(path = GYMS + GYM_ID)
+	public ResponseEntity<?> showGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+		Gym gym = gymService.findById(gymId);
+		return ResponseEntity.accepted().body(new GymListResponse(gym));
 	}
 
 	private User getUser() {
