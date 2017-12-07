@@ -64,4 +64,13 @@ public class PassServiceImpl implements PassService {
         log.trace("<< save: [pass:{}]", pass);
         return convert;
     }
+
+    @Override
+    public Pass findPassByName(String name) {
+        log.trace(">> findByName: [name:{}]", name);
+        PassEntity passEntity = passRepository.findByName(name);
+        Pass convert = conversionService.convert(passEntity, Pass.class);
+        log.trace("<< findByName: [name:{}]", convert);
+        return convert;
+    }
 }

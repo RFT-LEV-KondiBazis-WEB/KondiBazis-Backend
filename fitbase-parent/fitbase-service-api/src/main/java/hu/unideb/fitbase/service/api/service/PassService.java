@@ -19,4 +19,6 @@ public interface PassService {
 
     Pass update(Pass pass);
 
+    Pass findPassByName(String name);
+
 }
