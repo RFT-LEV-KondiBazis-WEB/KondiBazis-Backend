@@ -2,10 +2,12 @@ package hu.unideb.fitbase.service.api.converter;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.UserRole;
 import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
+import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.service.api.domain.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import sun.misc.Contended;
 
 import java.time.LocalDate;
 
@@ -27,6 +29,7 @@ public class ManagerRequestToUserConverter implements Converter<ManagerRegistrat
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
+                .createdDate(source.getCreatedDate())
                 .createdDate(LocalDate.now())
                 .userRole(UserRole.MANAGER)
                 .build();

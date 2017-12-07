@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import hu.unideb.fitbase.commons.pojo.request.GymRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
