@@ -24,18 +24,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static hu.unideb.fitbase.commons.path.container.PathContainer.GYM_ID;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_GYM_ID;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
-import static hu.unideb.fitbase.commons.path.pass.PassPath.GYM_ID;
-import static hu.unideb.fitbase.commons.path.pass.PassPath.PARAM_GYM_ID;
 
 @RestController
 public class GymRestController {
 
 	@Autowired
 	private GymService gymService;
-
-	@Value("${jwt.header}")
-	private String tokenHeader;
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = GYMS)

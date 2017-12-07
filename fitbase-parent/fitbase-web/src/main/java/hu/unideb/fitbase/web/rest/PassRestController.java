@@ -31,7 +31,7 @@ public class PassRestController {
     private GymService gymService;
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = PASS_CREATE + GYM_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = PASSES + GYM_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
 
 
@@ -51,7 +51,7 @@ public class PassRestController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping(value = PASS_INFO + PASS_ID)
+    @GetMapping(value = PASSES + PASS_ID)
     public ResponseEntity getPass(@PathVariable(PARAM_PASS_ID) Long passId) {
 
         Pass getPass = passService.findPassById(passId);
@@ -61,7 +61,7 @@ public class PassRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping(value = PASS_UPDATE + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = PASSES + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
         Pass passById = passService.findPassById(passId);
 
@@ -72,14 +72,14 @@ public class PassRestController {
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = PASS_DELETE + PASS_ID)
+    @DeleteMapping(value = PASSES + PASS_ID)
     public ResponseEntity deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
         passService.deletePass(passId);
         return ResponseEntity.accepted().body("Megy");
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping(value = PASS_INFO + GYM_ID)
+    @GetMapping(value = PASSES + GYM_ID)
     public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         List<Pass> byGymIdAllPasses = passService.findByGymIdAllPasses(gymId);
         return ResponseEntity.accepted().body(byGymIdAllPasses);
