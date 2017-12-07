@@ -20,5 +20,7 @@ public interface GymService {
     Gym findById(Long id);
     
     List<Gym> findUsersGym(User user);
+    
+    List<Gym> findAll();
 
 }

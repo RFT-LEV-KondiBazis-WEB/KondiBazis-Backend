@@ -86,4 +86,10 @@ public class GymServiceImpl implements GymService {
         return gymEntityListToGymListConverter.convert(byUsers);
     }
 
+	@Override
+	public List<Gym> findAll() {
+		List<GymEntity> findallGyms = gymRepository.findAll();
+		return gymEntityListToGymListConverter.convert(findallGyms);
+	}
+
 }

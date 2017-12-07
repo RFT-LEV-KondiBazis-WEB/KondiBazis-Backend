@@ -15,20 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
+import hu.unideb.fitbase.commons.pojo.response.CustomerListResponse;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessCreateResponse;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessUpdateResponse;
-import hu.unideb.fitbase.persistence.entity.CustomerEntity;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.CustomerService;
 
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_CREATE_URL;
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_UPDATE_URL;
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_DELETE_URL;
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_LIST_BY_URL;
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_ID;
+import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUSTOMERS;
 import static hu.unideb.fitbase.commons.path.customer.CustomerPath.PARAM_CUST_ID;
+import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_ID;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +41,7 @@ public class CustomerRestController {
 	private String tokenHeader;
 
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping(path = CUST_CREATE_URL)
+	@PostMapping(path = CUSTOMERS)
 	public ResponseEntity<?> postCustomer(@RequestBody CustomerRequest customerRequest, HttpServletRequest request)
 			throws ViolationException {
 		if (Objects.isNull(customerRequest)) {
@@ -64,7 +62,7 @@ public class CustomerRestController {
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@PutMapping(path = CUST_UPDATE_URL + CUST_ID)
+	@PutMapping(path = CUSTOMERS + CUST_ID)
 	public ResponseEntity<?> putCustomer(@RequestBody CustomerRequest customerRequest,
 			@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
 		if (Objects.isNull(customerRequest)) {
@@ -75,14 +73,12 @@ public class CustomerRestController {
 				.phoneNumber(customerRequest.getPhoneNumber()).birthdayDate(customerRequest.getBirthdayDate())
 				.gender(customerRequest.getGender()).build();
 
-		ResponseEntity<?> result = null;
 		customerService.updateCustomer(customer);
-		result = ResponseEntity.accepted().body(new CustomerSuccessUpdateResponse(customer));
-		return result;
+		return ResponseEntity.accepted().body(new CustomerSuccessUpdateResponse(customer));
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@DeleteMapping(path = CUST_DELETE_URL + CUST_ID)
+	@DeleteMapping(path = CUSTOMERS + CUST_ID)
 	public ResponseEntity<?> deleteCustomer(@RequestBody CustomerRequest customerRequest,
 			@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
 		Customer customer = customerService.findById(custId);
@@ -90,11 +86,17 @@ public class CustomerRestController {
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
 
-	// TODO
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping(path = CUST_LIST_BY_URL)
-	public ResponseEntity<?> getCustomers() {
-		return null;
+	@GetMapping(path = CUSTOMERS)
+	public ResponseEntity<?> getAllCustomers() throws ViolationException {
+		List<Customer> getCustomers = customerService.findAll();
+		return ResponseEntity.accepted().body(new CustomerListResponse(getCustomers));
+	}
 
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(path = CUSTOMERS + CUST_ID)
+	public ResponseEntity<?> showCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
+		Customer customer = customerService.findById(custId);
+		return ResponseEntity.accepted().body(new CustomerListResponse(customer));
 	}
 }
