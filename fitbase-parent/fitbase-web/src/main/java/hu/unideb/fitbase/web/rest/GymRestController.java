@@ -85,10 +85,9 @@ public class GymRestController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping(path = GYMS + GYM_ID)
-	public ResponseEntity<?> deleteGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
-			throws ViolationException {
+	public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
 		Gym gym = gymService.findById(gymId);
-		gymService.deleteGym(gym);
+		gymService.deleteGym(gymId);
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
 

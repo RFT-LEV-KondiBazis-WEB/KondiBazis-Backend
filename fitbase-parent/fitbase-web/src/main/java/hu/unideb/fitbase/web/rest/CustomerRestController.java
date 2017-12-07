@@ -79,8 +79,7 @@ public class CustomerRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping(path = CUSTOMERS + CUST_ID)
-	public ResponseEntity<?> deleteCustomer(@RequestBody CustomerRequest customerRequest,
-			@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
+	public ResponseEntity<?> deleteCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
 		Customer customer = customerService.findById(custId);
 		customerService.deleteCustomer(customer);
 		return ResponseEntity.accepted().body("Delete Success!");
