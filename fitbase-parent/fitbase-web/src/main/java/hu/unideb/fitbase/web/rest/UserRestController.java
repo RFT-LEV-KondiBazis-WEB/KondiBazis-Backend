@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.user.UserInfoPath.USER_INFO_URL;
+import static hu.unideb.fitbase.commons.path.user.UserPath.USERS;
 import static hu.unideb.fitbase.commons.path.usermodification.UserModificationPath.USER_MODIFICATION_URL;
 
 @RestController
@@ -32,8 +33,8 @@ public class UserRestController {
     private UserService userService;
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping(path = USER_MODIFICATION_URL)
-    public ResponseEntity<?> putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException {
+    @PutMapping(path = USERS)
+    public ResponseEntity putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException {
         if(Objects.isNull(userModificationRequest)){
             return ResponseEntity.badRequest().body("null");
         }

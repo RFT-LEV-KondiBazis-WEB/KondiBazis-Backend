@@ -81,7 +81,7 @@ public class PassRestController {
                 .gymList(pass.getGymList()).build();
 
         passService.update(updatedPass);
-        return ResponseEntity.ok().body("Módosítva");
+        return ResponseEntity.ok().body("Modification Success!");
     }
 
 
@@ -96,7 +96,7 @@ public class PassRestController {
     @GetMapping(value = PASSES + GYM_ID)
     public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         List<Pass> byGymIdAllPasses = passService.findByGymIdAllPasses(gymId);
-        return ResponseEntity.accepted().body(byGymIdAllPasses);
+        return ResponseEntity.accepted().body(new SuccesResponse(byGymIdAllPasses, null));
     }
 
     private Pass createPass(PassCreateRequest passCreateRequest, Gym gym) {

@@ -17,9 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static hu.unideb.fitbase.commons.path.gym.ManagerPath.GYM_MANAGER_CREATE_URL;
-import static hu.unideb.fitbase.commons.path.gym.ManagerPath.PARAM_GYM_ID;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_GYM_ID;
 import static hu.unideb.fitbase.commons.path.registration.RegistrationPath.REGISTARATION_URL;
+import static hu.unideb.fitbase.commons.path.user.UserPath.MANAGER;
 
 @RestController
 public class RegistrationRestController {
@@ -45,7 +45,7 @@ public class RegistrationRestController {
         return result;
     }
 
-    @RequestMapping(value = GYM_MANAGER_CREATE_URL , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = MANAGER , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         ResponseEntity result;
         try {
