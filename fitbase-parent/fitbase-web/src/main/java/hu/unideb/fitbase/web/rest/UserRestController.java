@@ -59,7 +59,7 @@ public class UserRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = USER_INFO_URL, method = RequestMethod.GET)
+    @GetMapping(value = USERS)
     public ResponseEntity<?> getAuthenticatedUser() {
         return ResponseEntity.accepted().body(new SuccesResponse(getUser(), new MetaResponse(null)));
     }
