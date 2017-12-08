@@ -23,6 +23,13 @@ public class PassDurationShouldBeUniqueRule implements Rule<Pass> {
                     .validationMessage("pass not add duration")
                     .build());
         }
+
+        if (price != null && request.getPassType().equals(PassType.TIME_LIMITED.name())) {
+            result = Arrays.asList(Violation.builder()
+                    .field("pass_duration")
+                    .validationMessage("ne adj meg duration")
+                    .build());
+        }
         return result;
     }
 }
