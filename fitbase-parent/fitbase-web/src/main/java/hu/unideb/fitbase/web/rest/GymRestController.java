@@ -81,20 +81,11 @@ public class GymRestController {
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
 
-	/*
-	 * @PreAuthorize("isAuthenticated()")
-	 *
-	 * @GetMapping(path = GYMS) public ResponseEntity<?> getUsersGyms() throws
-	 * ViolationException { List<Gym> gymByUser =
-	 * gymService.findUsersGym(getUser()); return ResponseEntity.accepted().body(new
-	 * LoginSuccesResponse(gymByUser, new MetaResponse(null))); }
-	 */
-
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = GYMS)
 	public ResponseEntity<?> getAllGyms() throws ViolationException {
-		List<Gym> getGyms = gymService.findAll();
-		return ResponseEntity.accepted().body(new GymListResponse(getGyms));
+		List<Gym> gymByUser = gymService.findUsersGym(getUser());
+		return ResponseEntity.accepted().body(new GymListResponse(gymByUser));
 	}
 
 	@PreAuthorize("isAuthenticated()")
