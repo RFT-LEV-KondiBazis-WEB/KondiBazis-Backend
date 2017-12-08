@@ -1,4 +1,4 @@
-package hu.unideb.fitbase.service.api.rules.pass.duration.type;
+package hu.unideb.fitbase.service.api.rules.pass.duration;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;

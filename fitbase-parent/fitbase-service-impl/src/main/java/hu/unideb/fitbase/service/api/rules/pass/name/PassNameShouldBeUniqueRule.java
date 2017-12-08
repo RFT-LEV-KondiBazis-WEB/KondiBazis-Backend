@@ -1,6 +1,5 @@
 package hu.unideb.fitbase.service.api.rules.pass.name;
 
-import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.service.PassService;
@@ -11,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static hu.unideb.fitbase.commons.constants.rules.pass.name.PassNameValidateMessages.FIELD;
+import static hu.unideb.fitbase.commons.constants.rules.pass.name.PassNameValidateMessages.PASS_NAME;
 
 @Component
 public class PassNameShouldBeUniqueRule implements Rule<Pass> {
@@ -26,8 +28,8 @@ public class PassNameShouldBeUniqueRule implements Rule<Pass> {
             Pass findedPass = passService.findPassByName(name);
             if (findedPass!=null) {
                 result = Arrays.asList(Violation.builder()
-                        .field("pass_name")
-                        .validationMessage("pass nameeee")
+                        .field(FIELD)
+                        .validationMessage(PASS_NAME)
                         .build());
             }
 

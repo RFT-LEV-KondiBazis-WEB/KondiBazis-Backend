@@ -9,16 +9,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static hu.unideb.fitbase.commons.constants.rules.pass.available.PassAvailableValidateMessages.FIELD;
+import static hu.unideb.fitbase.commons.constants.rules.pass.available.PassAvailableValidateMessages.PASS_AVAILABLE;
+
 @Component
-public class PassAvailableShouldBeUniqueRule implements Rule<Pass> {
+public class PassAvailableNotBeBlankRule implements Rule<Pass> {
 
     @Override
-    public List<Violation> validate(Pass request){
+    public List<Violation> validate(Pass request) {
         List<Violation> result = Collections.<Violation>emptyList();
         if (request.getAvailable() == null) {
             result = Arrays.asList(Violation.builder()
-                    .field("pass_avalibale")
-                    .validationMessage("pass not add available")
+                    .field(FIELD)
+                    .validationMessage(PASS_AVAILABLE)
                     .build());
         }
         return result;

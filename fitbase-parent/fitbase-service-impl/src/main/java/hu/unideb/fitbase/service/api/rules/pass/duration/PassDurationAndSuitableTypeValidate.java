@@ -10,26 +10,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static hu.unideb.fitbase.commons.constants.rules.pass.duration.PassDurationConstants.BLANK_RULE;
+import static hu.unideb.fitbase.commons.constants.rules.pass.duration.PassDurationConstants.FIELD;
+
 @Component
-public class PassDurationShouldBeUniqueRule implements Rule<Pass> {
+public class PassDurationAndSuitableTypeValidate implements Rule<Pass> {
 
     @Override
     public List<Violation> validate(Pass request){
         List<Violation> result = Collections.<Violation>emptyList();
-        Integer price = request.getDuration();
-        if (price == null && request.getPassType().equals(PassType.SUITABLE.name())) {
+        Integer duration = request.getDuration();
+        if (duration == null && request.getPassType().equals(PassType.SUITABLE.name())) {
             result = Arrays.asList(Violation.builder()
-                    .field("pass_duration")
-                    .validationMessage("pass not add duration")
-                    .build());
-        }
-
-        if (price != null && request.getPassType().equals(PassType.TIME_LIMITED.name())) {
-            result = Arrays.asList(Violation.builder()
-                    .field("pass_duration")
-                    .validationMessage("ne adj meg duration")
+                    .field(FIELD)
+                    .validationMessage(BLANK_RULE)
                     .build());
         }
         return result;
     }
+
 }

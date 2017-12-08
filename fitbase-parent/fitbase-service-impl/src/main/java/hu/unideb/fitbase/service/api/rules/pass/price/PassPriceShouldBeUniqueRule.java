@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static hu.unideb.fitbase.commons.constants.rules.pass.price.PassPriceValidateMessages.FIELD;
+import static hu.unideb.fitbase.commons.constants.rules.pass.price.PassPriceValidateMessages.PASS_PRICE;
+
 @Component
 public class PassPriceShouldBeUniqueRule implements Rule<Pass> {
 
@@ -18,8 +21,8 @@ public class PassPriceShouldBeUniqueRule implements Rule<Pass> {
         Integer price = request.getPrice();
         if (price == null) {
             result = Arrays.asList(Violation.builder()
-                    .field("pass_price")
-                    .validationMessage("pass not add price")
+                    .field(FIELD)
+                    .validationMessage(PASS_PRICE)
                     .build());
         }
         return result;
