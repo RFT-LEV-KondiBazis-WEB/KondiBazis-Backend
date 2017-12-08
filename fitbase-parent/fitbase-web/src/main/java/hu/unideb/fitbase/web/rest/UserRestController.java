@@ -49,7 +49,7 @@ public class UserRestController {
         ResponseEntity<?> result;
         try {
             userModificationService.modifyUser(userModification);
-            result = ResponseEntity.ok().body(new SuccesResponse(userService.findById(getUser().getId()), null));
+            result = ResponseEntity.accepted().body(new SuccesResponse(userService.findById(getUser().getId()), null));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());

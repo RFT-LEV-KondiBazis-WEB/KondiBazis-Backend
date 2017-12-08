@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.rules.pass.duration;
 
+import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -16,7 +17,7 @@ public class PassDurationShouldBeUniqueRule implements Rule<Pass> {
     public List<Violation> validate(Pass request){
         List<Violation> result = Collections.<Violation>emptyList();
         Integer price = request.getDuration();
-        if (price == null) {
+        if (price == null && request.getPassType().equals(PassType.SUITABLE.name())) {
             result = Arrays.asList(Violation.builder()
                     .field("pass_duration")
                     .validationMessage("pass not add duration")

@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.container.PathContainer.*;
-import static hu.unideb.fitbase.commons.path.pass.PassPath.*;
+import static hu.unideb.fitbase.commons.path.pass.PassPath.PASSES;
 
 @RestController
 public class PassRestController {
@@ -63,10 +64,23 @@ public class PassRestController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping(value = PASSES + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
-        Pass passById = passService.findPassById(passId);
+        if (Objects.isNull(passCreateRequest)) {
+            return ResponseEntity.badRequest().body("null");
+        }
 
-        //TODO
-        passService.update(passById);
+        Pass pass = passService.findPassById(passId);
+
+        Pass updatedPass = Pass.builder().id(passId)
+                .name(passCreateRequest.getName())
+                .price(passCreateRequest.getPrice())
+                .passType(passCreateRequest.getPassType())
+                .duration(passCreateRequest.getDuration())
+                .timeDuration(passCreateRequest.getTimeDuration())
+                .passTimeDurationType(passCreateRequest.getPassTimeDurationType())
+                .available(passCreateRequest.getAvailable())
+                .gymList(pass.getGymList()).build();
+
+        passService.update(updatedPass);
         return ResponseEntity.ok().body("Módosítva");
     }
 
@@ -75,7 +89,7 @@ public class PassRestController {
     @DeleteMapping(value = PASSES + PASS_ID)
     public ResponseEntity deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
         passService.deletePass(passId);
-        return ResponseEntity.accepted().body("Megy");
+        return ResponseEntity.accepted().body("Delete Success!");
     }
 
     @PreAuthorize("isAuthenticated()")

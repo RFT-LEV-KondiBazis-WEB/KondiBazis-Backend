@@ -36,7 +36,7 @@ public class GymRestController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = GYMS)
-	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest, HttpServletRequest request)
+	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest)
 			throws ViolationException {
 		if (Objects.isNull(gymRequest)) {
 			return ResponseEntity.badRequest().body("null");
