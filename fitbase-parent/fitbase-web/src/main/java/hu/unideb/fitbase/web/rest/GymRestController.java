@@ -1,12 +1,11 @@
 package hu.unideb.fitbase.web.rest;
 
+
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.GymRequest;
 import hu.unideb.fitbase.commons.pojo.response.GymListResponse;
 import hu.unideb.fitbase.commons.pojo.response.GymSuccesCreateResponse;
 import hu.unideb.fitbase.commons.pojo.response.GymSuccessUpdateResponse;
-import hu.unideb.fitbase.commons.pojo.response.LoginSuccesResponse;
-import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.service.api.domain.FitBaseUser;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
@@ -18,22 +17,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static hu.unideb.fitbase.commons.path.container.PathContainer.GYM_ID;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_GYM_ID;
 import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.PARAM_GYM_ID;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYM_ID;
 
 @RestController
 public class GymRestController {
@@ -41,12 +34,9 @@ public class GymRestController {
 	@Autowired
 	private GymService gymService;
 
-	@Value("${jwt.header}")
-	private String tokenHeader;
-
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = GYMS)
-	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest, HttpServletRequest request)
+	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest)
 			throws ViolationException {
 		if (Objects.isNull(gymRequest)) {
 			return ResponseEntity.badRequest().body("null");
@@ -91,20 +81,11 @@ public class GymRestController {
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
 
-	/*
-	 * @PreAuthorize("isAuthenticated()")
-	 * 
-	 * @GetMapping(path = GYMS) public ResponseEntity<?> getUsersGyms() throws
-	 * ViolationException { List<Gym> gymByUser =
-	 * gymService.findUsersGym(getUser()); return ResponseEntity.accepted().body(new
-	 * LoginSuccesResponse(gymByUser, new MetaResponse(null))); }
-	 */
-	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = GYMS)
 	public ResponseEntity<?> getAllGyms() throws ViolationException {
-		List<Gym> getGyms = gymService.findAll();
-		return ResponseEntity.accepted().body(new GymListResponse(getGyms));
+		List<Gym> gymByUser = gymService.findUsersGym(getUser());
+		return ResponseEntity.accepted().body(new GymListResponse(gymByUser));
 	}
 
 	@PreAuthorize("isAuthenticated()")

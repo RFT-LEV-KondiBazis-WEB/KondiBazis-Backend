@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.persistence.entity;
 
+import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import static hu.unideb.fitbase.commons.pojo.table.ColumnName.PassColumName.*;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.ReferencedColumName.REFERENCED_COLUM_NAME_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.UserColumName.COLUMN_NAME_USER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.TableName.*;
+import static javax.persistence.EnumType.STRING;
 
 /**
  * PassEntity which represents the pass.
@@ -32,16 +34,16 @@ public class PassEntity extends BaseEntity<Long> {
     private String name;
 
     /**
-     * Pass is limited.
+     * The price of the pass.
      */
-    @Column(name = COLUMN_NAME_IS_LIMITED)
-    private Boolean isLimited;
+    @Column(name = COLUMN_NAME_PRICE)
+    private Integer price;
 
     /**
-     * The limit of the pass.
+     * The type of the pass.
      */
-    @Column(name = COLUMN_NAME_LIMIT)
-    private Integer limitNumber;
+    @Column(name = COLUMN_NAME_PASS_TYPE)
+    private String passType;
 
     /**
      * The duration of the pass.
@@ -50,17 +52,19 @@ public class PassEntity extends BaseEntity<Long> {
     private Integer duration;
 
     /**
-     * The price of the pass.
+     * The time duration of the pass.
      */
-    @Column(name = COLUMN_NAME_PRICE)
-    private Integer price;
+    @Column(name = COLUMN_NAME_TIME_DURATION)
+    private Integer timeDuration;
+
+    @Column(name = "pass_duration_type")
+    private String passTimeDurationTypeEntity;
 
     /**
      * Available of the pass.
      */
     @Column(name = COLUMN_NAME_AVAILABLE)
     private Boolean available;
-
 
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = TABLE_NAME_CUSTOMER_HAS_PASS,
@@ -78,14 +82,15 @@ public class PassEntity extends BaseEntity<Long> {
      * Builder pattern for creating pass.
      */
     @Builder
-    public PassEntity(Long id, String name, Boolean isLimited, Integer limitNumber, Integer duration, Integer price, Boolean available, List<GymEntity> gymEntity) {
-        super(id);
-        this.name = name;
-        this.isLimited = isLimited;
-        this.limitNumber = limitNumber;
-        this.duration = duration;
-        this.price = price;
-        this.available = available;
-        this.gymEntities = gymEntity;
+    public PassEntity(Long id,String name, Integer price, String passType, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available, List<GymEntity> gymEntities){
+         super(id);
+         this.name = name;
+         this.price = price;
+         this.passType = passType;
+         this.duration = duration;
+         this.timeDuration = timeDuration;
+         this.passTimeDurationTypeEntity = passTimeDurationType;
+         this.available = available;
+         this.gymEntities = gymEntities;
     }
 }
