@@ -17,7 +17,7 @@ public interface PassService {
 
     List<Pass> findByGymIdAllPasses(Long gym);
 
-    Pass update(Pass pass);
+    Pass update(Pass pass)throws ViolationException;
 
     Pass findPassByName(String name);
 

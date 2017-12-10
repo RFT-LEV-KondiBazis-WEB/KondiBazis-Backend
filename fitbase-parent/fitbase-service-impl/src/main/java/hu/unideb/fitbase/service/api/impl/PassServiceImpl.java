@@ -58,7 +58,8 @@ public class PassServiceImpl implements PassService {
     }
 
     @Override
-    public Pass update(Pass pass) {
+    public Pass update(Pass pass) throws ViolationException {
+        passCreateRequestAbstractValidator.validate(pass);
         log.trace(">> save: [pass:{}]", pass);
         Pass convert = conversionService.convert(passRepository.save(conversionService.convert(pass, PassEntity.class)), Pass.class);
         log.trace("<< save: [pass:{}]", pass);
