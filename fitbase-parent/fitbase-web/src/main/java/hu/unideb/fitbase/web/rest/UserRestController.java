@@ -33,7 +33,7 @@ public class UserRestController {
     private UserService userService;
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping(path = USERS)
+    @PutMapping(path = USER_MODIFICATION_URL)
     public ResponseEntity putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException {
         if(Objects.isNull(userModificationRequest)){
             return ResponseEntity.badRequest().body("null");
@@ -59,7 +59,7 @@ public class UserRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping(value = USERS)
+    @GetMapping(value = USER_INFO_URL)
     public ResponseEntity<?> getAuthenticatedUser() {
         return ResponseEntity.accepted().body(new SuccesResponse(getUser(), new MetaResponse(null)));
     }
