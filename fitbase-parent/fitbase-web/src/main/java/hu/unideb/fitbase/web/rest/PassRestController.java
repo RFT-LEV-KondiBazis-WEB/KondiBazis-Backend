@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.container.PathContainer.*;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 import static hu.unideb.fitbase.commons.path.pass.PassPath.PASSES;
 
 @RestController
@@ -32,7 +33,7 @@ public class PassRestController {
     private GymService gymService;
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = PASSES + GYM_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = GYMS + GYM_ID + PASSES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
 
 
@@ -93,7 +94,7 @@ public class PassRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping(value = PASSES + GYM_ID)
+    @GetMapping(value = GYMS + GYM_ID + PASSES)
     public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         List<Pass> byGymIdAllPasses = passService.findByGymIdAllPasses(gymId);
         return ResponseEntity.accepted().body(new SuccesResponse(byGymIdAllPasses, null));

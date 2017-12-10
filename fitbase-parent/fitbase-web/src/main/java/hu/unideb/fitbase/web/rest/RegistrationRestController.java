@@ -22,6 +22,7 @@ import static hu.unideb.fitbase.commons.path.container.PathContainer.GYM_ID;
 import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_GYM_ID;
 import static hu.unideb.fitbase.commons.path.registration.RegistrationPath.REGISTARATION_URL;
 import static hu.unideb.fitbase.commons.path.user.UserPath.MANAGER;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 
 @RestController
 public class RegistrationRestController {
@@ -48,7 +49,7 @@ public class RegistrationRestController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = MANAGER + GYM_ID, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = GYMS + GYM_ID + MANAGER, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         ResponseEntity result;
         try {
