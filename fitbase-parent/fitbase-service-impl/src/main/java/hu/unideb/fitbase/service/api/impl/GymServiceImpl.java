@@ -81,12 +81,25 @@ public class GymServiceImpl implements GymService {
 	}
     
     @Override
-    public Gym findByName(String name) {
+    public Gym findByName(String name) throws BaseException {
         log.trace(">> findByName: [name:{}]", name);
-        GymEntity gymEntity = gymRepository.findByName(name);
-        Gym convert = conversionService.convert(gymEntity, Gym.class);
-        log.trace("<< findByName: [name:{}]", convert);
-        return convert;
+        if (Objects.isNull(name)) {
+            throw new ServiceException("name is NULL");
+        }
+        GymEntity gymEntity;
+        try {
+            gymEntity = gymRepository.findByName(name);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding gym by name:%s.", name);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(gymEntity)) {
+            String errorMsg = String.format("Gym with name:%s not found.", name);
+            throw new EntityNotFoundException(errorMsg);
+        }
+        Gym result = conversionService.convert(gymEntity, Gym.class);
+        log.trace("<< findByName: [name:{}]", result);
+        return result;
     }
 
     @Override
@@ -116,11 +129,5 @@ public class GymServiceImpl implements GymService {
         List<GymEntity> byUsers = gymRepository.findByUsersId(user.getId());
         return gymEntityListToGymListConverter.convert(byUsers);
     }
-
-	@Override
-	public List<Gym> findAll() {
-		List<GymEntity> findallGyms = gymRepository.findAll();
-		return gymEntityListToGymListConverter.convert(findallGyms);
-	}
 
 }

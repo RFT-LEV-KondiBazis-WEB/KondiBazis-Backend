@@ -102,11 +102,24 @@ public class PassServiceImpl implements PassService {
     }
 
     @Override
-    public Pass findPassByName(String name) {
-        log.trace(">> findByName: [name:{}]", name);
-        PassEntity passEntity = passRepository.findByName(name);
-        Pass convert = conversionService.convert(passEntity, Pass.class);
-        log.trace("<< findByName: [name:{}]", convert);
-        return convert;
+    public Pass findPassByName(String name) throws BaseException{
+        log.trace(">> findPassByName: [name:{}]", name);
+        if (Objects.isNull(name)) {
+            throw new ServiceException("name is NULL");
+        }
+        PassEntity passEntity;
+        try {
+            passEntity = passRepository.findByName(name);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding pass by name:%s.", name);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(passEntity)) {
+            String errorMsg = String.format("Pass with name:%s not found.", name);
+            throw new EntityNotFoundException(errorMsg);
+        }
+        Pass result = conversionService.convert(passEntity, Pass.class);
+        log.trace("<< findPassByName: [name:{}]", result);
+        return result;
     }
 }

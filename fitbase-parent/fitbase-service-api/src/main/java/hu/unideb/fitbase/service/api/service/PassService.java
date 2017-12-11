@@ -20,6 +20,6 @@ public interface PassService {
 
     Pass update(Pass pass)throws ViolationException;
 
-    Pass findPassByName(String name);
+    Pass findPassByName(String name) throws BaseException;
 
 }

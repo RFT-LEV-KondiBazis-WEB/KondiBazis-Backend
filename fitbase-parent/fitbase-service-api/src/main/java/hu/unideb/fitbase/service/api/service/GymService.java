@@ -16,12 +16,10 @@ public interface GymService {
 
     void deleteGym(Long id) throws BaseException;
 
-    Gym findByName(String name);
+    Gym findByName(String name) throws BaseException;
 
     Gym findById(Long id) throws BaseException;
 
     List<Gym> findUsersGym(User user);
-
-    List<Gym> findAll();
 
 }
