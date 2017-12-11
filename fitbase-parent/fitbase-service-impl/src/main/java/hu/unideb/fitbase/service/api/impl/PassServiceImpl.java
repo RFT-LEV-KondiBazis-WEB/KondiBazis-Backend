@@ -34,7 +34,6 @@ public class PassServiceImpl implements PassService {
     @Autowired
     private AbstractValidator<Pass> passCreateRequestAbstractValidator;
 
-
     @Override
     public Pass addPass(Pass pass) throws ViolationException {
         log.trace(">> save: [pass:{}]", pass);
@@ -46,7 +45,7 @@ public class PassServiceImpl implements PassService {
 
     @Override
     public Pass findPassById(Long id) throws BaseException {
-        log.trace(">> findById: [id:{}]", id);
+        log.trace(">> findPassById: [id:{}]", id);
         if (Objects.isNull(id)) {
             throw new ServiceException("id is NULL");
         }
@@ -62,12 +61,13 @@ public class PassServiceImpl implements PassService {
             throw new EntityNotFoundException(errorMsg);
         }
         Pass result = conversionService.convert(passEntity, Pass.class);
-        log.trace("<< findById: [id:{}]", id);
+        log.trace("<< findPassById: [id:{}]", id);
         return result;
     }
 
     @Override
     public void deletePass(Long id) throws BaseException{
+        log.trace(">> deletePass: [id:{}]", id);
         if (Objects.isNull(id)) {
             throw new ServiceException("id is NULL");
         }
@@ -82,6 +82,7 @@ public class PassServiceImpl implements PassService {
             String errorMsg = String.format("Pass with id:%d not found.", id);
             throw new EntityNotFoundException(errorMsg);
         } else {
+            log.trace("<< deletedPass: [id:{}]", id);
             passRepository.delete(id);
         }
     }
@@ -94,10 +95,10 @@ public class PassServiceImpl implements PassService {
 
     @Override
     public Pass update(Pass pass) throws ViolationException {
+        log.trace(">> update: [pass:{}]", pass);
         passCreateRequestAbstractValidator.validate(pass);
-        log.trace(">> save: [pass:{}]", pass);
         Pass convert = conversionService.convert(passRepository.save(conversionService.convert(pass, PassEntity.class)), Pass.class);
-        log.trace("<< save: [pass:{}]", pass);
+        log.trace("<< update: [pass:{}]", pass);
         return convert;
     }
 
