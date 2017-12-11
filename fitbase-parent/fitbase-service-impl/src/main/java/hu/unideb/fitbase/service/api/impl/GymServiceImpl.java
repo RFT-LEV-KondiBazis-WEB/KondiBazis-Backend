@@ -41,7 +41,7 @@ public class GymServiceImpl implements GymService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Gym addGym(Gym gym) throws ViolationException, ServiceException {
+    public Gym addGym(Gym gym) throws ViolationException {
         gymValidator.validate(gym);
         log.trace(">> save: [gym:{}]", gym);
         Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
@@ -111,6 +111,7 @@ public class GymServiceImpl implements GymService {
         return result;
     }
 
+    @Override
     public List<Gym> findUsersGym(User user) {
         List<GymEntity> byUsers = gymRepository.findByUsersId(user.getId());
         return gymEntityListToGymListConverter.convert(byUsers);
