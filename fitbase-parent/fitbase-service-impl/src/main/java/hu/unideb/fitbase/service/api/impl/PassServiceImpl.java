@@ -1,10 +1,13 @@
 package hu.unideb.fitbase.service.api.impl;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.PassEntity;
 import hu.unideb.fitbase.persistence.repository.PassRepository;
 import hu.unideb.fitbase.service.api.converter.PassEntityListToPassListConverter;
 import hu.unideb.fitbase.service.api.domain.Pass;
+import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
+import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.PassService;
 import hu.unideb.fitbase.service.api.validator.AbstractValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -41,9 +45,25 @@ public class PassServiceImpl implements PassService {
     }
 
     @Override
-    public Pass findPassById(Long id) {
-        PassEntity byId = passRepository.findById(id);
-        return conversionService.convert(byId, Pass.class);
+    public Pass findPassById(Long id) throws BaseException {
+        log.trace(">> findById: [id:{}]", id);
+        if (Objects.isNull(id)) {
+            throw new ServiceException("id is NULL");
+        }
+        PassEntity passEntity;
+        try {
+            passEntity = passRepository.findById(id);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding pass by id:%d.", id);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(passEntity)) {
+            String errorMsg = String.format("Pass with id:%d not found.", id);
+            throw new EntityNotFoundException(errorMsg);
+        }
+        Pass result = conversionService.convert(passEntity, Pass.class);
+        log.trace("<< findById: [id:{}]", id);
+        return result;
     }
 
     @Override
