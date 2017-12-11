@@ -51,7 +51,7 @@ public class RegistrationRestController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = GYMS + GYM_ID + MANAGER, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
+    public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
         ResponseEntity result;
         try {
             User user = registrationService.addManager(request);
