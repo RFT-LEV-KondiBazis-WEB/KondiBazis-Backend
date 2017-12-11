@@ -14,7 +14,7 @@ public interface PassService {
 
     Pass findPassById(Long id) throws BaseException;
 
-    void deletePass(Long id);
+    void deletePass(Long id) throws BaseException;
 
     List<Pass> findByGymIdAllPasses(Long gym);
 

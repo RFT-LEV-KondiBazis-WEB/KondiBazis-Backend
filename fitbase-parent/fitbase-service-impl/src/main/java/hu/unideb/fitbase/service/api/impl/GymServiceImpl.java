@@ -1,11 +1,14 @@
 package hu.unideb.fitbase.service.api.impl;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
+import hu.unideb.fitbase.persistence.entity.PassEntity;
 import hu.unideb.fitbase.persistence.repository.GymRepository;
 import hu.unideb.fitbase.service.api.converter.GymEntityListToGymListConverter;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.User;
+import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.GymService;
 import hu.unideb.fitbase.service.api.validator.AbstractValidator;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -57,10 +61,23 @@ public class GymServiceImpl implements GymService {
     
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void deleteGym(Long id) throws ViolationException {
-		log.trace(">> delete: [gym:{}]", id);
-		gymRepository.delete(id);
-		log.trace("<< delete: [gym:{}]", id);
+	public void deleteGym(Long id) throws BaseException{
+        if (Objects.isNull(id)) {
+            throw new ServiceException("id is NULL");
+        }
+        GymEntity gymEntity;
+        try {
+            gymEntity = gymRepository.findById(id);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding gym by id:%d.", id);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(gymEntity)) {
+            String errorMsg = String.format("Gym with id:%d not found.", id);
+            throw new EntityNotFoundException(errorMsg);
+        } else {
+            gymRepository.delete(id);
+        }
 	}
     
     @Override
@@ -73,12 +90,25 @@ public class GymServiceImpl implements GymService {
     }
 
     @Override
-    public Gym findById(Long id) {
+    public Gym findById(Long id) throws BaseException {
         log.trace(">> findById: [id:{}]", id);
-        GymEntity gymEntity = gymRepository.findById(id);
-        Gym convert = conversionService.convert(gymEntity, Gym.class);
-        log.trace("<< findById: [gym:{}]", convert);
-        return convert;
+        if (Objects.isNull(id)) {
+            throw new ServiceException("id is NULL");
+        }
+        GymEntity gymEntity;
+        try {
+            gymEntity = gymRepository.findById(id);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding gym by id:%d.", id);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(gymEntity)) {
+            String errorMsg = String.format("Gym with id:%d not found.", id);
+            throw new EntityNotFoundException(errorMsg);
+        }
+        Gym result = conversionService.convert(gymEntity, Gym.class);
+        log.trace("<< findById: [id:{}]", id);
+        return result;
     }
 
     public List<Gym> findUsersGym(User user) {

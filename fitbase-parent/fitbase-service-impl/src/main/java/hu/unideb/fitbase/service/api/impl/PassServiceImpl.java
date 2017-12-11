@@ -67,8 +67,23 @@ public class PassServiceImpl implements PassService {
     }
 
     @Override
-    public void deletePass(Long id) {
-        passRepository.delete(id);
+    public void deletePass(Long id) throws BaseException{
+        if (Objects.isNull(id)) {
+            throw new ServiceException("id is NULL");
+        }
+        PassEntity passEntity;
+        try {
+            passEntity = passRepository.findById(id);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding pass by id:%d.", id);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(passEntity)) {
+            String errorMsg = String.format("Pass with id:%d not found.", id);
+            throw new EntityNotFoundException(errorMsg);
+        } else {
+            passRepository.delete(id);
+        }
     }
 
     @Override
