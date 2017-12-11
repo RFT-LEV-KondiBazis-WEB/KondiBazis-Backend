@@ -12,14 +12,14 @@ public interface PassService {
 
     Pass addPass(Pass pass) throws ViolationException, ServiceException;
 
-    Pass findPassById(Long id) throws BaseException;
+    Pass findPassById(Long id) ;
 
-    void deletePass(Long id) throws BaseException;
+    void deletePass(Long id) ;
 
     List<Pass> findByGymIdAllPasses(Long gym);
 
     Pass update(Pass pass)throws ViolationException;
 
-    Pass findPassByName(String name) throws BaseException;
+    Pass findPassByName(String name);
 
 }

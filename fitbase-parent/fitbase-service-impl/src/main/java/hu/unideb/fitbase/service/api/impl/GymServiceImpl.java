@@ -61,64 +61,64 @@ public class GymServiceImpl implements GymService {
     
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void deleteGym(Long id) throws BaseException{
-        if (Objects.isNull(id)) {
-            throw new ServiceException("id is NULL");
-        }
-        GymEntity gymEntity;
-        try {
-            gymEntity = gymRepository.findById(id);
-        } catch (Exception e) {
-            String errorMsg = String.format("Error on finding gym by id:%d.", id);
-            throw new ServiceException(errorMsg, e);
-        }
-        if (Objects.isNull(gymEntity)) {
-            String errorMsg = String.format("Gym with id:%d not found.", id);
-            throw new EntityNotFoundException(errorMsg);
-        } else {
+	public void deleteGym(Long id){
+//        if (Objects.isNull(id)) {
+//            throw new ServiceException("id is NULL");
+//        }
+//        GymEntity gymEntity;
+//        try {
+//            gymEntity = gymRepository.findById(id);
+//        } catch (Exception e) {
+//            String errorMsg = String.format("Error on finding gym by id:%d.", id);
+//            throw new ServiceException(errorMsg, e);
+//        }
+//        if (Objects.isNull(gymEntity)) {
+//            String errorMsg = String.format("Gym with id:%d not found.", id);
+//            throw new EntityNotFoundException(errorMsg);
+//        } else {
             gymRepository.delete(id);
-        }
+//        }
 	}
     
     @Override
-    public Gym findByName(String name) throws BaseException {
-        log.trace(">> findByName: [name:{}]", name);
-        if (Objects.isNull(name)) {
-            throw new ServiceException("name is NULL");
-        }
+    public Gym findByName(String name) {
+//        log.trace(">> findByName: [name:{}]", name);
+//        if (Objects.isNull(name)) {
+//            throw new ServiceException("name is NULL");
+//        }
         GymEntity gymEntity;
-        try {
+//        try {
             gymEntity = gymRepository.findByName(name);
-        } catch (Exception e) {
-            String errorMsg = String.format("Error on finding gym by name:%s.", name);
-            throw new ServiceException(errorMsg, e);
-        }
-        if (Objects.isNull(gymEntity)) {
-            String errorMsg = String.format("Gym with name:%s not found.", name);
-            throw new EntityNotFoundException(errorMsg);
-        }
+//        } catch (Exception e) {
+//            String errorMsg = String.format("Error on finding gym by name:%s.", name);
+//            throw new ServiceException(errorMsg, e);
+//        }
+//        if (Objects.isNull(gymEntity)) {
+//            String errorMsg = String.format("Gym with name:%s not found.", name);
+//            throw new EntityNotFoundException(errorMsg);
+//        }
         Gym result = conversionService.convert(gymEntity, Gym.class);
         log.trace("<< findByName: [name:{}]", result);
         return result;
     }
 
     @Override
-    public Gym findById(Long id) throws BaseException {
-        log.trace(">> findById: [id:{}]", id);
-        if (Objects.isNull(id)) {
-            throw new ServiceException("id is NULL");
-        }
+    public Gym findById(Long id) {
+//        log.trace(">> findById: [id:{}]", id);
+//        if (Objects.isNull(id)) {
+//            throw new ServiceException("id is NULL");
+//        }
         GymEntity gymEntity;
-        try {
+//        try {
             gymEntity = gymRepository.findById(id);
-        } catch (Exception e) {
-            String errorMsg = String.format("Error on finding gym by id:%d.", id);
-            throw new ServiceException(errorMsg, e);
-        }
-        if (Objects.isNull(gymEntity)) {
-            String errorMsg = String.format("Gym with id:%d not found.", id);
-            throw new EntityNotFoundException(errorMsg);
-        }
+//        } catch (Exception e) {
+//            String errorMsg = String.format("Error on finding gym by id:%d.", id);
+//            throw new ServiceException(errorMsg, e);
+//        }
+//        if (Objects.isNull(gymEntity)) {
+//            String errorMsg = String.format("Gym with id:%d not found.", id);
+//            throw new EntityNotFoundException(errorMsg);
+//        }
         Gym result = conversionService.convert(gymEntity, Gym.class);
         log.trace("<< findById: [id:{}]", id);
         return result;

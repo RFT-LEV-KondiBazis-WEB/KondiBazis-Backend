@@ -14,11 +14,11 @@ public interface GymService {
 
     Gym updateGym(Gym gym) throws ViolationException;
 
-    void deleteGym(Long id) throws BaseException;
+    void deleteGym(Long id) ;
 
-    Gym findByName(String name) throws BaseException;
+    Gym findByName(String name);
 
-    Gym findById(Long id) throws BaseException;
+    Gym findById(Long id) ;
 
     List<Gym> findUsersGym(User user);
 

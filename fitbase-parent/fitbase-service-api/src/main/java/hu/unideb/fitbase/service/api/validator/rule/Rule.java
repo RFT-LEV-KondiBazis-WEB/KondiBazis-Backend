@@ -1,6 +1,5 @@
 package hu.unideb.fitbase.service.api.validator.rule;
 
-import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 
