@@ -92,4 +92,10 @@ public class GymServiceImpl implements GymService {
 		return gymEntityListToGymListConverter.convert(findallGyms);
 	}
 
+	@Override
+	public Long countGyms() {
+		Long countAllGym = gymRepository.countGyms();
+		return countAllGym;
+	}
+
 }

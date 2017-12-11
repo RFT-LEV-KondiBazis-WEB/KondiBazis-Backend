@@ -88,7 +88,7 @@ public class GymRestController {
 	public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
 		Gym gym = gymService.findById(gymId);
 		gymService.deleteGym(gymId);
-		return ResponseEntity.accepted().body("Delete Success!");
+		return ResponseEntity.accepted().body(null);
 	}
 
 	/*

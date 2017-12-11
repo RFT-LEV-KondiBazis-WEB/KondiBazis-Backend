@@ -51,4 +51,10 @@ public class PassServiceImpl implements PassService {
         List<PassEntity> byGym = passRepository.findByGymEntitiesId(gym);
         return passEntityListToPassListConverter.convert(byGym);
     }
+
+	@Override
+	public Long countPasses() {
+		Long countAllPass = passRepository.countPasses();
+		return countAllPass;
+	}
 }

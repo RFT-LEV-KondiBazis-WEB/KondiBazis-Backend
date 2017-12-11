@@ -82,7 +82,7 @@ public class CustomerRestController {
 	public ResponseEntity<?> deleteCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
 		Customer customer = customerService.findById(custId);
 		customerService.deleteCustomer(customer);
-		return ResponseEntity.accepted().body("Delete Success!");
+		return ResponseEntity.accepted().body(null);
 	}
 
 	@PreAuthorize("isAuthenticated()")

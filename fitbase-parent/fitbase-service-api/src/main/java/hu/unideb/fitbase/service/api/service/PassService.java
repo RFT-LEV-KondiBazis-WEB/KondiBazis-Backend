@@ -14,4 +14,6 @@ public interface PassService {
     void deletePass(Long id);
 
     List<Pass> findByGymIdAllPasses(Long gym);
+    
+    Long countPasses();
 }
