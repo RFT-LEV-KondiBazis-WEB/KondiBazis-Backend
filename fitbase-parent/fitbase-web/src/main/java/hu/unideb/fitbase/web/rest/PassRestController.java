@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.response.SuccesResponse;
@@ -34,7 +35,7 @@ public class PassRestController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping(value = GYMS + GYM_ID + PASSES, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+    public ResponseEntity createPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
 
 
         Gym gym = gymService.findById(gymId);
@@ -53,18 +54,16 @@ public class PassRestController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping(value = PASSES + PASS_ID)
-    public ResponseEntity getPass(@PathVariable(PARAM_PASS_ID) Long passId) {
-
+    @GetMapping(value = GYMS + GYM_ID + PASSES + PASS_ID)
+    public ResponseEntity getPass(@PathVariable(PARAM_PASS_ID) Long passId) throws BaseException {
         Pass getPass = passService.findPassById(passId);
-
         return ResponseEntity.accepted().body(new SuccesResponse(getPass, null));
 
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping(value = PASSES + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
+    @PutMapping(value = GYMS + GYM_ID + PASSES + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws BaseException {
         if (Objects.isNull(passCreateRequest)) {
             return ResponseEntity.badRequest().body("null");
         }
@@ -81,14 +80,14 @@ public class PassRestController {
                 .available(passCreateRequest.getAvailable())
                 .gymList(pass.getGymList()).build();
 
-        passService.update(updatedPass);
-        return ResponseEntity.ok().body("Modification Success!");
+        Pass updated = passService.update(updatedPass);
+        return ResponseEntity.ok().body(new SuccesResponse(updated, null));
     }
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = PASSES + PASS_ID)
-    public ResponseEntity deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws ViolationException {
+    @DeleteMapping(value = GYMS + GYM_ID + PASSES + PASS_ID)
+    public ResponseEntity deletePass(@PathVariable(PARAM_PASS_ID) Long passId) throws BaseException {
         passService.deletePass(passId);
         return ResponseEntity.accepted().body("Delete Success!");
     }

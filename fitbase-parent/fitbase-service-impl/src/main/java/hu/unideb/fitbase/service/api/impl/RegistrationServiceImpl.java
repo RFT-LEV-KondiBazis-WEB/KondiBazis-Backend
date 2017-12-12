@@ -30,6 +30,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private AbstractValidator<RegistrationRequest> registrationRequestValidator;
 
+    @Autowired
+    private AbstractValidator<ManagerRegistrationRequest> managerRegistrationRequestAbstractValidator;
+
     @Override
     public User register(RegistrationRequest registrationRequest) throws ViolationException, ServiceException {
         Objects.requireNonNull(registrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
@@ -45,7 +48,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public User addManager(ManagerRegistrationRequest managerRegistrationRequest) throws ViolationException, ServiceException {
         Objects.requireNonNull(managerRegistrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
         log.info("Registering new manager with username:{}", managerRegistrationRequest.getUsername());
-//        registrationRequestValidator.validate(managerRegistrationRequest);
+        managerRegistrationRequestAbstractValidator.validate(managerRegistrationRequest);
         User convertedUser = conversionService.convert(managerRegistrationRequest, User.class);
         User savedUser = userService.save(convertedUser);
         log.info("Registration successfully finished.");

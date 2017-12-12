@@ -21,7 +21,9 @@ import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.container.PathContainer.CUST_ID;
 import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_CUST_ID;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.PASS_ID;
 import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUSTOMERS;
+import static hu.unideb.fitbase.commons.path.pass.PassPath.PASSES;
 
 @RestController
 public class CustomerRestController {
@@ -86,5 +88,12 @@ public class CustomerRestController {
 	public ResponseEntity<?> showCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
 		Customer customer = customerService.findById(custId);
 		return ResponseEntity.accepted().body(new CustomerListResponse(customer));
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(path = CUSTOMERS + CUST_ID + PASSES + PASS_ID)
+	public ResponseEntity addPassToCustomer(){
+
+		return ResponseEntity.accepted().body("siker");
 	}
 }

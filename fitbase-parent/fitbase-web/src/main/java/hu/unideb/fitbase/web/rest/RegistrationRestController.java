@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;

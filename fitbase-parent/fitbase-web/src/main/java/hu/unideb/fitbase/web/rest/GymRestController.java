@@ -1,6 +1,7 @@
 package hu.unideb.fitbase.web.rest;
 
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.GymRequest;
 import hu.unideb.fitbase.commons.pojo.response.GymListResponse;
@@ -75,8 +76,7 @@ public class GymRestController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping(path = GYMS + GYM_ID)
-	public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
-		Gym gym = gymService.findById(gymId);
+	public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
 		gymService.deleteGym(gymId);
 		return ResponseEntity.accepted().body("Delete Success!");
 	}
@@ -90,7 +90,7 @@ public class GymRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = GYMS + GYM_ID)
-	public ResponseEntity<?> showGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+	public ResponseEntity showGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
 		Gym gym = gymService.findById(gymId);
 		return ResponseEntity.accepted().body(new GymListResponse(gym));
 	}
