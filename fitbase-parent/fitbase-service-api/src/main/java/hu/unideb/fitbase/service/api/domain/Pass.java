@@ -4,23 +4,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Builder
-public class Pass {
+public class Pass implements Serializable {
 
     private Long id;
 
     private String name;
 
-    private Boolean isLimited;
+    private Integer price;
 
-    private Integer limitNumber;
+    private String passType;
 
     private Integer duration;
 
-    private Integer price;
+    private Integer timeDuration;
+
+    private String passTimeDurationType;
 
     private Boolean available;
 

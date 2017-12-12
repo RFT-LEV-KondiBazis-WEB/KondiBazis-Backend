@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.service;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.Pass;
@@ -9,11 +10,17 @@ import java.util.List;
 
 public interface PassService {
 
-    Pass addPass(Pass pass)throws ViolationException, ServiceException;
+    Pass addPass(Pass pass) throws ViolationException, ServiceException;
 
-    void deletePass(Long id);
+    Pass findPassById(Long id) ;
+
+    void deletePass(Long id) ;
 
     List<Pass> findByGymIdAllPasses(Long gym);
-    
+
     Long countPasses();
+
+    Pass update(Pass pass)throws ViolationException;
+
+    Pass findPassByName(String name);
 }

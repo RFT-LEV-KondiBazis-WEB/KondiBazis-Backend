@@ -13,7 +13,6 @@ import java.util.List;
 import static hu.unideb.fitbase.commons.constants.rules.registration.email.EmailRuleConstants.BLANK_RULE;
 import static hu.unideb.fitbase.commons.constants.rules.registration.email.EmailRuleConstants.FIELD;
 
-
 /**
  * Validates email should not be blank.
  */

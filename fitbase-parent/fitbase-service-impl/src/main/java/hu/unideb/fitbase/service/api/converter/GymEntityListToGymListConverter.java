@@ -16,7 +16,7 @@ public class GymEntityListToGymListConverter implements Converter<List<GymEntity
     private GymEntityToGymConverter gymEntityToGymConverter;
 
     @Override
-    public List<Gym> convert(List<GymEntity> source){
+    public List<Gym> convert(List<GymEntity> source) {
         return source.stream().map(gym -> gymEntityToGymConverter.convert(gym)).collect(Collectors.toList());
     }
 

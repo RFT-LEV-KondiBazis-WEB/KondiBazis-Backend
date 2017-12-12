@@ -7,6 +7,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class RegistrationRequestToUserConverter implements Converter<RegistrationRequest, User> {
 
@@ -25,7 +27,7 @@ public class RegistrationRequestToUserConverter implements Converter<Registratio
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .rememberToken(source.getRememberToken())
-                .createdDate(source.getCreatedDate())
+                .createdDate(LocalDate.now())
                 .userRole(UserRole.ADMIN)
                 .build();
     }

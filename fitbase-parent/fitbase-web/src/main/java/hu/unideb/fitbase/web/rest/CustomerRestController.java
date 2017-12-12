@@ -1,18 +1,5 @@
 package hu.unideb.fitbase.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
 import hu.unideb.fitbase.commons.pojo.response.CustomerListResponse;
@@ -21,24 +8,28 @@ import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessUpdateResponse;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUSTOMERS;
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.PARAM_CUST_ID;
-import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUST_ID;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.CUST_ID;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_CUST_ID;
+import static hu.unideb.fitbase.commons.path.container.PathContainer.PASS_ID;
+import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUSTOMERS;
+import static hu.unideb.fitbase.commons.path.pass.PassPath.PASSES;
 
 @RestController
 public class CustomerRestController {
 
 	@Autowired
 	private CustomerService customerService;
-
-	@Value("${jwt.header}")
-	private String tokenHeader;
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(path = CUSTOMERS)
@@ -97,5 +88,12 @@ public class CustomerRestController {
 	public ResponseEntity<?> showCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
 		Customer customer = customerService.findById(custId);
 		return ResponseEntity.accepted().body(new CustomerListResponse(customer));
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(path = CUSTOMERS + CUST_ID + PASSES + PASS_ID)
+	public ResponseEntity addPassToCustomer(){
+
+		return ResponseEntity.accepted().body("siker");
 	}
 }
