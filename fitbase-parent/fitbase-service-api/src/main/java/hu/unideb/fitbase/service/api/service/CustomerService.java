@@ -20,5 +20,5 @@ public interface CustomerService {
 	
 	List<Customer> findAll();
 	
-	
+	Long countCustomers();
 }

@@ -89,4 +89,12 @@ public class CustomerServiceImpl implements CustomerService {
 		return customterEntityToCustomerListConverter.convert(findAllCustomers);
 	}
 
+	@Override
+	public Long countCustomers() {
+		Long countAllCustomer = customerRepository.countCustomers(); 
+		return countAllCustomer;
+	}
+	
+	
+
 }

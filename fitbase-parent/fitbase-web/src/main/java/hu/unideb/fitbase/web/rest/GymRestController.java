@@ -78,7 +78,7 @@ public class GymRestController {
 	@DeleteMapping(path = GYMS + GYM_ID)
 	public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
 		gymService.deleteGym(gymId);
-		return ResponseEntity.accepted().body("Delete Success!");
+		return ResponseEntity.accepted().body(null);
 	}
 
 	@PreAuthorize("isAuthenticated()")

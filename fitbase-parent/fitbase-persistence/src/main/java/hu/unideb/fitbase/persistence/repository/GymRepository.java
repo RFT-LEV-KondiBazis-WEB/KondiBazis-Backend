@@ -24,5 +24,7 @@ public interface GymRepository extends JpaRepository<GymEntity, Long>{
 	GymEntity findById(@Param("id") long id);
 
 	List<GymEntity> findByUsersId(@Param("id") long id);
-
+	
+	@Query("SELECT COUNT(g) FROM GymEntity g")
+	Long countGyms();
 }

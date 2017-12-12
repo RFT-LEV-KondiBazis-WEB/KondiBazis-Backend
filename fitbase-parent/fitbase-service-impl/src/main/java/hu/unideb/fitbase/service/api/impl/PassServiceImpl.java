@@ -93,6 +93,12 @@ public class PassServiceImpl implements PassService {
         return passEntityListToPassListConverter.convert(byGym);
     }
 
+	@Override
+	public Long countPasses() {
+		Long countAllPass = passRepository.countPasses();
+		return countAllPass;
+	}
+
     @Override
     public Pass update(Pass pass) throws ViolationException {
         log.trace(">> update: [pass:{}]", pass);
