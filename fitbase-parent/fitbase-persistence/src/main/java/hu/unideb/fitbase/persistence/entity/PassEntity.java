@@ -23,11 +23,11 @@ import static javax.persistence.EnumType.STRING;
 @ToString(callSuper = true)
 @Entity
 @Table(name = TABLE_NAME_PASS)
-
 public class PassEntity extends BaseEntity<Long> {
 
-	private static final long serialVersionUID = 6743106374580977116L;
+    private static final long serialVersionUID = 6743106374580977116L;
 
+    /**
      * The name of the pass.
      */
     @Column(name = COLUMN_NAME_NAME)
@@ -45,11 +45,12 @@ public class PassEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_PASS_TYPE)
     private String passType;
 
-	/**
-	 * The limit of the pass.
-	 */
-	@Column(name = COLUMN_NAME_LIMIT)
-	private Integer limitNumber;
+    /**
+     * The duration of the pass.
+     */
+    @Column(name = COLUMN_NAME_DURATION)
+    private Integer duration;
+
     /**
      * The time duration of the pass.
      */
@@ -59,11 +60,11 @@ public class PassEntity extends BaseEntity<Long> {
     @Column(name = "pass_duration_type")
     private String passTimeDurationTypeEntity;
 
-	/**
-	 * The price of the pass.
-	 */
-	@Column(name = COLUMN_NAME_PRICE)
-	private Integer price;
+    /**
+     * Available of the pass.
+     */
+    @Column(name = COLUMN_NAME_AVAILABLE)
+    private Boolean available;
 
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = TABLE_NAME_CUSTOMER_HAS_PASS,
@@ -71,22 +72,25 @@ public class PassEntity extends BaseEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
     private List<CustomerEntity> customerEntityList;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = TABLE_NAME_PASS_HAS_GYM, joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID), inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
-	private List<GymEntity> gymEntities;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = TABLE_NAME_PASS_HAS_GYM,
+            joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
+    private List<GymEntity> gymEntities;
+
     /**
      * Builder pattern for creating pass.
      */
     @Builder
     public PassEntity(Long id,String name, Integer price, String passType, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available, List<GymEntity> gymEntities){
-         super(id);
-         this.name = name;
-         this.price = price;
-         this.passType = passType;
-         this.duration = duration;
-         this.timeDuration = timeDuration;
-         this.passTimeDurationTypeEntity = passTimeDurationType;
-         this.available = available;
-         this.gymEntities = gymEntities;
+        super(id);
+        this.name = name;
+        this.price = price;
+        this.passType = passType;
+        this.duration = duration;
+        this.timeDuration = timeDuration;
+        this.passTimeDurationTypeEntity = passTimeDurationType;
+        this.available = available;
+        this.gymEntities = gymEntities;
     }
 }
