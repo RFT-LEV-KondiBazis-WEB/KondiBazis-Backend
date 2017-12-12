@@ -20,7 +20,7 @@ import static hu.unideb.fitbase.commons.constants.rules.registration.username.Us
  * Validates username uniqueness.
  */
 @Component
-public class UsernameShouldBeUniqueRule implements Rule<ManagerRegistrationRequest> {
+public class MangerUsernameShouldBeUniqueRule implements Rule<ManagerRegistrationRequest> {
 
     @Autowired
     private UserService userService;

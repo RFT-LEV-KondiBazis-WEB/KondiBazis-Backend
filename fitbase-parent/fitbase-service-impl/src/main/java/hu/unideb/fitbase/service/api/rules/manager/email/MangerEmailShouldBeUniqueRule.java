@@ -19,7 +19,7 @@ import static hu.unideb.fitbase.commons.constants.rules.registration.email.Email
 import static hu.unideb.fitbase.commons.constants.rules.registration.email.EmailRuleConstants.UNIQUE_RULE;
 
 @Component
-public class EmailShouldBeUniqueRule implements Rule<ManagerRegistrationRequest> {
+public class MangerEmailShouldBeUniqueRule implements Rule<ManagerRegistrationRequest> {
 
     @Autowired
     private UserService userService;

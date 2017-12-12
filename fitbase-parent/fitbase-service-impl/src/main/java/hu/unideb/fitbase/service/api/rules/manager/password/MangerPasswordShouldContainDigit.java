@@ -10,22 +10,24 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static hu.unideb.fitbase.commons.constants.rules.registration.password.PasswordRuleConstants.CONFIRMATION_RULE;
+import static hu.unideb.fitbase.commons.constants.rules.registration.password.PasswordRuleConstants.DIGIT_RULE;
 import static hu.unideb.fitbase.commons.constants.rules.registration.password.PasswordRuleConstants.FIELD;
 
+/**
+ * Validates password contains at least one digit.
+ */
 @Component
-public class PasswordConfirmationRule implements Rule<ManagerRegistrationRequest> {
+public class MangerPasswordShouldContainDigit implements Rule<ManagerRegistrationRequest> {
+
+    protected static final String MATCHER = ".*[0-9].*";
 
     @Override
     public List<Violation> validate(ManagerRegistrationRequest request) {
-        List<Violation> result = Collections.<Violation>emptyList();
-        if (request.getPassword() != null && request.getPasswordConfirm() != null && !request
-                .getPassword().equals(request.getPasswordConfirm())) {
-            return Arrays.asList(Violation.builder()
-                    .field(FIELD)
-                    .validationMessage(CONFIRMATION_RULE)
-                    .build());
-        }
-        return result;
+        return request.getPassword() != null && request.getPasswordConfirm().matches(MATCHER)
+                ? Collections.<Violation>emptyList()
+                : Arrays.asList(Violation.builder()
+                .field(FIELD)
+                .validationMessage(DIGIT_RULE)
+                .build());
     }
 }

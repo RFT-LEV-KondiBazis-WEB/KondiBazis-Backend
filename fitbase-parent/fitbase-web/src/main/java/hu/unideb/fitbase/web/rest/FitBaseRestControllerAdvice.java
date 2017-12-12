@@ -4,22 +4,40 @@ import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.commons.pojo.validator.ViolationResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @RestControllerAdvice
 public class FitBaseRestControllerAdvice {
 
+    @Autowired
+    private MessageSource messageSource;
+
     @ExceptionHandler(ViolationException.class)
-    public ResponseEntity<ViolationResponse> handleValidationException(ViolationException exception) {
+    public ResponseEntity<ViolationResponse> handleValidationException(ViolationException violation) {
+
+        List<Violation> translatedViolationList = new LinkedList<>();
+
+        violation.getViolationList().forEach(violation1 -> {
+
+            String message = messageSource.getMessage(violation1.getValidationMessage(), null, null);
+            translatedViolationList.add(Violation.builder()
+                    .field(violation1.getField())
+                    .validationMessage(message)
+                    .build());
+        });
+
         return ResponseEntity.badRequest()
                 .body(ViolationResponse.builder()
-                        .violationList(exception.getViolationList())
+                        .violationList(translatedViolationList)
                         .build());
     }
 

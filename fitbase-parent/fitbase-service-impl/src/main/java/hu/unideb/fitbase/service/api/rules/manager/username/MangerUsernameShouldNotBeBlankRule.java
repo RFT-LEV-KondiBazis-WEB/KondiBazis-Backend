@@ -18,7 +18,7 @@ import static hu.unideb.fitbase.commons.constants.rules.registration.username.Us
  * Validates username not to be blank.
  */
 @Component
-public class UsernameShouldNotBeBlankRule implements Rule<ManagerRegistrationRequest> {
+public class MangerUsernameShouldNotBeBlankRule implements Rule<ManagerRegistrationRequest> {
 
     @Override
     public List<Violation> validate(ManagerRegistrationRequest request) {
