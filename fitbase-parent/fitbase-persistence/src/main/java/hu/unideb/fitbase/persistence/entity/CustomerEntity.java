@@ -22,68 +22,64 @@ import static hu.unideb.fitbase.commons.pojo.table.TableName.TABLE_NAME_CUSTOMER
 
 public class CustomerEntity extends BaseEntity<Long> {
 
-	private static final long serialVersionUID = 3061510290085889333L;
+    private static final long serialVersionUID = 3061510290085889333L;
 
-	/**
-	 * The email of the customer.
-	 */
-	@Column(name = COLUMN_NAME_EMAIL)
-	private String email;
+    /**
+     * The email of the customer.
+     */
+    @Column(name = COLUMN_NAME_EMAIL)
+    private String email;
 
-	/**
-	 * First name of the customer.
-	 */
-	@Column(name = COLUMN_NAME_FIRST_NAME)
-	private String firstName;
+    /**
+     * First name of the customer.
+     */
+    @Column(name = COLUMN_NAME_FIRST_NAME)
+    private String firstName;
 
-	/**
-	 * Last name of the customer.
-	 */
-	@Column(name = COLUMN_NAME_LAST_NAME)
-	private String lastName;
+    /**
+     * Last name of the customer.
+     */
+    @Column(name = COLUMN_NAME_LAST_NAME)
+    private String lastName;
 
-	/**
-	 * Phone number of the customer.
-	 */
-	@Column(name = COLUMN_NAME_PHONE_NUMBER)
-	private String phoneNumber;
+    /**
+     * Phone number of the customer.
+     */
+    @Column(name = COLUMN_NAME_PHONE_NUMBER)
+    private String phoneNumber;
 
-	/**
-	 * Birthday date of the customer.
-	 */
-	@Column(name = COLUMN_NAME_BIRTHDAY_DATE)
-	private Date birthdayDate;
+    /**
+     * Birthday date of the customer.
+     */
+    @Column(name = COLUMN_NAME_BIRTHDAY_DATE)
+    private Date birthdayDate;
 
-	/**
-	 * Gender of the customer.
-	 */
-	@Column(name = COLUMN_NAME_GENDER)
-	private Gender gender;
+    /**
+     * Gender of the customer.
+     */
+    @Column(name = COLUMN_NAME_GENDER)
+    private Gender gender;
 
-	/**
-	 * Customers gyms.
-	 */
-	@ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
-	private List<GymEntity> gyms;
+    /**
+     * Customers gyms.
+     */
+    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
+    private List<GymEntity> gyms;
 
-//	/**
-//	 * Pass of the customer.
-//	 */
-//	@ManyToOne
-//	private PassEntity passEntity;
+    // customer has pass tábla
 
-	/**
-	 * Builder pattern for creating customer.
-	 */
-	@Builder
-	public CustomerEntity(Long id, String email, String firstName, String lastName, String phoneNumber,
-			Date birthdayDate, Gender gender) {
-		super(id);
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.birthdayDate = birthdayDate;
-		this.gender = gender;
-	}
+    /**
+     * Builder pattern for creating customer.
+     */
+    @Builder
+    public CustomerEntity(Long id, String email, String firstName, String lastName, String phoneNumber,
+                          Date birthdayDate, Gender gender) {
+        super(id);
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.birthdayDate = birthdayDate;
+        this.gender = gender;
+    }
 }

@@ -72,6 +72,9 @@ public class GymEntity extends BaseEntity<Long> {
 			inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
 	private List<UserEntity> users;
 
+	/**
+	 * Passes of the gym.
+	 */
 	@ManyToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
 	@JoinTable(name = TABLE_NAME_GYM_HAS_PASS,
 			joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
@@ -86,6 +89,7 @@ public class GymEntity extends BaseEntity<Long> {
 	@JoinTable(name = TABLE_NAME_GYM_HAS_CUSTOMER,
 			joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
 			inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
+	@OrderColumn
 	private List<CustomerEntity> customers;
 
 	/**
@@ -93,7 +97,7 @@ public class GymEntity extends BaseEntity<Long> {
 	 */
 	@Builder
 	public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description,
-			String openingHours, List<UserEntity> userEntities, List<PassEntity> passEntities) {
+			String openingHours, List<UserEntity> userEntities, List<PassEntity> passEntities, List<CustomerEntity> customerEntities) {
 		super(id);
 		this.name = name;
 		this.city = city;
@@ -103,5 +107,6 @@ public class GymEntity extends BaseEntity<Long> {
 		this.openingHours = openingHours;
 		this.users = userEntities;
 		this.passes = passEntities;
+		this.customers = customerEntities;
 	}
 }

@@ -1,8 +1,10 @@
 package hu.unideb.fitbase.service.api.converter;
 
+import hu.unideb.fitbase.persistence.entity.CustomerEntity;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
 import hu.unideb.fitbase.persistence.entity.PassEntity;
 import hu.unideb.fitbase.persistence.entity.UserEntity;
+import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.domain.Gym;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.domain.User;
@@ -22,6 +24,9 @@ public class GymToGymEntityConverter implements Converter<Gym, GymEntity> {
     @Autowired
     private PassToPassEntityConverter passToPassEntityConverter;
 
+    @Autowired
+    private CustomerToCustomerEntityConverter customerToCustomerEntityConverter;
+
     @Override
     public GymEntity convert(Gym source) {
         return GymEntity.builder()
@@ -34,6 +39,7 @@ public class GymToGymEntityConverter implements Converter<Gym, GymEntity> {
                 .openingHours(source.getOpeningHours())
                 .userEntities(convert(source.getUserList()))
                 .passEntities(convert1(source.getPasses()))
+                .customerEntities(convert2(source.getCustomers()))
                 .build();
     }
 
@@ -43,6 +49,10 @@ public class GymToGymEntityConverter implements Converter<Gym, GymEntity> {
 
     private List<PassEntity> convert1(List<Pass> source) {
         return source.stream().map(passEntity -> passToPassEntityConverter.convert(passEntity)).collect(Collectors.toList());
+    }
+
+    private List<CustomerEntity> convert2(List<Customer> source) {
+        return source.stream().map(customerEntity -> customerToCustomerEntityConverter.convert(customerEntity)).collect(Collectors.toList());
     }
 
 }
