@@ -66,11 +66,11 @@ public class CustomerEntity extends BaseEntity<Long> {
 	@ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
 	private List<GymEntity> gyms;
 
-	/**
-	 * Pass of the customer.
-	 */
-	@ManyToOne
-	private PassEntity passEntity;
+//	/**
+//	 * Pass of the customer.
+//	 */
+//	@ManyToOne
+//	private PassEntity passEntity;
 
 	/**
 	 * Builder pattern for creating customer.

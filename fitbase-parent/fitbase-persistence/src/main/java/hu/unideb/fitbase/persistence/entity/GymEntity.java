@@ -64,25 +64,29 @@ public class GymEntity extends BaseEntity<Long> {
 	private String openingHours;
 
 	/**
-	 * Customers of the gym.
-	 */
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = TABLE_NAME_CUSTOMER_HISTORY, joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID), inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
-	private List<CustomerEntity> customers;
-
-	/**
 	 * Users of the gym.
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = TABLE_NAME_USER_HAS_GYM, joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID), inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
+	@JoinTable(name = TABLE_NAME_USER_HAS_GYM,
+			joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+			inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
 	private List<UserEntity> users;
 
-	@ManyToMany(fetch = FetchType.LAZY ,cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
 	@JoinTable(name = TABLE_NAME_GYM_HAS_PASS,
 			joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
 			inverseJoinColumns = @JoinColumn(name =COULMN_NAME_PASS_ID , referencedColumnName = REFERENCED_COLUM_NAME_ID))
 	@OrderColumn
 	private List<PassEntity> passes;
+
+	/**
+	 * Customers of the gym.
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = TABLE_NAME_GYM_HAS_CUSTOMER,
+			joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+			inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
+	private List<CustomerEntity> customers;
 
 	/**
 	 * Builder pattern for creating gym.
