@@ -1,12 +1,14 @@
 package hu.unideb.fitbase.persistence.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
 import java.util.List;
 
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.CustomerColumName.COLUMN_NAME_CUSTOMER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.GymColumName.*;
+import static hu.unideb.fitbase.commons.pojo.table.ColumnName.PassColumName.COULMN_NAME_PASS_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.ReferencedColumName.REFERENCED_COLUM_NAME_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.UserColumName.COLUMN_NAME_USER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.TableName.*;
@@ -75,12 +77,19 @@ public class GymEntity extends BaseEntity<Long> {
 	@JoinTable(name = TABLE_NAME_USER_HAS_GYM, joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID), inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_USER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
 	private List<UserEntity> users;
 
+	@ManyToMany(fetch = FetchType.LAZY ,cascade = CascadeType.PERSIST)
+	@JoinTable(name = TABLE_NAME_GYM_HAS_PASS,
+			joinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
+			inverseJoinColumns = @JoinColumn(name =COULMN_NAME_PASS_ID , referencedColumnName = REFERENCED_COLUM_NAME_ID))
+	@OrderColumn
+	private List<PassEntity> passes;
+
 	/**
 	 * Builder pattern for creating gym.
 	 */
 	@Builder
 	public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description,
-			String openingHours, List<UserEntity> userEntities) {
+			String openingHours, List<UserEntity> userEntities, List<PassEntity> passEntities) {
 		super(id);
 		this.name = name;
 		this.city = city;
@@ -89,5 +98,6 @@ public class GymEntity extends BaseEntity<Long> {
 		this.description = description;
 		this.openingHours = openingHours;
 		this.users = userEntities;
+		this.passes = passEntities;
 	}
 }

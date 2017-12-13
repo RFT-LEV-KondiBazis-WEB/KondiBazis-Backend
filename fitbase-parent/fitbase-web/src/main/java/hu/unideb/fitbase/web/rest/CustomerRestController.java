@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
 import hu.unideb.fitbase.commons.pojo.response.CustomerListResponse;
@@ -34,7 +35,7 @@ public class CustomerRestController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(path = CUSTOMERS)
 	public ResponseEntity<?> postCustomer(@RequestBody CustomerRequest customerRequest, HttpServletRequest request)
-			throws ViolationException {
+			throws BaseException {
 		if (Objects.isNull(customerRequest)) {
 			return ResponseEntity.badRequest().body("null");
 		}
@@ -55,7 +56,7 @@ public class CustomerRestController {
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping(path = CUSTOMERS + CUST_ID)
 	public ResponseEntity<?> putCustomer(@RequestBody CustomerRequest customerRequest,
-			@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
+			@PathVariable(PARAM_CUST_ID) Long custId) throws BaseException {
 		if (Objects.isNull(customerRequest)) {
 			return ResponseEntity.badRequest().body("null");
 		}

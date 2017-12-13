@@ -1,6 +1,7 @@
 package hu.unideb.fitbase.service.api.rules.pass.duration;
 
 import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -14,10 +15,10 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.duration.type.PassT
 import static hu.unideb.fitbase.commons.constants.rules.pass.duration.type.PassTypeDuration.PASS_TYPE_DURATION;
 
 @Component
-public class PassTimeDurationTypeValidate implements Rule<Pass> {
+public class PassTimeDurationTypeValidate implements Rule<PassCreateRequest> {
 
     @Override
-    public List<Violation> validate(Pass request) {
+    public List<Violation> validate(PassCreateRequest request) {
         return enumTypeContains(request.getPassTimeDurationType()) ?
                 Collections.<Violation>emptyList() :
                 Arrays.asList(Violation.builder()

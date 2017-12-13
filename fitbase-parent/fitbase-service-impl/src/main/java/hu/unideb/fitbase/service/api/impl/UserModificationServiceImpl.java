@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.impl;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
@@ -30,7 +31,7 @@ public class UserModificationServiceImpl implements UserModificationService {
     private UserService userService;
 
     @Override
-    public User modifyUser(UserModification userModification) throws ServiceException, ViolationException {
+    public User modifyUser(UserModification userModification) throws BaseException {
         Objects.requireNonNull(userModification, MODIFICATION_IS_NULL);
         userModificationAbstractValidator.validate(userModification);
         User user = userService.findById(userModification.getId());

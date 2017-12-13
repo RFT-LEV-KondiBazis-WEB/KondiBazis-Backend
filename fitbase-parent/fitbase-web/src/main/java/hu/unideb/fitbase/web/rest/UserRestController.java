@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.UserModificationRequest;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
@@ -34,7 +35,7 @@ public class UserRestController {
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping(path = USER_MODIFICATION_URL)
-    public ResponseEntity putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws ViolationException {
+    public ResponseEntity putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws BaseException {
         if(Objects.isNull(userModificationRequest)){
             return ResponseEntity.badRequest().body("null");
         }

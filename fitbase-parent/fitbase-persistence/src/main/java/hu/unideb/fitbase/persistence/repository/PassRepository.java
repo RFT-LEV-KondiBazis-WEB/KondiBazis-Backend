@@ -20,8 +20,8 @@ public interface PassRepository extends JpaRepository<PassEntity, Long>{
     @Query("SELECT g FROM PassEntity g WHERE g.name = :name")
     PassEntity findByName(@Param("name") String name);
 
-    List<PassEntity> findByGymEntitiesId(@Param("id") long id);
-    
+    List<PassEntity> findByGymsId(@Param("id") long id);
+
     @Query("SELECT COUNT(p) FROM PassEntity p")
     Long countPasses();
     

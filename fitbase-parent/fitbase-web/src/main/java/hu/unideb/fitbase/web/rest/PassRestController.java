@@ -1,7 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
-import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.response.SuccesResponse;
 import hu.unideb.fitbase.service.api.domain.Gym;
@@ -36,14 +35,13 @@ public class PassRestController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping(value = GYMS + GYM_ID + PASSES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
-
-
-        Gym gym = gymService.findById(gymId);
-
-        Pass createPass = createPass(passCreateRequest, gym);
         ResponseEntity result;
         try {
-            Pass createdPass = passService.addPass(createPass);
+            Pass createdPass = passService.addPass(passCreateRequest);
+            Gym gym = gymService.findById(gymId);
+            gym.getPasses().add(createdPass);
+            gymService.updateGym(gym);
+
             result = ResponseEntity.accepted().body(new SuccesResponse(createdPass, null));
         } catch (ServiceException e) {
             result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
@@ -68,8 +66,6 @@ public class PassRestController {
             return ResponseEntity.badRequest().body("null");
         }
 
-        Pass pass = passService.findPassById(passId);
-
         Pass updatedPass = Pass.builder().id(passId)
                 .name(passCreateRequest.getName())
                 .price(passCreateRequest.getPrice())
@@ -77,9 +73,7 @@ public class PassRestController {
                 .duration(passCreateRequest.getDuration())
                 .timeDuration(passCreateRequest.getTimeDuration())
                 .passTimeDurationType(passCreateRequest.getPassTimeDurationType())
-                .available(passCreateRequest.getAvailable())
-                .gymList(pass.getGymList()).build();
-
+                .available(passCreateRequest.getAvailable()).build();
         Pass updated = passService.update(updatedPass);
         return ResponseEntity.ok().body(new SuccesResponse(updated, null));
     }
@@ -94,22 +88,8 @@ public class PassRestController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = GYMS + GYM_ID + PASSES)
-    public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+    public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId)  throws BaseException {
         List<Pass> byGymIdAllPasses = passService.findByGymIdAllPasses(gymId);
         return ResponseEntity.accepted().body(new SuccesResponse(byGymIdAllPasses, null));
     }
-
-    private Pass createPass(PassCreateRequest passCreateRequest, Gym gym) {
-        return Pass.builder()
-                .name(passCreateRequest.getName())
-                .price(passCreateRequest.getPrice())
-                .passType(passCreateRequest.getPassType())
-                .duration(passCreateRequest.getDuration())
-                .timeDuration(passCreateRequest.getTimeDuration())
-                .passTimeDurationType(passCreateRequest.getPassTimeDurationType())
-                .available(passCreateRequest.getAvailable())
-                .gymList(Arrays.asList(gym))
-                .build();
-    }
-
 }

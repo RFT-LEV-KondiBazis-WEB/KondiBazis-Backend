@@ -1,5 +1,7 @@
 package hu.unideb.fitbase.service.api.rules.pass.name;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.service.PassService;
@@ -15,13 +17,13 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.name.PassNameValida
 import static hu.unideb.fitbase.commons.constants.rules.pass.name.PassNameValidateMessages.PASS_NAME;
 
 @Component
-public class PassNameShouldBeUniqueRule implements Rule<Pass> {
+public class PassNameShouldBeUniqueRule implements Rule<PassCreateRequest> {
 
     @Autowired
     private PassService passService;
 
     @Override
-    public List<Violation> validate(Pass request){
+    public List<Violation> validate(PassCreateRequest request) throws BaseException {
         List<Violation> result = Collections.<Violation>emptyList();
         String name = request.getName();
         if(name != null) {

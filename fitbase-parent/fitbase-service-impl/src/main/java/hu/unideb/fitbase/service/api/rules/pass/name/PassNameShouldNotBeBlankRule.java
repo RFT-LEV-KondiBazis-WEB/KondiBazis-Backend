@@ -1,6 +1,7 @@
 package hu.unideb.fitbase.service.api.rules.pass.name;
 
 import com.google.common.base.Strings;
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -15,10 +16,10 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.name.PassNameValida
 
 
 @Component
-public class PassNameShouldNotBeBlankRule implements Rule<Pass>{
+public class PassNameShouldNotBeBlankRule implements Rule<PassCreateRequest>{
 
     @Override
-    public List<Violation> validate(Pass request) {
+    public List<Violation> validate(PassCreateRequest request) {
         return Strings.isNullOrEmpty(request.getName()) ?
                 Arrays.asList(Violation.builder()
                         .field(FIELD)

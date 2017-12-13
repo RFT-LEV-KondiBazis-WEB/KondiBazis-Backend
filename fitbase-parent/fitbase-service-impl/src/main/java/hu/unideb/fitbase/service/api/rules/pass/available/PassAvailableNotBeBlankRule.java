@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.rules.pass.available;
 
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -13,10 +14,10 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.available.PassAvail
 import static hu.unideb.fitbase.commons.constants.rules.pass.available.PassAvailableValidateMessages.PASS_AVAILABLE;
 
 @Component
-public class PassAvailableNotBeBlankRule implements Rule<Pass> {
+public class PassAvailableNotBeBlankRule implements Rule<PassCreateRequest> {
 
     @Override
-    public List<Violation> validate(Pass request) {
+    public List<Violation> validate(PassCreateRequest request) {
         List<Violation> result = Collections.<Violation>emptyList();
         if (request.getAvailable() == null) {
             result = Arrays.asList(Violation.builder()

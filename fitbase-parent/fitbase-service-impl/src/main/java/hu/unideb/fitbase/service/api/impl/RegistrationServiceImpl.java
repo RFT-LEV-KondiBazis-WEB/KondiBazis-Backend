@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.impl;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
@@ -34,7 +35,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private AbstractValidator<ManagerRegistrationRequest> managerRegistrationRequestAbstractValidator;
 
     @Override
-    public User register(RegistrationRequest registrationRequest) throws ViolationException, ServiceException {
+    public User register(RegistrationRequest registrationRequest) throws BaseException {
         Objects.requireNonNull(registrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
         log.info("Registering new user with username:{}", registrationRequest.getUsername());
         registrationRequestValidator.validate(registrationRequest);
@@ -45,7 +46,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public User addManager(ManagerRegistrationRequest managerRegistrationRequest) throws ViolationException, ServiceException {
+    public User addManager(ManagerRegistrationRequest managerRegistrationRequest)throws BaseException {
         Objects.requireNonNull(managerRegistrationRequest, REGISTRATION_REQUEST_CAN_NOT_BE_NULL);
         log.info("Registering new manager with username:{}", managerRegistrationRequest.getUsername());
         managerRegistrationRequestAbstractValidator.validate(managerRegistrationRequest);

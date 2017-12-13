@@ -41,7 +41,7 @@ public class GymServiceImpl implements GymService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Gym addGym(Gym gym) throws ViolationException {
+    public Gym addGym(Gym gym) throws BaseException {
         gymValidator.validate(gym);
         log.trace(">> save: [gym:{}]", gym);
         Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
@@ -51,7 +51,7 @@ public class GymServiceImpl implements GymService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Gym updateGym(Gym gym) throws ViolationException {
+    public Gym updateGym(Gym gym) throws BaseException {
     	gymValidator.validate(gym);
         log.trace(">> update: [gym:{}]", gym);
         Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
@@ -81,22 +81,18 @@ public class GymServiceImpl implements GymService {
 	}
     
     @Override
-    public Gym findByName(String name) {
-//        log.trace(">> findByName: [name:{}]", name);
-//        if (Objects.isNull(name)) {
-//            throw new ServiceException("name is NULL");
-//        }
+    public Gym findByName(String name) throws BaseException{
+        log.trace(">> findByName: [name:{}]", name);
+        if (Objects.isNull(name)) {
+            throw new ServiceException("name is NULL");
+        }
         GymEntity gymEntity;
-//        try {
+        try {
             gymEntity = gymRepository.findByName(name);
-//        } catch (Exception e) {
-//            String errorMsg = String.format("Error on finding gym by name:%s.", name);
-//            throw new ServiceException(errorMsg, e);
-//        }
-//        if (Objects.isNull(gymEntity)) {
-//            String errorMsg = String.format("Gym with name:%s not found.", name);
-//            throw new EntityNotFoundException(errorMsg);
-//        }
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding gym by name:%s.", name);
+            throw new ServiceException(errorMsg, e);
+        }
         Gym result = conversionService.convert(gymEntity, Gym.class);
         log.trace("<< findByName: [name:{}]", result);
         return result;

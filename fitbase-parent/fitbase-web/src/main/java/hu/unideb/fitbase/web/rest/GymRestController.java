@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,21 +39,21 @@ public class GymRestController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = GYMS)
 	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest)
-			throws ViolationException {
+			throws BaseException {
 		if (Objects.isNull(gymRequest)) {
 			return ResponseEntity.badRequest().body("null");
 		}
 
 		Gym gym = Gym.builder().name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
 				.zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
-				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).build();
+				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).build();
 
 		ResponseEntity<?> result = null;
 		try {
 			gym = gymService.addGym(gym);
 			result = ResponseEntity.accepted().body(new GymSuccesCreateResponse(gym));
 		} catch (ServiceException e) {
-			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL");
+			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return result;
 	}
@@ -60,7 +61,7 @@ public class GymRestController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(path = GYMS + GYM_ID)
 	public ResponseEntity<?> putGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
-			throws ViolationException {
+			throws BaseException {
 		if (Objects.isNull(gymRequest)) {
 			return ResponseEntity.badRequest().body("null");
 		}

@@ -2,6 +2,7 @@ package hu.unideb.fitbase.service.api.impl;
 
 import java.util.List;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Customer addCustomer(Customer customer) throws ViolationException, ServiceException {
+	public Customer addCustomer(Customer customer) throws BaseException {
 		customerValidator.validate(customer);
 		log.trace(">> save: [customer:{}]", customer);
 		Customer convert = conversionService.convert(
@@ -48,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Customer updateCustomer(Customer customer) throws ViolationException {
+	public Customer updateCustomer(Customer customer) throws BaseException {
 		customerValidator.validate(customer);
 		log.trace(">> update: [customer:{}]", customer);
 		Customer convert = conversionService.convert(
