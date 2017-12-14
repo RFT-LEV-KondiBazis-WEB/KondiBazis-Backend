@@ -44,7 +44,7 @@ public class GymRestController {
 
 		Gym gym = Gym.builder().name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
 				.zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
-				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).customers(Collections.emptyList()).build();
+				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).build();
 
 		ResponseEntity<?> result = null;
 		try {
