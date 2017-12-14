@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +37,7 @@ public class PassRestController {
         ResponseEntity result;
         try {
             Pass createdPass = passService.addPass(passCreateRequest);
-            Gym gym = gymService.findById(gymId);
+            Gym gym = gymService.findGymById(gymId);
             gym.getPasses().add(createdPass);
             gymService.updateGym(gym);
 

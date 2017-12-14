@@ -24,6 +24,8 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
 
 	private static final long serialVersionUID = 4663328684610888566L;
 
+	// customer id
+
 	/**
      * Customers pass start date.
      */
@@ -36,10 +38,23 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_ENDDATE)
     private LocalDate passEndDate;
 
-    @Builder
-    public CustomerHistoryEntity(Long id,LocalDate passStartDate, LocalDate passEndDate) {
-        super(id);
-        this.passStartDate = passStartDate;
-        this.passEndDate = passEndDate;
-    }
+    private LocalDate passBuyDate;
+
+    private boolean status;
+
+    private String passName;
+
+    private String passType;
+
+    private Integer passPrice;
+
+    //gymid
+
+//
+//    @Builder
+//    public CustomerHistoryEntity(Long id,LocalDate passStartDate, LocalDate passEndDate) {
+//        super(id);
+//        this.passStartDate = passStartDate;
+//        this.passEndDate = passEndDate;
+//    }
 }

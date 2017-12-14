@@ -1,9 +1,7 @@
 package hu.unideb.fitbase.service.api.impl;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
-import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
-import hu.unideb.fitbase.persistence.entity.PassEntity;
 import hu.unideb.fitbase.persistence.repository.GymRepository;
 import hu.unideb.fitbase.service.api.converter.GymEntityListToGymListConverter;
 import hu.unideb.fitbase.service.api.domain.Gym;
@@ -11,7 +9,6 @@ import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.GymService;
-import hu.unideb.fitbase.service.api.validator.AbstractValidator;
 import hu.unideb.fitbase.service.api.validator.GymValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,36 +49,38 @@ public class GymServiceImpl implements GymService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Gym updateGym(Gym gym) throws BaseException {
-    	gymValidator.validate(gym);
+        gymValidator.validate(gym);
         log.trace(">> update: [gym:{}]", gym);
         Gym convert = conversionService.convert(gymRepository.save(conversionService.convert(gym, GymEntity.class)), Gym.class);
         log.trace("<< update: [gym:{}]", gym);
         return convert;
     }
-    
-	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void deleteGym(Long id){
-//        if (Objects.isNull(id)) {
-//            throw new ServiceException("id is NULL");
-//        }
-//        GymEntity gymEntity;
-//        try {
-//            gymEntity = gymRepository.findById(id);
-//        } catch (Exception e) {
-//            String errorMsg = String.format("Error on finding gym by id:%d.", id);
-//            throw new ServiceException(errorMsg, e);
-//        }
-//        if (Objects.isNull(gymEntity)) {
-//            String errorMsg = String.format("Gym with id:%d not found.", id);
-//            throw new EntityNotFoundException(errorMsg);
-//        } else {
-            gymRepository.delete(id);
-//        }
-	}
-    
+
     @Override
-    public Gym findByName(String name) throws BaseException{
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteGym(Long id) throws BaseException {
+        log.trace(">> deleteGym: [id:{}]", id);
+        if (Objects.isNull(id)) {
+            throw new ServiceException("id is NULL");
+        }
+        GymEntity gymEntity;
+        try {
+            gymEntity = gymRepository.findById(id);
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding gym by id:%d.", id);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(gymEntity)) {
+            String errorMsg = String.format("Gym with id:%d not found.", id);
+            throw new EntityNotFoundException(errorMsg);
+        } else {
+            log.trace("<< deleteGym: [id:{}]", id);
+            gymRepository.delete(id);
+        }
+    }
+
+    @Override
+    public Gym findByName(String name) throws BaseException {
         log.trace(">> findByName: [name:{}]", name);
         if (Objects.isNull(name)) {
             throw new ServiceException("name is NULL");
@@ -99,24 +98,24 @@ public class GymServiceImpl implements GymService {
     }
 
     @Override
-    public Gym findById(Long id) {
-//        log.trace(">> findById: [id:{}]", id);
-//        if (Objects.isNull(id)) {
-//            throw new ServiceException("id is NULL");
-//        }
+    public Gym findGymById(Long id) throws BaseException {
+        log.trace(">> findGymById: [id:{}]", id);
+        if (Objects.isNull(id)) {
+            throw new ServiceException("id is NULL");
+        }
         GymEntity gymEntity;
-//        try {
+        try {
             gymEntity = gymRepository.findById(id);
-//        } catch (Exception e) {
-//            String errorMsg = String.format("Error on finding gym by id:%d.", id);
-//            throw new ServiceException(errorMsg, e);
-//        }
-//        if (Objects.isNull(gymEntity)) {
-//            String errorMsg = String.format("Gym with id:%d not found.", id);
-//            throw new EntityNotFoundException(errorMsg);
-//        }
+        } catch (Exception e) {
+            String errorMsg = String.format("Error on finding gym by id:%d.", id);
+            throw new ServiceException(errorMsg, e);
+        }
+        if (Objects.isNull(gymEntity)) {
+            String errorMsg = String.format("Gym with id:%d not found.", id);
+            throw new EntityNotFoundException(errorMsg);
+        }
         Gym result = conversionService.convert(gymEntity, Gym.class);
-        log.trace("<< findById: [id:{}]", id);
+        log.trace("<< findGymById: [id:{}]", id);
         return result;
     }
 
@@ -126,15 +125,15 @@ public class GymServiceImpl implements GymService {
         return gymEntityListToGymListConverter.convert(byUsers);
     }
 
-	@Override
-	public List<Gym> findAll() {
-		List<GymEntity> findallGyms = gymRepository.findAll();
-		return gymEntityListToGymListConverter.convert(findallGyms);
-	}
+    @Override
+    public List<Gym> findAll() {
+        List<GymEntity> findallGyms = gymRepository.findAll();
+        return gymEntityListToGymListConverter.convert(findallGyms);
+    }
 
-	@Override
-	public Long countGyms() {
-		Long countAllGym = gymRepository.countGyms();
-		return countAllGym;
-	}
+    @Override
+    public Long countGyms() {
+        Long countAllGym = gymRepository.countGyms();
+        return countAllGym;
+    }
 }

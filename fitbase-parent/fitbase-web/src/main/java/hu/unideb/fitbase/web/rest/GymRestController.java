@@ -13,14 +13,12 @@ import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 import hu.unideb.fitbase.service.api.service.GymService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -92,7 +90,7 @@ public class GymRestController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = GYMS + GYM_ID)
 	public ResponseEntity showGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
-		Gym gym = gymService.findById(gymId);
+		Gym gym = gymService.findGymById(gymId);
 		return ResponseEntity.accepted().body(new GymListResponse(gym));
 	}
 

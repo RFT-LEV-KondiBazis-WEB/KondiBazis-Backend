@@ -30,7 +30,7 @@ public class CustomerRestController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping(path = CUSTOMERS)
-    public ResponseEntity<?> postCustomer(@RequestBody CustomerRequest customerRequest)
+    public ResponseEntity postCustomer(@RequestBody CustomerRequest customerRequest)
             throws BaseException {
         if (Objects.isNull(customerRequest)) {
             return ResponseEntity.badRequest().body("null");
@@ -51,7 +51,7 @@ public class CustomerRestController {
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping(path = CUSTOMERS + CUST_ID)
-    public ResponseEntity<?> putCustomer(@RequestBody CustomerRequest customerRequest,
+    public ResponseEntity putCustomer(@RequestBody CustomerRequest customerRequest,
                                          @PathVariable(PARAM_CUST_ID) Long custId) throws BaseException {
         if (Objects.isNull(customerRequest)) {
             return ResponseEntity.badRequest().body("null");
@@ -67,24 +67,30 @@ public class CustomerRestController {
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping(path = CUSTOMERS + CUST_ID)
-    public ResponseEntity<?> deleteCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
-        Customer customer = customerService.findById(custId);
-        customerService.deleteCustomer(customer);
+    public ResponseEntity deleteCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws BaseException {
+        customerService.deleteCustomer(custId);
         return ResponseEntity.accepted().body(null);
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = CUSTOMERS)
-    public ResponseEntity<?> getAllCustomers() throws ViolationException {
-        List<Customer> getCustomers = customerService.findAll();
+    public ResponseEntity getAllCustomers() throws ViolationException {
+        List<Customer> getCustomers = customerService.findAllCustomer();
         return ResponseEntity.accepted().body(new CustomerListResponse(getCustomers));
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = CUSTOMERS + CUST_ID)
-    public ResponseEntity<?> showCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws ViolationException {
-        Customer customer = customerService.findById(custId);
+    public ResponseEntity showCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws BaseException {
+        Customer customer = customerService.findCustomerById(custId);
         return ResponseEntity.accepted().body(new CustomerListResponse(customer));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = CUSTOMERS + EMAILS)
+    public ResponseEntity getAllCustomersEmail(){
+        List<String> emails = customerService.allCustomersEmail();
+        return ResponseEntity.accepted().body(emails);
     }
 
     @PreAuthorize("isAuthenticated()")

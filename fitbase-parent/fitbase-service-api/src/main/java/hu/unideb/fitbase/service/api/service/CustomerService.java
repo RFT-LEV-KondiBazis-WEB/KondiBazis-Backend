@@ -5,21 +5,24 @@ import java.util.List;
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.service.api.domain.Customer;
+import hu.unideb.fitbase.service.api.exception.EntityNotFoundException;
 import hu.unideb.fitbase.service.api.exception.ServiceException;
 
 public interface CustomerService {
 
-	Customer addCustomer(Customer customer) throws ViolationException, ServiceException, BaseException;
+	Customer addCustomer(Customer customer) throws BaseException;
 	
-	Customer updateCustomer(Customer customer) throws ViolationException, BaseException;
+	Customer updateCustomer(Customer customer) throws BaseException;
 	
-	void deleteCustomer(Customer customer) throws ViolationException;
+	void deleteCustomer(Long id) throws BaseException;
 	
-	Customer findByEmail(String email);
+	Customer findCustomerByEmail(String email) throws BaseException;
 	
-	Customer findById(Long id);
+	Customer findCustomerById(Long id) throws BaseException;
 	
-	List<Customer> findAll();
+	List<Customer> findAllCustomer();
+
+	List<String> allCustomersEmail();
 	
 	Long countCustomers();
 }

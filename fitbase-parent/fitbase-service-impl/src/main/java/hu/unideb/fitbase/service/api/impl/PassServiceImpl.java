@@ -123,7 +123,7 @@ public class PassServiceImpl implements PassService {
             throw new ServiceException(errorMsg, e);
         }
         Pass result = conversionService.convert(passEntity, Pass.class);
-        log.trace("<< findPassByName: [name:{}]", result);
+        log.trace("<< findPassByName: [pass:{}]", result);
         return result;
     }
 }
