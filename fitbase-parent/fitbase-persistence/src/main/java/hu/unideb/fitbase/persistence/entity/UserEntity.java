@@ -55,12 +55,6 @@ public class UserEntity extends BaseEntity<Long> {
     private String lastName;
 
     /**
-     * Remember token of the user.
-     */
-    @Column(name = COLUMN_NAME_REMEMBER_TOKEN)
-    private String rememberToken;
-
-    /**
      * User created date.
      */
     @Column(name = COLUMN_NAME_CREATED_DATE)
@@ -83,14 +77,13 @@ public class UserEntity extends BaseEntity<Long> {
      * Builder pattern for creating user.
      */
     @Builder
-    public UserEntity(Long id, String username, String email, String password, String firstName, String lastName, String rememberToken, LocalDate createdDate, UserRoleEntity userRoleEntity ) {
+    public UserEntity(Long id, String username, String email, String password, String firstName, String lastName, LocalDate createdDate, UserRoleEntity userRoleEntity ) {
         super(id);
         this.username = username;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.rememberToken = rememberToken;
         this.createdDate = createdDate;
         this.userRole = userRoleEntity;
     }

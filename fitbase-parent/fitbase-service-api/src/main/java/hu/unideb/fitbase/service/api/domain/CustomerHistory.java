@@ -27,6 +27,8 @@ public class CustomerHistory implements Serializable {
 
     private Integer passPrice;
 
-    // customer id
+    private Customer customer;
+
+    private Gym gym;
 
 }

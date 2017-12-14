@@ -26,7 +26,6 @@ public class RegistrationRequestToUserConverter implements Converter<Registratio
                 .passwordConfirm(PASSWORD_ENCODER.encode(source.getPassword()))
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
-                .rememberToken(source.getRememberToken())
                 .createdDate(LocalDate.now())
                 .userRole(UserRole.ADMIN)
                 .build();

@@ -29,9 +29,6 @@ public class User {
 
     private String lastName;
 
-    @JsonIgnore
-    private String rememberToken;
-
     private LocalDate createdDate;
 
     private UserRole userRole;

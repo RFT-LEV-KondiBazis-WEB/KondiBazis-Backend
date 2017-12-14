@@ -26,7 +26,6 @@ public class ManagerRequestToUserConverter implements Converter<ManagerRegistrat
                 .passwordConfirm(PASSWORD_ENCODER.encode(source.getPassword()))
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
-                .rememberToken(source.getRememberToken())
                 .createdDate(source.getCreatedDate())
                 .createdDate(LocalDate.now())
                 .userRole(UserRole.MANAGER)

@@ -76,7 +76,7 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
     private GymEntity gymEntity;
 
     @Builder
-    public CustomerHistoryEntity(Long id, Date passStartDate, Date passEndDate, Date passBuyDate, boolean status, String passName, String passType, Integer passPrice) {
+    public CustomerHistoryEntity(Long id, Date passStartDate, Date passEndDate, Date passBuyDate, boolean status, String passName, String passType, Integer passPrice, CustomerEntity customerEntity,GymEntity gymEntity ) {
         super(id);
         this.passStartDate = passStartDate;
         this.passEndDate = passEndDate;
@@ -85,6 +85,8 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
         this.passName = passName;
         this.passType = passType;
         this.passPrice = passPrice;
+        this.customerEntity = customerEntity;
+        this.gymEntity = gymEntity;
     }
 
 }

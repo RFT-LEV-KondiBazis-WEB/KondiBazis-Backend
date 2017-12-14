@@ -35,8 +35,4 @@ public class Customer implements Serializable{
 	
 	private Gender gender;
 	
-	@JsonIgnore
-	private List<Gym> gymsList;
-	
-	private PassEntity passEntity;
 }
