@@ -45,14 +45,14 @@ public class PassServiceImpl implements PassService {
     }
 
     @Override
-    public Pass findPassById(Long id) throws BaseException{
+    public Pass findPassById(Long id) throws BaseException {
         log.trace(">> findPassById: [id:{}]", id);
         if (Objects.isNull(id)) {
             throw new ServiceException("id is NULL");
         }
         PassEntity passEntity;
         try {
-        passEntity = passRepository.findById(id);
+            passEntity = passRepository.findById(id);
         } catch (Exception e) {
             String errorMsg = String.format("Error on finding pass by id:%d.", id);
             throw new ServiceException(errorMsg, e);

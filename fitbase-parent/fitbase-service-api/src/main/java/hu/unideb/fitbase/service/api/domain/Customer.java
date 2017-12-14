@@ -15,7 +15,6 @@ import lombok.Data;
 /**
  * Customer domain class.
  */
-
 @Data
 @Builder
 public class Customer implements Serializable{

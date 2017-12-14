@@ -9,6 +9,7 @@ import java.util.List;
 
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.CustomerColumName.*;
 import static hu.unideb.fitbase.commons.pojo.table.TableName.TABLE_NAME_CUSTOMER;
+import static javax.persistence.CascadeType.ALL;
 
 /**
  * CustomerEntity which represents the customer.
@@ -60,13 +61,8 @@ public class CustomerEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_GENDER)
     private Gender gender;
 
-    /**
-     * Customers gyms.
-     */
-    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
-    private List<GymEntity> gyms;
-
-    // customer has pass tábla
+    @OneToMany(cascade=ALL, mappedBy="customerEntity")
+    private List<CustomerHistoryEntity> customerHistoryEntities;
 
     /**
      * Builder pattern for creating customer.

@@ -23,7 +23,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
     @Query("SELECT COUNT(c) FROM CustomerEntity c")
     Long countCustomers();
 
-    @Query("SELECT DISTINCT c.email FROM CustomerEntity cu")
+    @Query("SELECT c.email FROM CustomerEntity c")
     List<String> getAllEmail();
 
 }

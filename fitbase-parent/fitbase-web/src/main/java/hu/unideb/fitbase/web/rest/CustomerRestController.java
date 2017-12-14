@@ -2,6 +2,7 @@ package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
+import hu.unideb.fitbase.commons.pojo.request.CustomerHistoryRequest;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
 import hu.unideb.fitbase.commons.pojo.response.CustomerListResponse;
 import hu.unideb.fitbase.commons.pojo.response.CustomerSuccessCreateResponse;
@@ -15,11 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.container.PathContainer.*;
 import static hu.unideb.fitbase.commons.path.customer.CustomerPath.CUSTOMERS;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 import static hu.unideb.fitbase.commons.path.pass.PassPath.PASSES;
 
 @RestController
@@ -94,8 +97,8 @@ public class CustomerRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping(path = CUSTOMERS + CUST_ID + PASSES + PASS_ID)
-    public ResponseEntity addPassToCustomer() {
+    @PostMapping(path = CUSTOMERS + CUST_ID + PASSES + PASS_ID )
+    public ResponseEntity addPassToCustomer(@RequestBody CustomerHistoryRequest customerHistoryRequest ) {
 
         return ResponseEntity.accepted().body("siker");
     }

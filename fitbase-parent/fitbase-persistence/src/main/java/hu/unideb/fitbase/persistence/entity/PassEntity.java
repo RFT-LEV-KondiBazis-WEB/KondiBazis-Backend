@@ -64,12 +64,6 @@ public class PassEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_AVAILABLE)
     private Boolean available;
 
-//    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-//    @JoinTable(name = TABLE_NAME_CUSTOMER_HAS_PASS,
-//            joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
-//            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
-//    private List<CustomerEntity> customerEntityList;
-
     @ManyToMany(mappedBy = "passes", fetch = FetchType.LAZY)
     private List<GymEntity> gyms;
 
