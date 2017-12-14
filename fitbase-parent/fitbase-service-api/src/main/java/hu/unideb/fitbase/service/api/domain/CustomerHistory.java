@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -15,9 +16,9 @@ public class CustomerHistory implements Serializable {
 
     private Date passStartDate;
 
-    private Date passEndDate;
+    private LocalDate passEndDate;
 
-    private Date passBuyDate;
+    private LocalDate passBuyDate;
 
     private boolean status;
 

@@ -3,6 +3,7 @@ package hu.unideb.fitbase.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
      * Customers pass end date.
      */
     @Column(name = COLUMN_NAME_ENDDATE)
-    private Date passEndDate;
+    private LocalDate passEndDate;
 
     /**
      * Customers pass buy date.
      */
     @Column(name = COLUMN_NAME_PASS_BUYDATE)
-    private Date passBuyDate;
+    private LocalDate passBuyDate;
 
     /**
      * Customers pass status.
@@ -76,7 +77,7 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
     private GymEntity gymEntity;
 
     @Builder
-    public CustomerHistoryEntity(Long id, Date passStartDate, Date passEndDate, Date passBuyDate, boolean status, String passName, String passType, Integer passPrice, CustomerEntity customerEntity,GymEntity gymEntity ) {
+    public CustomerHistoryEntity(Long id, Date passStartDate, LocalDate passEndDate, LocalDate passBuyDate, boolean status, String passName, String passType, Integer passPrice, CustomerEntity customerEntity,GymEntity gymEntity ) {
         super(id);
         this.passStartDate = passStartDate;
         this.passEndDate = passEndDate;
