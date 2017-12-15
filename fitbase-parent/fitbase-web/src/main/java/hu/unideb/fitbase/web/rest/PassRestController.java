@@ -59,13 +59,14 @@ public class PassRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping(value = GYMS + GYM_ID + PASSES + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = PASSES + PASS_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> modificationPass(@RequestBody PassCreateRequest passCreateRequest, @PathVariable(PARAM_PASS_ID) Long passId) throws BaseException {
         if (Objects.isNull(passCreateRequest)) {
             return ResponseEntity.badRequest().body("null");
         }
 
-        Pass updatedPass = Pass.builder().id(passId)
+        Pass updatedPass = Pass.builder()
+                .id(passId)
                 .name(passCreateRequest.getName())
                 .price(passCreateRequest.getPrice())
                 .passType(passCreateRequest.getPassType())
@@ -87,7 +88,7 @@ public class PassRestController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = GYMS + GYM_ID + PASSES)
-    public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId)  throws BaseException {
+    public ResponseEntity<?> passListGetByGymId(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
         List<Pass> byGymIdAllPasses = passService.findByGymIdAllPasses(gymId);
         return ResponseEntity.accepted().body(new SuccesResponse(byGymIdAllPasses, null));
     }
