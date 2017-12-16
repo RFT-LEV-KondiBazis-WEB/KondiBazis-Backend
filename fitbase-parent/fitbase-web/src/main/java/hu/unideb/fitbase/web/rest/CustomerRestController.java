@@ -1,6 +1,5 @@
 package hu.unideb.fitbase.web.rest;
 
-import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.request.CustomerHistoryRequest;
 import hu.unideb.fitbase.commons.pojo.request.CustomerRequest;
@@ -137,7 +136,7 @@ public class CustomerRestController {
                 .gym(findedGym)
                 .build();
 
-        switch (findedPass.getPassTimeDurationType()){
+        switch (findedPass.getPassTimeDurationType()) {
             case "DAY":
                 Integer days = Integer.parseInt(findedPass.getTimeDuration());
                 customerHistory.setPassEndDate(date.plusDays(days));

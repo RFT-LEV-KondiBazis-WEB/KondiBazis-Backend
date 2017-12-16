@@ -1,7 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
-import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.UserModificationRequest;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
 import hu.unideb.fitbase.commons.pojo.response.SuccesResponse;
@@ -16,12 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
 import static hu.unideb.fitbase.commons.path.user.UserInfoPath.USER_INFO_URL;
-import static hu.unideb.fitbase.commons.path.user.UserPath.USERS;
 import static hu.unideb.fitbase.commons.path.usermodification.UserModificationPath.USER_MODIFICATION_URL;
 
 @RestController
@@ -36,7 +37,7 @@ public class UserRestController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping(path = USER_MODIFICATION_URL)
     public ResponseEntity putUserModification(@RequestBody UserModificationRequest userModificationRequest) throws BaseException {
-        if(Objects.isNull(userModificationRequest)){
+        if (Objects.isNull(userModificationRequest)) {
             return ResponseEntity.badRequest().body("null");
         }
         UserModification userModification = UserModification.builder()

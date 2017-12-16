@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 import static hu.unideb.fitbase.commons.path.container.PathContainer.GYM_ID;
 import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_GYM_ID;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 import static hu.unideb.fitbase.commons.path.registration.RegistrationPath.REGISTARATION_URL;
 import static hu.unideb.fitbase.commons.path.user.UserPath.MANAGER;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 
 @RestController
 public class RegistrationRestController {

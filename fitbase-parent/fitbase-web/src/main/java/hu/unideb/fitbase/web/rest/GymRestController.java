@@ -31,71 +31,71 @@ import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 @RestController
 public class GymRestController {
 
-	@Autowired
-	private GymService gymService;
+    @Autowired
+    private GymService gymService;
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping(path = GYMS)
-	public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest)
-			throws BaseException {
-		if (Objects.isNull(gymRequest)) {
-			return ResponseEntity.badRequest().body("null");
-		}
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(path = GYMS)
+    public ResponseEntity<?> postGym(@RequestBody GymRequest gymRequest)
+            throws BaseException {
+        if (Objects.isNull(gymRequest)) {
+            return ResponseEntity.badRequest().body("null");
+        }
 
-		Gym gym = Gym.builder().name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
-				.zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
-				.openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).build();
+        Gym gym = Gym.builder().name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
+                .zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
+                .openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).build();
 
-		ResponseEntity<?> result = null;
-		try {
-			gym = gymService.addGym(gym);
-			result = ResponseEntity.accepted().body(new GymSuccesCreateResponse(gym));
-		} catch (ServiceException e) {
-			result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-		}
-		return result;
-	}
+        ResponseEntity<?> result = null;
+        try {
+            gym = gymService.addGym(gym);
+            result = ResponseEntity.accepted().body(new GymSuccesCreateResponse(gym));
+        } catch (ServiceException e) {
+            result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return result;
+    }
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping(path = GYMS + GYM_ID)
-	public ResponseEntity<?> putGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
-			throws BaseException {
-		if (Objects.isNull(gymRequest)) {
-			return ResponseEntity.badRequest().body("null");
-		}
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping(path = GYMS + GYM_ID)
+    public ResponseEntity<?> putGym(@RequestBody GymRequest gymRequest, @PathVariable(PARAM_GYM_ID) Long gymId)
+            throws BaseException {
+        if (Objects.isNull(gymRequest)) {
+            return ResponseEntity.badRequest().body("null");
+        }
 
-		Gym gym = Gym.builder().id(gymId).name(gymRequest.getName()).city(gymRequest.getCity())
-				.address(gymRequest.getAddress()).zipCode(gymRequest.getZipCode())
-				.description(gymRequest.getDescription()).openingHours(gymRequest.getOpeningHours())
-				.userList(Arrays.asList(getUser())).build();
+        Gym gym = Gym.builder().id(gymId).name(gymRequest.getName()).city(gymRequest.getCity())
+                .address(gymRequest.getAddress()).zipCode(gymRequest.getZipCode())
+                .description(gymRequest.getDescription()).openingHours(gymRequest.getOpeningHours())
+                .userList(Arrays.asList(getUser())).build();
 
-		gymService.updateGym(gym);
-		return ResponseEntity.accepted().body(new GymSuccessUpdateResponse(gym));
-	}
+        gymService.updateGym(gym);
+        return ResponseEntity.accepted().body(new GymSuccessUpdateResponse(gym));
+    }
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping(path = GYMS + GYM_ID)
-	public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
-		gymService.deleteGym(gymId);
-		return ResponseEntity.accepted().body(null);
-	}
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping(path = GYMS + GYM_ID)
+    public ResponseEntity<?> deleteGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
+        gymService.deleteGym(gymId);
+        return ResponseEntity.accepted().body(null);
+    }
 
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping(path = GYMS)
-	public ResponseEntity<?> getAllGyms() throws ViolationException {
-		List<Gym> gymByUser = gymService.findUsersGym(getUser());
-		return ResponseEntity.accepted().body(new GymListResponse(gymByUser));
-	}
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = GYMS)
+    public ResponseEntity<?> getAllGyms() throws ViolationException {
+        List<Gym> gymByUser = gymService.findUsersGym(getUser());
+        return ResponseEntity.accepted().body(new GymListResponse(gymByUser));
+    }
 
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping(path = GYMS + GYM_ID)
-	public ResponseEntity showGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
-		Gym gym = gymService.findGymById(gymId);
-		return ResponseEntity.accepted().body(new GymListResponse(gym));
-	}
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = GYMS + GYM_ID)
+    public ResponseEntity showGym(@PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
+        Gym gym = gymService.findGymById(gymId);
+        return ResponseEntity.accepted().body(new GymListResponse(gym));
+    }
 
-	private User getUser() {
-		return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-	}
+    private User getUser() {
+        return ((FitBaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+    }
 
 }
