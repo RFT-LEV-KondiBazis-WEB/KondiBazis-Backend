@@ -137,13 +137,18 @@ public class CustomerRestController {
                 .gym(findedGym)
                 .build();
 
-        if (findedPass.getPassTimeDurationType().equals(PassTimeDurationType.DAY.name())) {
-            Integer days = Integer.parseInt(findedPass.getTimeDuration());
-            customerHistory.setPassEndDate(date.plusDays(days));
-        } else if (findedPass.getPassTimeDurationType().equals(PassTimeDurationType.MONTH.name())) {
-            Integer months = Integer.parseInt(findedPass.getTimeDuration());
-            customerHistory.setPassEndDate(date.plusMonths(months));
+        switch (findedPass.getPassTimeDurationType()){
+            case "DAY":
+                Integer days = Integer.parseInt(findedPass.getTimeDuration());
+                customerHistory.setPassEndDate(date.plusDays(days));
+                break;
+            case "MONTH":
+                Integer months = Integer.parseInt(findedPass.getTimeDuration());
+                customerHistory.setPassEndDate(date.plusMonths(months));
+                break;
         }
+
+
         CustomerHistory customerHistory1 = customerHistoryService.addCustomerHistory(customerHistory);
 
         return ResponseEntity.accepted().body(new SuccesResponse(customerHistory1, null));
