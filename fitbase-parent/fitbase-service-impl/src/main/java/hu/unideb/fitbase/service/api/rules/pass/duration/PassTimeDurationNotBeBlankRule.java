@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.rules.pass.duration;
 
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -13,12 +14,12 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.duration.PassTimeDu
 import static hu.unideb.fitbase.commons.constants.rules.pass.duration.PassTimeDurationConstants.FIELD;
 
 @Component
-public class PassTimeDurationNotBeBlankRule implements Rule<Pass> {
+public class PassTimeDurationNotBeBlankRule implements Rule<PassCreateRequest> {
 
     @Override
-    public List<Violation> validate(Pass request){
+    public List<Violation> validate(PassCreateRequest request){
         List<Violation> result = Collections.<Violation>emptyList();
-        Integer timeDuration = request.getTimeDuration();
+        String timeDuration = request.getTimeDuration();
         if (timeDuration == null) {
             result = Arrays.asList(Violation.builder()
                     .field(FIELD)

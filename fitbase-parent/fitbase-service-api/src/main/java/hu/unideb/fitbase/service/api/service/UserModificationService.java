@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.service;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.service.api.domain.User;
 import hu.unideb.fitbase.service.api.domain.UserModification;
@@ -13,6 +14,6 @@ public interface UserModificationService {
      * @return modified user.
      * @throws ServiceException when an exception occurs.
      */
-    User modifyUser(UserModification userModificationRequest) throws ServiceException, ViolationException;
+    User modifyUser(UserModification userModificationRequest) throws ServiceException, ViolationException, BaseException;
 
 }

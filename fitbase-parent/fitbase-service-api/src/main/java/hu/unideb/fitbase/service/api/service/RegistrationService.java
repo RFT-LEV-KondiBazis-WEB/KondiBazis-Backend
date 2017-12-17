@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.service;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
@@ -14,7 +15,7 @@ public interface RegistrationService {
      * @param registrationRequest registration request object.
      * @return registered user object.
      */
-    User register(RegistrationRequest registrationRequest) throws ViolationException, ServiceException;
+    User register(RegistrationRequest registrationRequest) throws ViolationException, ServiceException, BaseException;
 
-    User addManager(ManagerRegistrationRequest managerRegistrationRequest) throws ViolationException, ServiceException;
+    User addManager(ManagerRegistrationRequest managerRegistrationRequest) throws ViolationException, ServiceException, BaseException;
 }

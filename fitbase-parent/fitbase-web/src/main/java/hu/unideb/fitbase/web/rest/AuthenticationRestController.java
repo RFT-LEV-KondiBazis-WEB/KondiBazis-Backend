@@ -54,7 +54,7 @@ public class AuthenticationRestController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         FitBaseUser user = (FitBaseUser) userDetailsService.loadUserByUsername(username);
 
-        return ResponseEntity.accepted().body(new SuccesResponse(user.getUser(),new MetaResponse(token)));
+        return ResponseEntity.accepted().body(new SuccesResponse(user.getUser(), new MetaResponse(token)));
 
     }
 }

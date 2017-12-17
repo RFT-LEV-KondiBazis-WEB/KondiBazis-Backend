@@ -1,9 +1,7 @@
 package hu.unideb.fitbase.service.api.converter;
 
-import hu.unideb.fitbase.persistence.entity.GymEntity;
-import hu.unideb.fitbase.persistence.entity.UserEntity;
-import hu.unideb.fitbase.service.api.domain.Gym;
-import hu.unideb.fitbase.service.api.domain.User;
+import hu.unideb.fitbase.persistence.entity.*;
+import hu.unideb.fitbase.service.api.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -17,6 +15,12 @@ public class GymEntityToGymConverter implements Converter<GymEntity, Gym> {
     @Autowired
     private UserEntityToUserConverter userEntityToUserConverter;
 
+    @Autowired
+    private PassEntityToPassConverter passEntityToPassConverter;
+
+    @Autowired
+    private CustomerHistoryEntityToCustomerHistoryConverter customerHistoryEntityToCustomerHistoryConverter;
+
     @Override
     public Gym convert(GymEntity source) {
         return Gym.builder()
@@ -28,11 +32,21 @@ public class GymEntityToGymConverter implements Converter<GymEntity, Gym> {
                 .description(source.getDescription())
                 .openingHours(source.getOpeningHours())
                 .userList(convert(source.getUsers()))
+                .passes(convert1(source.getPasses()))
+                .customerHistorys(convert3(source.getCustomerHistoryEntities()))
                 .build();
     }
 
     private List<User> convert(List<UserEntity> source) {
         return source.stream().map(user -> userEntityToUserConverter.convert(user)).collect(Collectors.toList());
+    }
+
+    private List<Pass> convert1(List<PassEntity> source) {
+        return source.stream().map(pass -> passEntityToPassConverter.convert(pass)).collect(Collectors.toList());
+    }
+
+    private List<CustomerHistory> convert3(List<CustomerHistoryEntity> source) {
+        return source.stream().map(pass -> customerHistoryEntityToCustomerHistoryConverter.convert(pass)).collect(Collectors.toList());
     }
 
 }

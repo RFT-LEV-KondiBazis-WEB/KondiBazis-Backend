@@ -1,6 +1,8 @@
 package hu.unideb.fitbase.service.api.rules.pass.duration;
 
+import com.google.common.base.Strings;
 import hu.unideb.fitbase.commons.pojo.enumeration.PassType;
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -14,14 +16,13 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.duration.PassDurati
 import static hu.unideb.fitbase.commons.constants.rules.pass.duration.PassDurationConstants.NOT_ADD_DURATION;
 
 @Component
-public class PassDurationAndTimeLimitedTypeValidate implements Rule<Pass> {
+public class PassDurationAndTimeLimitedTypeValidate implements Rule<PassCreateRequest> {
 
     @Override
-    public List<Violation> validate(Pass request) {
+    public List<Violation> validate(PassCreateRequest request) {
         List<Violation> result = Collections.<Violation>emptyList();
-        Integer duration = request.getDuration();
-
-        if (duration != null && request.getPassType().equals(PassType.TIME_LIMITED.name())) {
+        String duration = request.getDuration();
+        if ((!Strings.isNullOrEmpty(request.getDuration()) ) && request.getPassType().equals(PassType.TIME_LIMITED.name())) {
             result = Arrays.asList(Violation.builder()
                     .field(FIELD)
                     .validationMessage(NOT_ADD_DURATION)

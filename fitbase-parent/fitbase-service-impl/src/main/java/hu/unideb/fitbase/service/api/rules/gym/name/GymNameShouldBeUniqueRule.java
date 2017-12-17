@@ -26,7 +26,7 @@ public class GymNameShouldBeUniqueRule implements Rule<Gym> {
 	private GymService gymService;
 
 	@Override
-	public List<Violation> validate(Gym gym) {
+	public List<Violation> validate(Gym gym) throws BaseException {
 		List<Violation> result = Collections.<Violation>emptyList();
 		String name = gym.getName();
 		Long id = gym.getId();

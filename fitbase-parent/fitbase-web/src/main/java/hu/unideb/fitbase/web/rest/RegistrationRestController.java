@@ -1,7 +1,6 @@
 package hu.unideb.fitbase.web.rest;
 
 import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
-import hu.unideb.fitbase.commons.pojo.exceptions.ViolationException;
 import hu.unideb.fitbase.commons.pojo.request.ManagerRegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.request.RegistrationRequest;
 import hu.unideb.fitbase.commons.pojo.response.MetaResponse;
@@ -21,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 import static hu.unideb.fitbase.commons.path.container.PathContainer.GYM_ID;
 import static hu.unideb.fitbase.commons.path.container.PathContainer.PARAM_GYM_ID;
+import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 import static hu.unideb.fitbase.commons.path.registration.RegistrationPath.REGISTARATION_URL;
 import static hu.unideb.fitbase.commons.path.user.UserPath.MANAGER;
-import static hu.unideb.fitbase.commons.path.gym.GymPath.GYMS;
 
 @RestController
 public class RegistrationRestController {
@@ -38,7 +37,7 @@ public class RegistrationRestController {
     private GymService gymService;
 
     @RequestMapping(value = REGISTARATION_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity registration(@RequestBody RegistrationRequest request) throws ViolationException {
+    public ResponseEntity registration(@RequestBody RegistrationRequest request) throws BaseException {
         ResponseEntity result;
         try {
             registrationService.register(request);
@@ -51,12 +50,12 @@ public class RegistrationRestController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = GYMS + GYM_ID + MANAGER, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws ViolationException {
+    public ResponseEntity registration(@RequestBody ManagerRegistrationRequest request, @PathVariable(PARAM_GYM_ID) Long gymId) throws BaseException {
         ResponseEntity result;
         try {
             User user = registrationService.addManager(request);
 
-            Gym gym = gymService.findById(gymId);
+            Gym gym = gymService.findGymById(gymId);
 
             gym.getUserList().add(user);
 

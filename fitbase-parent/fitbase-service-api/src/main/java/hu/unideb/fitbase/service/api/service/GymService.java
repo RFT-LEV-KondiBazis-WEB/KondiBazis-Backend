@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface GymService {
 
-    Gym addGym(Gym gym) throws ViolationException, ServiceException;
+    Gym addGym(Gym gym) throws BaseException;
 
-    Gym updateGym(Gym gym) throws ViolationException;
+    Gym updateGym(Gym gym) throws BaseException;
 
-    void deleteGym(Long id) ;
+    void deleteGym(Long id) throws BaseException;
 
-    Gym findByName(String name);
+    Gym findByName(String name) throws BaseException;
 
-    Gym findById(Long id) ;
+    Gym findGymById(Long id) throws BaseException;
 
     List<Gym> findUsersGym(User user);
   

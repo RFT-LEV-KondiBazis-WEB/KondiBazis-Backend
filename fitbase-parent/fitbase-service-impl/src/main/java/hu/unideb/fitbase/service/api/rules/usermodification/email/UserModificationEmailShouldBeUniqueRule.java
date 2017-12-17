@@ -40,7 +40,7 @@ public class UserModificationEmailShouldBeUniqueRule implements Rule<UserModific
 
                         }
                     }
-//                    userService.findByEmail(email);
+//                    userService.findCustomerByEmail(email);
 //                    result = Arrays.asList(Violation.builder()
 //                            .field(FIELD)
 //                            .validationMessage(UNIQUE_RULE)

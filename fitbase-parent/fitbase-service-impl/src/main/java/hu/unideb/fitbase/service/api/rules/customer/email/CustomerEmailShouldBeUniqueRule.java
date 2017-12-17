@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import hu.unideb.fitbase.commons.pojo.exceptions.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,12 +27,12 @@ public class CustomerEmailShouldBeUniqueRule implements Rule<Customer> {
 	private CustomerService customerService;
 
 	@Override
-	public List<Violation> validate(Customer customer) {
+	public List<Violation> validate(Customer customer) throws BaseException {
 		List<Violation> result = Collections.<Violation>emptyList();
 		String email = customer.getEmail();
 		Long id = customer.getId();
 		if (email != null) {
-			Customer findedCustomer = customerService.findByEmail(email);
+			Customer findedCustomer = customerService.findCustomerByEmail(email);
 			if( findedCustomer != null ) {
 				if(!findedCustomer.getId().equals(id) )
 				result = Arrays.asList(Violation.builder().field(FIELD).validationMessage(UNIQUE_RULE).build());

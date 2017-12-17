@@ -19,7 +19,6 @@ public class UserEntityToUserConverter implements Converter<UserEntity, User> {
                 .password(source.getPassword())
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
-                .rememberToken(source.getRememberToken())
                 .createdDate(source.getCreatedDate())
                 .userRole(convertRole(source.getUserRole()))
                 .build();

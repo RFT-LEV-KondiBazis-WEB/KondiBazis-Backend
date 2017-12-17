@@ -1,7 +1,7 @@
 package hu.unideb.fitbase.persistence.entity;
 
-import hu.unideb.fitbase.commons.pojo.enumeration.PassTimeDurationType;
 import lombok.*;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,9 +10,7 @@ import static hu.unideb.fitbase.commons.pojo.table.ColumnName.CustomerColumName.
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.GymColumName.COLUMN_NAME_GYM_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.PassColumName.*;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.ReferencedColumName.REFERENCED_COLUM_NAME_ID;
-import static hu.unideb.fitbase.commons.pojo.table.ColumnName.UserColumName.COLUMN_NAME_USER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.TableName.*;
-import static javax.persistence.EnumType.STRING;
 
 /**
  * PassEntity which represents the pass.
@@ -66,23 +64,14 @@ public class PassEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_AVAILABLE)
     private Boolean available;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = TABLE_NAME_CUSTOMER_HAS_PASS,
-            joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
-            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
-    private List<CustomerEntity> customerEntityList;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = TABLE_NAME_PASS_HAS_GYM,
-            joinColumns = @JoinColumn(name = COULMN_NAME_PASS_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID),
-            inverseJoinColumns = @JoinColumn(name = COLUMN_NAME_GYM_ID, referencedColumnName = REFERENCED_COLUM_NAME_ID))
-    private List<GymEntity> gymEntities;
+    @ManyToMany(mappedBy = "passes", fetch = FetchType.LAZY)
+    private List<GymEntity> gyms;
 
     /**
      * Builder pattern for creating pass.
      */
     @Builder
-    public PassEntity(Long id,String name, Integer price, String passType, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available, List<GymEntity> gymEntities){
+    public PassEntity(Long id,String name, Integer price, String passType, Integer duration, Integer timeDuration,String passTimeDurationType, boolean available){
         super(id);
         this.name = name;
         this.price = price;
@@ -91,6 +80,5 @@ public class PassEntity extends BaseEntity<Long> {
         this.timeDuration = timeDuration;
         this.passTimeDurationTypeEntity = passTimeDurationType;
         this.available = available;
-        this.gymEntities = gymEntities;
     }
 }

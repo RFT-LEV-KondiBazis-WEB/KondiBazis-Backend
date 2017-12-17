@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        log.trace(">> findById: [id:{}]", id);
+        log.trace(">> findCustomerById: [id:{}]", id);
         User result;
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
@@ -54,13 +54,13 @@ public class UserServiceImpl implements UserService {
         } else {
             result = conversionService.convert(userEntity, User.class);
         }
-        log.trace("<< findById: [id:{}]", id);
+        log.trace("<< findCustomerById: [id:{}]", id);
         return result;
     }
 
     @Override
     public User findByEmail(String email) throws BaseException {
-        log.trace(">> findByEmail: [email:{}]", email);
+        log.trace(">> findCustomerByEmail: [email:{}]", email);
         UserEntity userEntity;
         try {
             userEntity = userRepository.findByEmail(email);
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException(errorMsg);
         }
         User user = conversionService.convert(userEntity, User.class);
-        log.trace("<< findByEmail: [email:{}]", email);
+        log.trace("<< findCustomerByEmail: [email:{}]", email);
         return user;
     }
 

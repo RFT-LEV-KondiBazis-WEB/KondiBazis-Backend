@@ -15,7 +15,6 @@ import lombok.Data;
 /**
  * Customer domain class.
  */
-
 @Data
 @Builder
 public class Customer implements Serializable{
@@ -36,8 +35,4 @@ public class Customer implements Serializable{
 	
 	private Gender gender;
 	
-	@JsonIgnore
-	private List<Gym> gymsList;
-	
-	private PassEntity passEntity;
 }

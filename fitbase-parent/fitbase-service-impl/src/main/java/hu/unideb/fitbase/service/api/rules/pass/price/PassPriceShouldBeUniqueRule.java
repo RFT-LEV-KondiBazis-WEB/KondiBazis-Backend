@@ -1,5 +1,6 @@
 package hu.unideb.fitbase.service.api.rules.pass.price;
 
+import hu.unideb.fitbase.commons.pojo.request.PassCreateRequest;
 import hu.unideb.fitbase.commons.pojo.validator.Violation;
 import hu.unideb.fitbase.service.api.domain.Pass;
 import hu.unideb.fitbase.service.api.validator.rule.Rule;
@@ -13,10 +14,10 @@ import static hu.unideb.fitbase.commons.constants.rules.pass.price.PassPriceVali
 import static hu.unideb.fitbase.commons.constants.rules.pass.price.PassPriceValidateMessages.PASS_PRICE;
 
 @Component
-public class PassPriceShouldBeUniqueRule implements Rule<Pass> {
+public class PassPriceShouldBeUniqueRule implements Rule<PassCreateRequest> {
 
     @Override
-    public List<Violation> validate(Pass request){
+    public List<Violation> validate(PassCreateRequest request){
         List<Violation> result = Collections.<Violation>emptyList();
         Integer price = request.getPrice();
         if (price == null) {
