@@ -154,4 +154,13 @@ public class CustomerRestController {
 
         return ResponseEntity.accepted().body(new SuccesResponse(customerHistory1, null));
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = CUSTOMERS + CUST_ID + PASSES)
+    public ResponseEntity addPassToCustomer(@PathVariable(PARAM_CUST_ID) Long custId) throws BaseException {
+
+        List<CustomerHistory> customerHistory = customerHistoryService.getCustomerHistory(custId);
+
+        return ResponseEntity.accepted().body(new SuccesResponse(customerHistory, null));
+    }
 }
