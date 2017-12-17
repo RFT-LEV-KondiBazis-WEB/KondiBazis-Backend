@@ -44,7 +44,7 @@ public class GymRestController {
 
         Gym gym = Gym.builder().name(gymRequest.getName()).city(gymRequest.getCity()).address(gymRequest.getAddress())
                 .zipCode(gymRequest.getZipCode()).description(gymRequest.getDescription())
-                .openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).build();
+                .openingHours(gymRequest.getOpeningHours()).userList(Arrays.asList(getUser())).passes(Collections.emptyList()).customerHistorys(Collections.emptyList()).build();
 
         ResponseEntity<?> result = null;
         try {
@@ -64,10 +64,12 @@ public class GymRestController {
             return ResponseEntity.badRequest().body("null");
         }
 
+        Gym gy = gymService.findGymById(gymId);
+
         Gym gym = Gym.builder().id(gymId).name(gymRequest.getName()).city(gymRequest.getCity())
                 .address(gymRequest.getAddress()).zipCode(gymRequest.getZipCode())
                 .description(gymRequest.getDescription()).openingHours(gymRequest.getOpeningHours())
-                .userList(Arrays.asList(getUser())).build();
+                .userList(Arrays.asList(getUser())).passes(gy.getPasses()).customerHistorys(gy.getCustomerHistorys()).build();
 
         gymService.updateGym(gym);
         return ResponseEntity.accepted().body(new GymSuccessUpdateResponse(gym));

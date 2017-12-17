@@ -89,7 +89,7 @@ public class GymEntity extends BaseEntity<Long> {
      */
     @Builder
     public GymEntity(Long id, String name, String city, String address, Integer zipCode, String description,
-                     String openingHours, List<UserEntity> userEntities, List<PassEntity> passEntities) {
+                     String openingHours, List<UserEntity> userEntities, List<PassEntity> passEntities, List<CustomerHistoryEntity> customerHistoryEntities) {
         super(id);
         this.name = name;
         this.city = city;
@@ -99,5 +99,6 @@ public class GymEntity extends BaseEntity<Long> {
         this.openingHours = openingHours;
         this.users = userEntities;
         this.passes = passEntities;
+        this.customerHistoryEntities = customerHistoryEntities;
     }
 }

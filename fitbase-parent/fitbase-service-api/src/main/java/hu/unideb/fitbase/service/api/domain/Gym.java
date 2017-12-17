@@ -36,4 +36,7 @@ public class Gym implements Serializable {
 
     @JsonIgnore
     private List<Pass> passes;
+
+    @JsonIgnore
+    private List<CustomerHistory> customerHistorys;
 }
