@@ -29,6 +29,8 @@ public class CustomerHistoryToCustomerHistoryEntityConverter implements Converte
                 .passName(customerHistory.getPassName())
                 .passType(customerHistory.getPassType())
                 .passPrice(customerHistory.getPassPrice())
+                .passAllDuration(customerHistory.getPassAllDuration())
+                .passDurationLeft(customerHistory.getPassDurationLeft())
                 .customerEntity(customerToCustomerEntity(customerHistory.getCustomer()))
                 .gymEntity(gymToGymEntity(customerHistory.getGym()))
                 .build();

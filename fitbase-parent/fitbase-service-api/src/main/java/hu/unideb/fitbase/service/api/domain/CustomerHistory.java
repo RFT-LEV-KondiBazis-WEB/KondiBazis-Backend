@@ -28,6 +28,10 @@ public class CustomerHistory implements Serializable {
 
     private Integer passPrice;
 
+    private Integer passAllDuration;
+
+    private Integer passDurationLeft;
+
     private Customer customer;
 
     private Gym gym;

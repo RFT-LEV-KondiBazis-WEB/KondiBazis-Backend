@@ -132,6 +132,8 @@ public class CustomerRestController {
                 .passName(findedPass.getName())
                 .passType(findedPass.getPassType())
                 .passPrice(findedPass.getPrice())
+                .passAllDuration(Integer.valueOf(findedPass.getDuration()))
+                .passDurationLeft(Integer.valueOf(findedPass.getDuration()))
                 .customer(findedCustomer)
                 .gym(findedGym)
                 .build();

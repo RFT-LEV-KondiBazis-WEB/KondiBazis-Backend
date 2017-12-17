@@ -5,12 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.CustomerColumName.COLUMN_NAME_CUSTOMER_ID;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.CustomerHistoryColumnName.*;
 import static hu.unideb.fitbase.commons.pojo.table.ColumnName.GymColumName.COLUMN_NAME_GYM_ID;
-import static hu.unideb.fitbase.commons.pojo.table.ColumnName.ReferencedColumName.REFERENCED_COLUM_NAME_ID;
 import static hu.unideb.fitbase.commons.pojo.table.TableName.TABLE_NAME_CUSTOMER_HISTORY;
 
 /**
@@ -68,16 +66,34 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
     @Column(name = COLUMN_NAME_PASS_PRICE)
     private Integer passPrice;
 
+    /**
+     * Customers pass duration.
+     */
+    @Column(name = COLUMN_NAME_PASS_ALL_DURATION)
+    private Integer passAllDuration;
+
+    /**
+     * Customers pass duration left.
+     */
+    @Column(name = COLUMN_NAME_PASS_LEFT_DURATION)
+    private Integer passDurationLeft;
+
+    /**
+     * Customer.
+     */
     @ManyToOne
-    @JoinColumn(name=COLUMN_NAME_CUSTOMER_ID, nullable=false)
+    @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, nullable = false)
     private CustomerEntity customerEntity;
 
+    /**
+     * Customers gym.
+     */
     @ManyToOne
-    @JoinColumn(name=COLUMN_NAME_GYM_ID, nullable=false)
+    @JoinColumn(name = COLUMN_NAME_GYM_ID, nullable = false)
     private GymEntity gymEntity;
 
     @Builder
-    public CustomerHistoryEntity(Long id, Date passStartDate, LocalDate passEndDate, LocalDate passBuyDate, boolean status, String passName, String passType, Integer passPrice, CustomerEntity customerEntity,GymEntity gymEntity ) {
+    public CustomerHistoryEntity(Long id, Date passStartDate, LocalDate passEndDate, LocalDate passBuyDate, boolean status, String passName, String passType, Integer passPrice,Integer passAllDuration, Integer passDurationLeft, CustomerEntity customerEntity, GymEntity gymEntity) {
         super(id);
         this.passStartDate = passStartDate;
         this.passEndDate = passEndDate;
@@ -86,6 +102,8 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
         this.passName = passName;
         this.passType = passType;
         this.passPrice = passPrice;
+        this.passAllDuration = passAllDuration;
+        this.passDurationLeft = passDurationLeft;
         this.customerEntity = customerEntity;
         this.gymEntity = gymEntity;
     }
