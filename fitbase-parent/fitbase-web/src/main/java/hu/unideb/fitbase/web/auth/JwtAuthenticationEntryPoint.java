@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,13 +26,14 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
 
-        Violation violation = Violation.builder().field("username").validationMessage("Username and password not valid!").build();
-        Violation violation1 = Violation.builder().field("password").validationMessage("Username and password not valid!").build();
+        Violation violation = Violation.builder().field("username").validationMessage("Username or password not valid!").build();
+        Violation violation1 = Violation.builder().field("password").validationMessage("Username or password not valid!").build();
 
-        List<Violation> violationList = Arrays.asList(violation, violation1);
+        List<Violation> errors = Arrays.asList(violation, violation1);
+
 
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(violationList);
+        String json = ow.writeValueAsString(new Errors(errors));
 
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
