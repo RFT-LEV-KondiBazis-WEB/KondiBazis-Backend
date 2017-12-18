@@ -39,4 +39,22 @@ public class CustomerHistoryServiceImpl implements CustomerHistoryService {
         List<CustomerHistoryEntity> byCustomerEntityId = customerHistoryRepository.findByCustomerEntityId(id);
         return customerHistroyEntityToCustomerHistroyListConverter.convert(byCustomerEntityId);
     }
+
+	@Override
+	public Double countPassesOnSysdateByGym(Long id) {
+		Double countPasses = customerHistoryRepository.countPassesOnCurrentDateByGym(id);
+		return countPasses;
+	}
+
+	@Override
+	public Double sumCostOfPassesOnSysdateByGym(Long id) {
+		Double sumPassesCost = customerHistoryRepository.sumCostOfPassesOnCurrentDateByGym(id);
+		return sumPassesCost;
+	}
+
+	@Override
+	public Double sumCustomersOnSysdateByGym(Long id) {
+		Double sumCustomers = customerHistoryRepository.sumCustomersOnCurrentDateByGym(id);
+		return sumCustomers;
+	}
 }

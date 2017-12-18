@@ -6,6 +6,11 @@ import hu.unideb.fitbase.persistence.entity.GymEntity;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.domain.CustomerHistory;
 import hu.unideb.fitbase.service.api.domain.Gym;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -23,8 +28,8 @@ public class CustomerHistoryToCustomerHistoryEntityConverter implements Converte
     public CustomerHistoryEntity convert(CustomerHistory customerHistory) {
         return CustomerHistoryEntity.builder()
                 .passStartDate(customerHistory.getPassStartDate())
-                .passEndDate(customerHistory.getPassEndDate())
-                .passBuyDate(customerHistory.getPassBuyDate())
+                .passEndDate(Date.from(customerHistory.getPassEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .passBuyDate(Date.from(customerHistory.getPassBuyDate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .status(customerHistory.isStatus())
                 .passName(customerHistory.getPassName())
                 .passType(customerHistory.getPassType())

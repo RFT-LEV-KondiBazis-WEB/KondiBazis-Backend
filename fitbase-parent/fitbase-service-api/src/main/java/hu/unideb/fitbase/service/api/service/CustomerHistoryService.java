@@ -10,4 +10,10 @@ public interface CustomerHistoryService {
     CustomerHistory addCustomerHistory(CustomerHistory customerHistory) throws BaseException;
 
     List<CustomerHistory> getCustomerHistory(Long id);
+    
+    Double countPassesOnSysdateByGym(Long id);
+    
+    Double sumCostOfPassesOnSysdateByGym(Long id);
+    
+    Double sumCustomersOnSysdateByGym(Long id);
 }

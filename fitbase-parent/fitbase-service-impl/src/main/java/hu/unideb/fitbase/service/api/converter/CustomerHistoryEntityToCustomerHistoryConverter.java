@@ -1,14 +1,19 @@
 package hu.unideb.fitbase.service.api.converter;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
 import hu.unideb.fitbase.persistence.entity.CustomerEntity;
 import hu.unideb.fitbase.persistence.entity.CustomerHistoryEntity;
 import hu.unideb.fitbase.persistence.entity.GymEntity;
 import hu.unideb.fitbase.service.api.domain.Customer;
 import hu.unideb.fitbase.service.api.domain.CustomerHistory;
 import hu.unideb.fitbase.service.api.domain.Gym;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerHistoryEntityToCustomerHistoryConverter implements Converter<CustomerHistoryEntity, CustomerHistory> {
@@ -23,8 +28,8 @@ public class CustomerHistoryEntityToCustomerHistoryConverter implements Converte
     public CustomerHistory convert(CustomerHistoryEntity customerHistoryEntity) {
         return CustomerHistory.builder()
                 .passStartDate(customerHistoryEntity.getPassStartDate())
-                .passEndDate(customerHistoryEntity.getPassEndDate())
-                .passBuyDate(customerHistoryEntity.getPassBuyDate())
+                .passEndDate(customerHistoryEntity.getPassEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                .passBuyDate(customerHistoryEntity.getPassBuyDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
                 .status(customerHistoryEntity.isStatus())
                 .passName(customerHistoryEntity.getPassName())
                 .passType(customerHistoryEntity.getPassType())

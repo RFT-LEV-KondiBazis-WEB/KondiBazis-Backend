@@ -34,13 +34,13 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
      * Customers pass end date.
      */
     @Column(name = COLUMN_NAME_ENDDATE)
-    private LocalDate passEndDate;
+    private Date passEndDate;
 
     /**
      * Customers pass buy date.
      */
     @Column(name = COLUMN_NAME_PASS_BUYDATE)
-    private LocalDate passBuyDate;
+    private Date passBuyDate;
 
     /**
      * Customers pass status.
@@ -93,7 +93,7 @@ public class CustomerHistoryEntity extends BaseEntity<Long> {
     private GymEntity gymEntity;
 
     @Builder
-    public CustomerHistoryEntity(Long id, Date passStartDate, LocalDate passEndDate, LocalDate passBuyDate, boolean status, String passName, String passType, Integer passPrice,Integer passAllDuration, Integer passDurationLeft, CustomerEntity customerEntity, GymEntity gymEntity) {
+    public CustomerHistoryEntity(Long id, Date passStartDate, Date passEndDate, Date passBuyDate, boolean status, String passName, String passType, Integer passPrice,Integer passAllDuration, Integer passDurationLeft, CustomerEntity customerEntity, GymEntity gymEntity) {
         super(id);
         this.passStartDate = passStartDate;
         this.passEndDate = passEndDate;
