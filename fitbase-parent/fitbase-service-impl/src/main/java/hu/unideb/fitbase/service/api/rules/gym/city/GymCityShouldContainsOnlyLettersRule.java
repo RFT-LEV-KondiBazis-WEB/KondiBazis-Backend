@@ -19,8 +19,8 @@ import hu.unideb.fitbase.service.api.validator.rule.Rule;
 @Component
 public class GymCityShouldContainsOnlyLettersRule implements Rule<Gym> {
 
-	protected static final String MATCHER = "[A-Za-z]+";
-
+	protected static final String MATCHER = "^[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰä]*$";
+	
 	@Override
 	public List<Violation> validate(Gym gym) {
 		return gym.getCity() != null && gym.getCity().matches(MATCHER) ? Collections.<Violation>emptyList()
