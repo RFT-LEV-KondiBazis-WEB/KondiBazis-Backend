@@ -21,6 +21,4 @@ public class Statistics implements Serializable{
 	
 	private Long countOfCustomers;
 	
-	
-	
 }
